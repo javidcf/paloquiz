@@ -12,6 +12,7 @@ with open(_questions_path, 'r') as f:
 
 # TODO how long?
 MAX_TIME = 6000
+MAX_SCORE = 1000
 
 
 def get_question_header(question_id):
@@ -38,7 +39,7 @@ def get_question(question_id):
 def get_answer_score(t):
     if (t < 0 or t > MAX_TIME):
         raise ValueError('Invalid answer time')
-    return 6000 - t
+    return int(MAX_SCORE * (float(MAX_TIME - t) / MAX_TIME))
 
 
 def get_question_id_list():
