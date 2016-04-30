@@ -138,7 +138,7 @@ def question():
 @app.route('/answer/<int:answer_id>')
 def answer(answer_id):
     question_id = get_current_question_id(session)
-    session[CURRENT_ANSWERS] = session.get(CURRENT_ANSWERS, 0)
+    session[CURRENT_ANSWERS] = session.get(CURRENT_ANSWERS, [])
     correct_answers = session[CURRENT_ANSWERS]
 
     sessionQuestions = session.get(QUESTIONS, {})
