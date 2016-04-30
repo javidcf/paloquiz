@@ -1,0 +1,23 @@
+
+[
+    {
+        "img" : "/static/questions/q1.png",
+        "question" : "What the heck?",
+        "answers" : [
+            {"answer": "The heck", "correct": false},
+            {"answer": "The actual heck", "correct": false},
+            {"answer": "The fricking heck", "correct": false},
+            {"answer": "bro.", "correct": true}
+        ]
+    },
+    {
+        "img" : "/static/questions/q2.png",
+        "question" : "What the hur?",
+        "answers" : [
+            {"answer": "bruh.", "correct": true},
+            {"answer": "The hur", "correct": false},
+            {"answer": "The actual hur", "correct": false},
+            {"answer": "The fricking hur", "correct": false}
+        ]
+    }
+]
