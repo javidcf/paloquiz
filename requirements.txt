@@ -4,7 +4,6 @@ funcsigs==1.0.2
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
-pkg-resources==0.0.0
 pycryptopp==0.7.1.869544967005693312591928092448767568728501330214
 requests==2.10.0
 Werkzeug==0.11.9
