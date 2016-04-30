@@ -51,6 +51,8 @@ session_opts = {
     'session.validate_key': ''.join(_secret['session_validate_key']),
     'session.encrypt_key': ''.join(_secret['session_encrypt_key'])
 }
+app.wsgi_app = SessionMiddleware(app.wsgi_app, session_opts)
+app.session_interface = BeakerSessionInterface()
 
 
 # Error handling
@@ -247,6 +249,4 @@ def get_current_question_id(ses):
 
 
 if __name__ == '__main__':
-    app.wsgi_app = SessionMiddleware(app.wsgi_app, session_opts)
-    app.session_interface = BeakerSessionInterface()
     app.run(debug=True)
