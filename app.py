@@ -92,7 +92,7 @@ if __name__ != '__main__':
 # Application routes
 
 
-@app.route('/')
+@app.route('/', method=['GET', 'POST'])
 def root():
     return redirect(url_for('static', filename='index.html'))
 
