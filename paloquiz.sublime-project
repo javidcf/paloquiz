@@ -1,0 +1,18 @@
+{
+    "folders":
+    [
+        {
+            "path": ".",
+            "folder_exclude_patterns": ["build*", "lib", "bin", "include",
+                                        "local", "share", "__pycache__"],
+            "file_exclude_patterns": [".*", "LICENSE", "requirements.txt",
+                                      "pip-selfcheck.json", "*.pyc", "*.pyo",
+                                      "*.pyd"]
+        }
+    ],
+    "settings":
+    {
+        "tab_size": 4,
+        "translate_tabs_to_spaces": true
+    }
+}
