@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Flask, session, jsonify
+from flask import Flask, session, jsonify, redirect, url_for
 from flask.sessions import SessionInterface
 from beaker.middleware import SessionMiddleware
 import json
@@ -28,11 +28,11 @@ ANSWER = 'a'
 TIME = 't'
 
 
-# Read session secret keys
+# Read secrets keys
 _site_root = os.path.realpath(os.path.dirname(__file__))
 _secret_path = os.path.join(_site_root, 'resources', 'secret.json')
 with open(_secret_path, 'r') as f:
-    _secret = json.load(f)
+    _secrets = json.load(f)
 
 
 # Eases Beaker session integration
@@ -48,8 +48,8 @@ class BeakerSessionInterface(SessionInterface):
 # Session configuration
 session_opts = {
     'session.type': 'cookie',
-    'session.validate_key': ''.join(_secret['session_validate_key']),
-    'session.encrypt_key': ''.join(_secret['session_encrypt_key'])
+    'session.validate_key': ''.join(_secrets['session_validate_key']),
+    'session.encrypt_key': ''.join(_secrets['session_encrypt_key'])
 }
 app.wsgi_app = SessionMiddleware(app.wsgi_app, session_opts)
 app.session_interface = BeakerSessionInterface()
@@ -80,6 +80,11 @@ def handle_invalid_usage(error):
 
 
 # Application routes
+
+
+@app.route('/', methods=['GET'])
+def root_get():
+    return redirect(url_for('static', filename='index.html'))
 
 
 @app.route('/start')

@@ -5,16 +5,37 @@
         <title>Paloquiz</title>
         <script src="js/phaser.min.js"></script>
         <style type="text/css">
-        #gameContainer
-        {
-        }
+            #gameContainer
+            {
+            }
         </style>
     </head>
     <body>
 
-    <div id="gameContainer">
-    <script src="js/game.js"></script>
-    </div>
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : 'FB_APP_KEY',
+                    xfbml      : true,
+                    version    : 'v2.5'
+                });
+            };
+
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
+
+        <div id="gameContainer">
+            <script src="js/game.js"></script>
+        </div>
 
     </body>
 </html>
