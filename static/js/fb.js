@@ -139,6 +139,7 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
     } else {
         FB.getLoginStatus(function (response) {
             if (response.status === 'connected') {
+                _fbSaveLogin(response);
                 if (callbackLoggedIn) {
                     _fbSaveLogin(response);
                     callbackLoggedIn();
