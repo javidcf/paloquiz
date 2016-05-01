@@ -153,7 +153,7 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
     }
 }
 
-function fbLogout(callback) {
+function fbLogOut(callback) {
     if (fbIsLoggedIn()) {
         FB.logout(function() {
             FB_UID = undefined;
