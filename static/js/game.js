@@ -1,12 +1,19 @@
 
 window.onload = function() {
 
+    var CONTAINER_ID = 'gameContainer';
+    container = document.getElementById(CONTAINER_ID);
+
     var renderer = Phaser.CANVAS;  // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
     var transparent = false;
     var antialias = false;
-    var game = new Phaser.Game(480, 640, renderer, '',
+    var game = new Phaser.Game(container.clientWidth, container.clientHeight,
+                               renderer, CONTAINER_ID,
                                { preload: preload, create: create },
                                transparent, antialias);
+    // Phaser.Canvas.setImageRenderingCrisp(game.canvas);
+    // PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
+    // Phaser.Canvas.setSmoothingEnabled(game.context, false);
 
     var qImageHeight = 210
     // Phaser.Canvas.setImageRenderingCrisp(game.canvas);
