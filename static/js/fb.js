@@ -98,25 +98,57 @@ function fbGetUserProfilePicture(callback) {
 
 function fbUseApi(url, method, params, callback) {
     params = params || ({});
-    if (fbIsLoggedIn()) {
-        // Already logged in
+    fbLogin(function () {
         params.access_token = FB_ACCESS_TOKEN;
         FB.api(url, method, params, callback);
+    });
+}
+
+function fbLogin(callback) {
+    if (fbIsLoggedIn()) {
+        // Already logged in
+        if (callback) {
+            callback();
+        }
     } else {
         FB.getLoginStatus(function (response) {
             if (response.status === 'connected') {
-                // Already granted permissions
-                _fbSaveLogin(response);
-                params.access_token = FB_ACCESS_TOKEN;
-                FB.api(url, method, params, callback);
+                if (callback) {
+                    callback();
+                }
             } else {
                 // Show login dialog first
                 FB.login(function (response) {
-                    _fbSaveLogin(response);
-                    params.access_token = FB_ACCESS_TOKEN;
-                    FB.api(url, method, params, callback);
+                    if (callback) {
+                        callback();
+                    }
                 }, {scope: FB_PERMISSIONS});
             }
         });
     }
+}
+
+function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
+    if (fbIsLoggedIn()) {
+        // Already logged in
+        if (callbackLoggedIn) {
+            callbackLoggedIn();
+        }
+    } else {
+        FB.getLoginStatus(function (response) {
+            if (response.status === 'connected') {
+                if (callbackLoggedIn) {
+                    callbackLoggedIn();
+                }
+            } else {
+                if (callbackNotLoggedIn) {
+                    callbackNotLoggedIn();
+                }
+            }
+        });
+    }
+}
+
+function fbLogout(callback) {
+    FB.logout(callback);
 }
