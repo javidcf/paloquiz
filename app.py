@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Flask, session, jsonify, redirect, url_for
+from flask import Flask, request, session, jsonify, redirect, url_for
 from flask.sessions import SessionInterface
 from beaker.middleware import SessionMiddleware
 import json
@@ -77,6 +77,16 @@ def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
+
+
+# Enforce HTTPS in production
+if __name__ != '__main__':
+    @app.before_request
+    def before_request():
+        if request.url.startswith('http://'):
+            url = request.url.replace('http://', 'https://', 1)
+            code = 301
+            return redirect(url, code=code)
 
 
 # Application routes
