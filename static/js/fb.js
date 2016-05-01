@@ -93,7 +93,7 @@ function fbGetUserProfilePicture(callback) {
             if (callback) {
                 callback(response.data.url, response.data.is_silhouette);
             }
-        };);
+        });
 }
 
 function fbUseApi(url, method, params, callback) {
