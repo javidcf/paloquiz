@@ -82,8 +82,8 @@ def handle_invalid_usage(error):
 # Application routes
 
 
-@app.route('/', methods=['GET'])
-def root_get():
+@app.route('/')
+def root():
     return redirect(url_for('static', filename='index.html'))
 
 
