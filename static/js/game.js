@@ -16,9 +16,6 @@ window.onload = function() {
     // Phaser.Canvas.setSmoothingEnabled(game.context, false);
 
     var qImageHeight = 210
-    // Phaser.Canvas.setImageRenderingCrisp(game.canvas);
-    // PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
-    // Phaser.Canvas.setSmoothingEnabled(game.context, false);
 
     function preload () {
         game.load.baseURL = '/static/';
@@ -27,6 +24,8 @@ window.onload = function() {
         game.load.image('dialogPane', 'assets/dialog_pane.png');
         game.load.image('optionsPane', 'assets/options_pane.png');
         game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
+        //game.load.bitmapFont('carrier_command', 'assets/carrier_command.png', 'assets/carrier_command.xml');
+        game.load.bitmapFont('desyrel', 'assets/desyrel.png', 'assets/desyrel.xml');
     }
 
     function create () {
@@ -54,8 +53,20 @@ window.onload = function() {
         game.load.onFileComplete.add(fileComplete, this);
         game.load.onLoadComplete.add(loadComplete, this);
 
+        // Score text
+        scoreText = game.add.text(game.world.centerX + game.world.width/2 - 70, 10, '0', { fill: '#ff8000' });
+
         //  Progress report
         loadText = game.add.text(game.world.centerX, 50, 'Image', { fill: '#ffffff' });
+
+        //  Bit map Text
+        
+        //messageText = game.add.bitmapText(200, 100, 'desyrel', 'Phaser & Pixi\nrocking!', 64);
+        messageText = game.add.bitmapText(game.world.centerX,game.world.centerY, 'desyrel', 'Correct', 80);
+        messageText.inputEnabled = true;
+        messageText.anchor.setTo(0.5, 0.5);
+        messageText.visible = false
+
 
         // Question text
         qTextY = dialogPane.y + dialogPane.height/2
@@ -65,17 +76,17 @@ window.onload = function() {
         optButtonsGroup = game.add.group();
         optButtons = new Array();
 
-        bX = optionsPane.x - optionsPane.width * 0.10;
-        bY = optionsPane.y * 1.12 ; 
-
-        bHeight = (optionsPane.height * 0.8) / 4
+        var bX = optionsPane.x - optionsPane.width * 0.10;
+        var bY = optionsPane.y * 1.12 ; 
+        var bHeight = (optionsPane.height * 0.8) / 4;
         
 
         for(var i=0; i < 4; i++){
-            optButtons[i] = new LabelButton(this.game, bX, bY + bHeight*i, "button", "Start game!", this.actionOnClick, this, 2, 1, 0); 
-            optButtons[i].height = bHeight
+            optButtons[i] = new LabelButton(game, bX, bY + bHeight*i, "button", "Option", actionOnClick, this, 2, 1, 0); 
+            optButtons[i].height = bHeight;
             optButtons[i].width = optionsPane.width * 0.72;
-            optButtonsGroup.add(optButtons[i])
+            optButtons[i].answerId = i; 
+            optButtonsGroup.add(optButtons[i]);
         }
 
         getJSON('/start');
@@ -83,10 +94,50 @@ window.onload = function() {
 
     }
 
-        function actionOnClick () {
-            console.info("YEEEY")
-        //background.visible =! background.visible;
+    function answerCorrect(buttonId){
+        messageText.setText("Correct! :)");
+        messageText.visible = true;
+        enableInput(false);
+        game.time.events.add(Phaser.Timer.SECOND*2, function(){
+            messageText.visible = false;
+            enableInput(true);
+        }, this);
 
+    }
+
+    function answerWrong(buttonId){
+        messageText.setText("Wrong! >:(");
+        messageText.visible = true;
+        enableInput(false);
+        game.time.events.add(Phaser.Timer.SECOND*2, function(){
+            messageText.visible = false;
+            enableInput(true);
+        }, this);
+    }
+
+    function finishGame(){
+        messageText.setText("Finish!!! Score = "+ scoreText.text);
+        messageText.visible = true;
+        enableInput(false);
+    }
+
+    function enableInput(enable){
+        game.input.disabled = !enable;
+    }
+
+
+    function actionOnClick (button) {
+        var answerResponse = getJSON('/answer/'+button.answerId);
+
+        if (answerResponse["correct"]){
+            answerCorrect(button.answerId);
+        }else{
+            answerWrong(button.answerId);
+        }
+
+
+        console.info(answerResponse);
+        updateStatus();
     }
 
     function getJSON(theUrl)
@@ -114,7 +165,6 @@ window.onload = function() {
     }
 
     function loadImage(imageName){
-        console.debug("Loading "+ imageName + "...");
 
         game.load.image('questionImage', 'questions/' + imageName);
         game.load.start();
@@ -130,24 +180,21 @@ window.onload = function() {
 
     //  This callback is sent the following parameters:
     function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
-
         loadText.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
+        var x = 0;
+        var y = 0;
 
-        x = 0;
-        y = 0;
-
-        newImage = game.add.sprite(x, y, cacheKey);
+        var newImage = game.add.sprite(x, y, cacheKey);
 
         newImage.anchor.setTo(0.5, 0.5);
-        realHeight = newImage.height;
-        resScale = realHeight / qImageHeight;
+        var realHeight = newImage.height;
+        var resScale = realHeight / qImageHeight;
 
         newImage.height = qImageHeight;
         newImage.width = newImage.width / resScale;
 
         newImage.x = game.world.centerX
         newImage.y = newImage.height/2 + 5
-
     }
 
     function loadComplete() {
@@ -159,28 +206,31 @@ window.onload = function() {
         questionText.setText(question)
     }
 
-    function updateStatus(){
-        var gameStatus = getJSON('/status');
-        console.debug(gameStatus);
-
-        if(gameStatus['status'] == 'question'){
-            var questionHeader = getJSON('/questionHeader');
-            loadImage(questionHeader['img']);
-            loadQuestion(questionHeader['question']);
-            
-
-            var question = getJSON('/question');
-            loadAnswers(question['answers'])
-
-        }
-        
-    }
-
-      
     function loadAnswers(answers){
         for(var i=0; i< answers.length; i++){
             optButtons[i].setLabel(answers[i])
         }
+    }
+
+    function updateStatus(){
+        var gameStatus = getJSON('/status');
+        console.debug(gameStatus);
+
+
+        scoreText.setText(gameStatus['score']);
+
+        if(gameStatus['status']  == 'question'){
+            var questionHeader = getJSON('/questionHeader');
+            loadImage(questionHeader['img']);
+            loadQuestion(questionHeader['question']);
+
+            var question = getJSON('/question');
+            loadAnswers(question['answers']);
+        }else if (gameStatus['status']  == 'finish'){
+            console.info("finish")
+            finishGame();
+        }
+        
     }
 
     var LabelButton = function(game, x, y, key, label, callback, callbackContext, overFrame, outFrame, downFrame, upFrame){
@@ -208,6 +258,15 @@ window.onload = function() {
     LabelButton.prototype.setLabel = function( label ) {       
         this.label.setText(label);
     };
+
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds){
+              break;
+            }
+        }
+    }
 
 
 };

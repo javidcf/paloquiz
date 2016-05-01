@@ -232,7 +232,7 @@ def status():
         # Game is finished
         return jsonify({
             'status': 'finish',
-            'score': score
+            'score': session[SCORE]
         })
 
 
