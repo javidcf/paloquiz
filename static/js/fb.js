@@ -125,7 +125,7 @@ function fbUseApi(callback) {
 }
 
 
-function _fbSaveLogin()
+function _fbSaveLogin(response)
 {
     FB_UID = response.authResponse.userID;
     FB_ACCESS_TOKEN = response.authResponse.accessToken;
