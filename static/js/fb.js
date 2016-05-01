@@ -150,5 +150,17 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
 }
 
 function fbLogout(callback) {
-    FB.logout(callback);
+    if (fbIsLoggedIn()) {
+        FB.logout(function() {
+            FB_UID = undefined;
+            FB_ACCESS_TOKEN = undefined;
+            if (callback) {
+                callback();
+            }
+        });
+    } else {
+        if (callback) {
+            callback();
+        }
+    }
 }
