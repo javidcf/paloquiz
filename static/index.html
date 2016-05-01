@@ -10,6 +10,9 @@
     <body>
 
         <script>
+            var FB_APP_ID = 'FB_APP_ID';
+
+
             // Force HTTPS
             if (window.location.protocol != "https:" &&
                 window.location.hostname != "localhost" &&
@@ -21,7 +24,7 @@
 
             window.fbAsyncInit = function() {
                 FB.init({
-                    appId      : 'FB_APP_ID',
+                    appId      : FB_APP_ID,
                     xfbml      : true,
                     version    : 'v2.5'
                 });
