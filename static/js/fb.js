@@ -3,8 +3,12 @@
 var FB_UID = undefined;
 var FB_ACCESS_TOKEN = undefined;
 
-var _MAX_HIGH_SCORES = 200;
 
+function _fbSaveLogin(response)
+{
+    FB_UID = response.authResponse.userID;
+    FB_ACCESS_TOKEN = response.authResponse.accessToken;
+}
 
 function fbIsLoggedIn() {
     return Boolean(FB_UID && FB_ACCESS_TOKEN);
@@ -122,11 +126,4 @@ function fbUseApi(callback) {
             }
         });
     }
-}
-
-
-function _fbSaveLogin(response)
-{
-    FB_UID = response.authResponse.userID;
-    FB_ACCESS_TOKEN = response.authResponse.accessToken;
 }
