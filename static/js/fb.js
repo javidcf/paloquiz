@@ -35,7 +35,7 @@ function fbPublishScore(score, callback, errorCallback) {
 
 function fbGetUserScore(callback) {
     fbUseApi(function () {
-        FB.api('/' + FB_UID + '/scores', 'post',
+        FB.api('/' + FB_UID + '/scores', 'get',
             {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 data = response.data;
@@ -65,7 +65,7 @@ function fbGetUserScore(callback) {
 
 function fbGetFriendsScores(callback) {
     fbUseApi(function () {
-        FB.api('/' + FB_APP_ID + '/scores', 'post',
+        FB.api('/' + FB_APP_ID + '/scores', 'get',
             {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 data = response.data;
@@ -87,7 +87,7 @@ function fbGetFriendsScores(callback) {
 
 function fbGetProfilePicture(uid, callback) {
     fbUseApi(function () {
-        FB.api('/' + uid + '/picture', 'post',
+        FB.api('/' + uid + '/picture', 'get',
             {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 if (callback) {
@@ -99,7 +99,7 @@ function fbGetProfilePicture(uid, callback) {
 
 function fbGetUserProfilePicture(callback) {
     fbUseApi(function () {
-        FB.api('/me/picture', 'post',
+        FB.api('/me/picture', 'get',
             {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 if (callback) {
