@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>Paloquiz</title>
+        <script src="js/fb.js"></script>
         <script src="js/phaser.min.js"></script>
         <style type="text/css">
             #gameContainer
@@ -13,9 +14,18 @@
     <body>
 
         <script>
+            // Force HTTPS
+            if (window.location.protocol != "https:" &&
+                window.location.hostname != "localhost" &&
+                window.location.hostname != "127.0.0.1")
+            {
+                var site = window.location.href.substring(window.location.protocol.length);
+                window.location.href = "https:" + site;
+            }
+
             window.fbAsyncInit = function() {
                 FB.init({
-                    appId      : 'FB_APP_KEY',
+                    appId      : 'FB_APP_ID',
                     xfbml      : true,
                     version    : 'v2.5'
                 });
