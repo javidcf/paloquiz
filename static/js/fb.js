@@ -104,7 +104,7 @@ function fbUseApi(url, method, params, callback) {
     });
 }
 
-function fbLogin(callback) {
+function fbLogIn(callback) {
     if (fbIsLoggedIn()) {
         // Already logged in
         if (callback) {
