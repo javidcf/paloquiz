@@ -113,12 +113,14 @@ function fbLogIn(callback) {
     } else {
         FB.getLoginStatus(function (response) {
             if (response.status === 'connected') {
+                _fbSaveLogin(response);
                 if (callback) {
                     callback();
                 }
             } else {
                 // Show login dialog first
                 FB.login(function (response) {
+                    _fbSaveLogin(response);
                     if (callback) {
                         callback();
                     }
@@ -138,6 +140,7 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
         FB.getLoginStatus(function (response) {
             if (response.status === 'connected') {
                 if (callbackLoggedIn) {
+                    _fbSaveLogin(response);
                     callbackLoggedIn();
                 }
             } else {
