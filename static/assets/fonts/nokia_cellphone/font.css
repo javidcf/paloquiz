@@ -1,0 +1,9 @@
+
+@font-face {
+	font-family: 'Pixel Art';
+	src: url('nokia_cellphone.eot');
+	src: local('☺'), url('nokia_cellphone.woff') format('woff'), url('nokia_cellphone.ttf') format('truetype'), url('nokia_cellphone.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
