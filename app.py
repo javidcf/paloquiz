@@ -157,7 +157,7 @@ def answer(answer_id):
     correct_answers = session[CURRENT_ANSWERS]
 
     sessionQuestions = session.get(QUESTIONS, {})
-    if question_id not in sessionQuestions:
+    if question_id not in sessionQuestions or not correct_answers:
         raise InvalidUsage('The question has not been asked')
 
     q = sessionQuestions[question_id]
@@ -202,27 +202,31 @@ def answer(answer_id):
 def status():
     # Read session data
     session[CURRENT_QUESTION] = session.get(CURRENT_QUESTION, 0)
-    if QUESTION_LIST not in session:
-        session[QUESTION_LIST] = game.get_question_id_list()
+    session[QUESTION_LIST] = session.get(QUESTION_LIST, [])
     session[QUESTIONS] = session.get(QUESTIONS, {})
-    questions = session[QUESTIONS]
     session[SCORE] = session.get(SCORE, 0)
-    score = session[SCORE]
+
+    if not session[QUESTION_LIST]:
+        # The game has not started yet
+        return jsonify({
+            'status': 'start',
+            'score': 0
+        })
 
     if session[CURRENT_QUESTION] < len(session[QUESTION_LIST]):
         question_id = session[QUESTION_LIST][session[CURRENT_QUESTION]]
-        if question_id not in questions:
+        if question_id not in session[QUESTIONS]:
             # Waiting for question
             return jsonify({
                 'status': 'question',
-                'score': score
+                'score': session[SCORE]
             })
         else:
             # Not checking if the question has already been answered,
             # but that should not be possible
             return jsonify({
                 'status': 'answer',
-                'score': score
+                'score': session[SCORE]
             })
     else:
         # Game is finished
@@ -254,10 +258,13 @@ def summary():
 
 
 def get_current_question_id(ses):
+    ses[CURRENT_QUESTION] = ses.get(CURRENT_QUESTION, 0)
+    ses[QUESTION_LIST] = ses.get(QUESTION_LIST, [])
+
+    if not ses[QUESTION_LIST]:
+        raise InvalidUsage('The game has not started yet')
+
     try:
-        ses[CURRENT_QUESTION] = ses.get(CURRENT_QUESTION, 0)
-        if QUESTION_LIST not in ses:
-            ses[QUESTION_LIST] = game.get_question_id_list()
         return ses[QUESTION_LIST][ses[CURRENT_QUESTION]]
     except Exception:
         raise InvalidUsage('Invalid session data')
