@@ -17,7 +17,7 @@ function fbIsLoggedIn() {
 function fbPublishScore(score, callback, errorCallback) {
     fbUseApi(function () {
         FB.api('/' + FB_UID + '/scores', 'post',
-            {access_token: accessToken, score: score},
+            {access_token: FB_ACCESS_TOKEN, score: score},
             function (response) {
                 if (response.success) {
                     if (callback) {
@@ -35,7 +35,8 @@ function fbPublishScore(score, callback, errorCallback) {
 
 function fbGetUserScore(callback) {
     fbUseApi(function () {
-        FB.api('/' + FB_UID + '/scores', 'post', {access_token: accessToken},
+        FB.api('/' + FB_UID + '/scores', 'post',
+            {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 data = response.data;
                 if (data.length < 1) {
@@ -64,7 +65,8 @@ function fbGetUserScore(callback) {
 
 function fbGetFriendsScores(callback) {
     fbUseApi(function () {
-        FB.api('/' + FB_APP_ID + '/scores', 'post', {access_token: accessToken},
+        FB.api('/' + FB_APP_ID + '/scores', 'post',
+            {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 data = response.data;
                 // Find user position
@@ -85,7 +87,8 @@ function fbGetFriendsScores(callback) {
 
 function fbGetProfilePicture(uid, callback) {
     fbUseApi(function () {
-        FB.api('/' + uid + '/picture', 'post', {access_token: accessToken},
+        FB.api('/' + uid + '/picture', 'post',
+            {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 if (callback) {
                     callback(response.data.url, response.data.url.is_silhouette);
@@ -96,7 +99,8 @@ function fbGetProfilePicture(uid, callback) {
 
 function fbGetUserProfilePicture(callback) {
     fbUseApi(function () {
-        FB.api('/me/picture', 'post', {access_token: accessToken},
+        FB.api('/me/picture', 'post',
+            {access_token: FB_ACCESS_TOKEN},
             function (response) {
                 if (callback) {
                     callback(response.data.url, response.data.url.is_silhouette);
