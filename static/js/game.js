@@ -26,6 +26,7 @@ window.onload = function() {
         game.load.spritesheet('host', 'assets/palo.png', 30, 85);
         game.load.image('dialogPane', 'assets/dialog_pane.png');
         game.load.image('optionsPane', 'assets/options_pane.png');
+        game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
     }
 
     function create () {
@@ -54,10 +55,37 @@ window.onload = function() {
         game.load.onLoadComplete.add(loadComplete, this);
 
         //  Progress report
-        text = game.add.text(game.world.centerX, 50, 'Image', { fill: '#ffffff' });
+        loadText = game.add.text(game.world.centerX, 50, 'Image', { fill: '#ffffff' });
+
+        // Question text
+        qTextY = dialogPane.y + dialogPane.height/2
+        questionText = game.add.text(game.world.centerX, qTextY, 'Question', { fill: '#ffffff' });
+        questionText.anchor.setTo(0.5, 0.5);
+
+        optButtonsGroup = game.add.group();
+        optButtons = new Array();
+
+        bX = optionsPane.x - optionsPane.width * 0.10;
+        bY = optionsPane.y * 1.12 ; 
+
+        bHeight = (optionsPane.height * 0.8) / 4
+        
+
+        for(var i=0; i < 4; i++){
+            optButtons[i] = new LabelButton(this.game, bX, bY + bHeight*i, "button", "Start game!", this.actionOnClick, this, 2, 1, 0); 
+            optButtons[i].height = bHeight
+            optButtons[i].width = optionsPane.width * 0.72;
+            optButtonsGroup.add(optButtons[i])
+        }
 
         getJSON('/start');
         updateStatus();
+
+    }
+
+        function actionOnClick () {
+            console.info("YEEEY")
+        //background.visible =! background.visible;
 
     }
 
@@ -96,14 +124,14 @@ window.onload = function() {
 
     function loadStart() {
 
-        text.setText("Loading ...");
+        loadText.setText("Loading ...");
 
     }
 
     //  This callback is sent the following parameters:
     function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
 
-        text.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
+        loadText.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
 
         x = 0;
         y = 0;
@@ -123,12 +151,12 @@ window.onload = function() {
     }
 
     function loadComplete() {
-        text.setText("Loaded");
+        loadText.setText("Loaded");
     }
 
     function loadQuestion(question){
         //bmpText = game.add.bitmapText(10, 100, 'carrier_command',question,34);
-
+        questionText.setText(question)
     }
 
     function updateStatus(){
@@ -141,14 +169,45 @@ window.onload = function() {
             loadQuestion(questionHeader['question']);
             
 
-
             var question = getJSON('/question');
-            console.debug(question);
+            loadAnswers(question['answers'])
 
         }
-
         
     }
+
+      
+    function loadAnswers(answers){
+        for(var i=0; i< answers.length; i++){
+            optButtons[i].setLabel(answers[i])
+        }
+    }
+
+    var LabelButton = function(game, x, y, key, label, callback, callbackContext, overFrame, outFrame, downFrame, upFrame){
+        Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+        //Label style    
+        this.style = { 'font': '18px Arial',        
+                       'fill': 'white'};   
+
+        this.anchor.setTo( 0.5, 0.5 );   
+        this.label = new Phaser.Text(game, 0, 0, label, this.style);   
+
+        //puts the label in the center of the button    
+        this.label.anchor.setTo( 0.5, 0.5 );    
+        this.addChild(this.label);    
+        this.setLabel( label );    
+
+        //adds button to game    
+        game.add.existing( this );
+    };
+
+    LabelButton.prototype = Object.create(Phaser.Button.prototype);
+
+    LabelButton.prototype.constructor = LabelButton;
+
+    LabelButton.prototype.setLabel = function( label ) {       
+        this.label.setText(label);
+    };
 
 
 };
