@@ -348,7 +348,7 @@ Paloquiz.states.Highscores.prototype = {
         backButton.height = backButtonSize;
         backButton.anchor.setTo(0, 0);
         backButton.x = backButton.width * .2;
-        backButton.y = backButton.width * .2;
+        backButton.y = backButton.height * .2;
 
         // Arrows to navigate through pages
         var arrowSize = .1 * Math.min(this.game.width, this.game.height);
@@ -360,10 +360,12 @@ Paloquiz.states.Highscores.prototype = {
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
+        this.arrowRight.smoothed = false;
         this.arrowRight.width = backButtonSize;
         this.arrowRight.height = backButtonSize;
-        this.arrowRight.smoothed = false;
         this.arrowRight.anchor.setTo(1, 1);
+        this.arrowRight.x = this.arrowRight.width * .2;
+        this.arrowRight.y = this.arrowRight.height * .2;
         this.arrowRight.visible = false;
 
         this.arrowLeft = this.add.button(
@@ -379,6 +381,8 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowLeft.smoothed = false;
         this.arrowLeft.scale.setTo(-1, 1);
         this.arrowLeft.anchor.setTo(1, 1);
+        this.arrowLeft.x = this.arrowLeft.width * .2;
+        this.arrowLeft.y = this.arrowLeft.height * .2;
         this.arrowLeft.visible = false;
     }
 
