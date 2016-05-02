@@ -7,6 +7,7 @@ Paloquiz.states.Main = function (game) {
     this.messageText;
     this.questionText;
     this.timebar;
+    this.barProgress;
     this.optGroup;
     this.optButtons;
     this.optLabels;
@@ -61,6 +62,7 @@ Paloquiz.states.Main.prototype = {
         
         this.timebar.context.fillStyle = this.TIMEBAR_OK_COLOR;
         this.timebar.context.fillRect(0, 0, this.optionsPane.width, 8);
+        this.barProgress = this.optionsPane.width;
 
         this.host = this.add.sprite(0, 0, 'host');
         this.host.smoothed = false;
@@ -150,19 +152,23 @@ Paloquiz.states.Main.prototype = {
         this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
             this.messageText.visible = false;
             this.enableInput(true);
-            this.updateStatus();
             this.optButtons[buttonId].setFrames(2, 1, 0);
+            this.barProgress = this.optionsPane.width; 
+            this.updateStatus();
         }, this);
 
     },
 
     answerWrong: function (buttonId) {
+        this.optButtons[buttonId].setFrames(4, 4, 4);
         this.messageText.setText('Wrong! >:(');
         this.messageText.visible = true;
         this.enableInput(false);
         this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
             this.messageText.visible = false;
             this.enableInput(true);
+            this.optButtons[buttonId].setFrames(2, 1, 0);
+            this.barProgress = this.optionsPane.width; 
             this.updateStatus();
         }, this);
     },
@@ -251,6 +257,7 @@ Paloquiz.states.Main.prototype = {
                     getJSON('/question', function(question) {
                         this.questionText.setText(question['question']);
                         this.loadAnswers(question['answers']);
+                        this.initTimeBar(question['max_time'], question['time']);
                     }, this);
                 });
             }, this);
@@ -260,6 +267,7 @@ Paloquiz.states.Main.prototype = {
                 this.questionText.setText(question['question']);
                 this.loadAnswers(question['answers']);
                 this.loadQuestionImage(question['img']);
+                this.initTimeBar(question['max_time'], question['time']);
             }, this);
         }
     },
@@ -268,6 +276,40 @@ Paloquiz.states.Main.prototype = {
         for (var i = 0; i < answers.length; i++) {
             this.optLabels[i].setText(answers[i])
         }
+    },
+
+    initTimeBar: function(time, maxTime){
+        this.barProgress = time * this.optionsPane.width / maxTime;
+
+        var barTween = this.add.tween(this);
+        console.info(time)
+        console.info(maxTime)
+        barTween.to({barProgress: 0}, time, null, true, 0, 0);
+        barTween.onUpdateCallback(this.updateTimebar, this);
+    },
+
+    updateTimebar: function(){
+        console.info(this.barProgress)
+        // ensure you clear the context each time you update it or the bar will draw on top of itself
+        this.timebar.context.clearRect(0, 0, this.timebar.width, this.timebar.height);
+        
+        // 25%  = warning
+        if (this.barProgress < this.timebar.width * 0.25) {
+           this.timebar.context.fillStyle = '#f00';   
+        }
+        // 50%  = warning
+        else if (this.barProgress < this.timebar.width * 0.5) {
+            this.timebar.context.fillStyle = '#ff0';
+        }
+        else {
+            this.timebar.context.fillStyle = this.TIMEBAR_OK_COLOR;
+        }
+        
+        // draw the bar
+        this.timebar.context.fillRect(0, 0, this.barProgress, 8);
+        
+        // important - without this line, the context will never be updated on the GPU when using webGL
+        this.timebar.dirty = true;
     },
 
     updateStatus: function () {
