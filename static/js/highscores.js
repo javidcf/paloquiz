@@ -203,25 +203,24 @@ Paloquiz.states.Highscores.prototype = {
 
         // Iterate through friends
         for (var iFriend = iFriendStart, iScore = 0; iFriend < iFriendEnd; iFriend++, iScore++) {
-            // Copy index to use in closure
-            var iFriendCpy = iFriend;
-            var iScoreCpy = iScore;
-            fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
-                this.scores[iScoreCpy].pos.setText((iFriendCpy + 1) + '.');
-                this.scores[iScoreCpy].name.setText(friend.first_name || friend.name);
-                this.scores[iScoreCpy].score.setText(this.friendsScores[iFriendCpy].score);
-                // Use special style for the user
-                if (iFriendCpy == this.userPos) {
-                    this.scores[iScoreCpy].pos.setStyle(this.positionUserTextStyle);
-                    this.scores[iScoreCpy].name.setStyle(this.nameUserTextStyle);
-                    this.scores[iScoreCpy].score.setStyle(this.scoreUserTextStyle);
-                }
-                this.scores[iScoreCpy].pos.visible = true;
-                this.scores[iScoreCpy].name.visible = true;
-                this.scores[iScoreCpy].score.visible = true;
-                this.profileImagesData[iScoreCpy] = friend.image;
-                friendInformationRead();
-            }, this);
+            (function(iScore, iFriend) {
+                fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
+                    this.scores[iScore].pos.setText((iFriend + 1) + '.');
+                    this.scores[iScore].name.setText(friend.first_name || friend.name);
+                    this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
+                    // Use special style for the user
+                    if (iFriend == this.userPos) {
+                        this.scores[iScore].pos.setStyle(this.positionUserTextStyle);
+                        this.scores[iScore].name.setStyle(this.nameUserTextStyle);
+                        this.scores[iScore].score.setStyle(this.scoreUserTextStyle);
+                    }
+                    this.scores[iScore].pos.visible = true;
+                    this.scores[iScore].name.visible = true;
+                    this.scores[iScore].score.visible = true;
+                    this.profileImagesData[iScore] = friend.image;
+                    friendInformationRead();
+                }, this);
+            })(iFriend, iScore);
         }
     },
 
