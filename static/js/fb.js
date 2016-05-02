@@ -6,8 +6,7 @@ var FB_UID = undefined;
 var FB_ACCESS_TOKEN = undefined;
 
 
-function _fbSaveLogin(response)
-{
+function _fbSaveLogin(response) {
     FB_UID = response.authResponse.userID;
     FB_ACCESS_TOKEN = response.authResponse.accessToken;
 }
@@ -18,7 +17,7 @@ function fbIsLoggedIn() {
 
 function fbPublishScore(score, callback, errorCallback) {
     fbUseApi('/' + FB_UID + '/scores', 'post', {},
-        function (response) {
+        function(response) {
             if (response.success) {
                 if (callback) {
                     callback(score);
@@ -34,7 +33,7 @@ function fbPublishScore(score, callback, errorCallback) {
 
 function fbGetUserScore(callback) {
     fbUseApi('/' + FB_UID + '/scores', 'get', {},
-        function (response) {
+        function(response) {
             data = response.data;
             if (data.length < 1) {
                 console.error('Could not retrieve the user score');
@@ -61,7 +60,7 @@ function fbGetUserScore(callback) {
 
 function fbGetFriendsScores(callback) {
     fbUseApi('/' + FB_APP_ID + '/scores', 'get', {},
-        function (response) {
+        function(response) {
             data = response.data;
             // Find user position
             var userIdx = undefined;
@@ -80,7 +79,7 @@ function fbGetFriendsScores(callback) {
 
 function fbGetProfilePicture(uid, callback) {
     fbUseApi('/' + uid + '/picture', 'get', {},
-        function (response) {
+        function(response) {
             if (callback) {
                 callback(response.data.url, response.data.is_silhouette);
             }
@@ -89,7 +88,7 @@ function fbGetProfilePicture(uid, callback) {
 
 function fbGetUserProfilePicture(callback) {
     fbUseApi('/me/picture', 'get', {},
-        function (response) {
+        function(response) {
             if (callback) {
                 callback(response.data.url, response.data.is_silhouette);
             }
@@ -98,7 +97,7 @@ function fbGetUserProfilePicture(callback) {
 
 function fbUseApi(url, method, params, callback) {
     params = params || ({});
-    fbLogin(function () {
+    fbLogin(function() {
         params.access_token = FB_ACCESS_TOKEN;
         FB.api(url, method, params, callback);
     });
@@ -111,7 +110,7 @@ function fbLogIn(callback) {
             callback();
         }
     } else {
-        FB.getLoginStatus(function (response) {
+        FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 _fbSaveLogin(response);
                 if (callback) {
@@ -119,12 +118,14 @@ function fbLogIn(callback) {
                 }
             } else {
                 // Show login dialog first
-                FB.login(function (response) {
+                FB.login(function(response) {
                     _fbSaveLogin(response);
                     if (callback) {
                         callback();
                     }
-                }, {scope: FB_PERMISSIONS});
+                }, {
+                    scope: FB_PERMISSIONS
+                });
             }
         });
     }
@@ -137,11 +138,10 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
             callbackLoggedIn();
         }
     } else {
-        FB.getLoginStatus(function (response) {
+        FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 _fbSaveLogin(response);
                 if (callbackLoggedIn) {
-                    _fbSaveLogin(response);
                     callbackLoggedIn();
                 }
             } else {
