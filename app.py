@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Flask, request, session, jsonify, redirect, url_for
+from flask import Flask, request, render_template, session, jsonify, redirect
 from flask.sessions import SessionInterface
 from beaker.middleware import SessionMiddleware
 import json
@@ -8,6 +8,7 @@ from time import time
 import os
 
 import game
+from config import FB_APP_ID
 
 
 app = Flask('paloquiz')
@@ -94,7 +95,12 @@ if __name__ != '__main__':
 
 @app.route('/', methods=['GET', 'POST'])
 def root():
-    return redirect(url_for('static', filename='index.html'))
+    return render_template('index.html', FB_APP_ID=FB_APP_ID)
+
+
+@app.route('/index.html', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html', FB_APP_ID=FB_APP_ID)
 
 
 @app.route('/start')
