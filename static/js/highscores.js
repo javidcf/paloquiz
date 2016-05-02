@@ -23,6 +23,9 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     preload: function() {
+        // Enable cross-origin image loading
+        this.load.crossOrigin = 'anonymous';
+
         this.load.image('noface', 'assets/noface.png');
     },
 
