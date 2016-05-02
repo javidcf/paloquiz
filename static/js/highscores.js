@@ -225,13 +225,15 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     createFontStyles: function() {
+        var textSize = Math.floor(this.NAME_BOX.width / 30.0) + 'px';
+
         var fontFace = 'Pixel Art';
-        var textSize = Math.floor(this.ENTRY_BOX.height / 4) + 'px';
         var positionTextSize = textSize;
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
         var normalColor = 'white';
         var userColor = 'red';
+
         // Normal
         this.positionTextStyle = {
             font: fontFace,
@@ -352,8 +354,7 @@ Paloquiz.states.Highscores.prototype = {
 
         // Arrows to navigate through pages
         var arrowSize = .1 * Math.min(this.game.width, this.game.height);
-        this.arrowRight = this.add.button(
-            this.game.width * .9, this.game.height * .9, 'arrow',
+        this.arrowRight = this.add.button(0, 0, 'arrow',
             function() {
                 if (this.currentPage < this.maxPage) {
                     this.currentPage++;
@@ -368,8 +369,7 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowRight.y = this.game.height - this.arrowRight.height * .2;
         this.arrowRight.visible = false;
 
-        this.arrowLeft = this.add.button(
-            this.game.width * .1, this.game.height * .9, 'arrow',
+        this.arrowLeft = this.add.button(0, 0, 'arrow',
             function() {
                 if (this.currentPage > 0) {
                     this.currentPage--;
