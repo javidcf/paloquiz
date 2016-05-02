@@ -6,8 +6,9 @@ Paloquiz.states.Main = function (game) {
     this.loadText;
     this.messageText;
     this.questionText;
-    this.optButtonsGroup;
+    this.optGroup;
     this.optButtons;
+    this.optLabels;
 };
 
 Paloquiz.states.Main.prototype = {
@@ -16,8 +17,8 @@ Paloquiz.states.Main.prototype = {
     QUESTION_IMAGE_MAX_WIDTH: 0,
 
     init: function () {
-        QUESTION_IMAGE_MAX_HEIGHT = this.game.height * .32;
-        QUESTION_IMAGE_MAX_WIDTH = this.game.width * .8;
+        this.QUESTION_IMAGE_MAX_HEIGHT = this.game.height * .32;
+        this.QUESTION_IMAGE_MAX_WIDTH = this.game.width * .8;
     },
 
     preload: function () {
@@ -98,8 +99,17 @@ Paloquiz.states.Main.prototype = {
     },
 
     createOptionButtons: function () {
-        this.optButtonsGroup = this.add.group();
+        this.optGroup = this.add.group();
         this.optButtons = new Array();
+        this.optLabels = new Array();
+
+        //Label style
+        var labelStyle = {
+            font: 'Pixel Art',
+            fontSize: '12px',
+            align: 'center',
+            fill: 'white'
+        };
 
         var bX = this.optionsPane.x - this.optionsPane.width * 0.10;
         var bY = this.optionsPane.y * 1.12;
@@ -107,11 +117,18 @@ Paloquiz.states.Main.prototype = {
 
 
         for (var i = 0; i < 4; i++) {
-            this.optButtons[i] = new LabelButton(this, bX, bY + bHeight * i, 'button', 'buttont', this.actionOnClick, this, 2, 1, 0);
+            this.optButtons[i] = this.add.button(bX, bY + bHeight * i, 'button', this.actionOnClick, this, 2, 1, 0);
             this.optButtons[i].height = bHeight;
             this.optButtons[i].width = this.optionsPane.width * 0.72;
+            this.optButtons[i].anchor.setTo(0.5, 0.5)
+
             this.optButtons[i].answerId = i;
-            this.optButtonsGroup.add(this.optButtons[i]);
+
+            this.optLabels[i] = this.add.text(bX, bY + bHeight * i, 'Option', labelStyle);
+            this.optLabels[i].anchor.setTo(0.5, 0.5)
+
+            this.optGroup.add(this.optButtons[i]);
+            this.optGroup.add(this.optLabels[i]);
         }
     },
 
@@ -193,14 +210,14 @@ Paloquiz.states.Main.prototype = {
 
         newImage.anchor.setTo(0.5, 0.5);
 
-        var resScaleH = QUESTION_IMAGE_MAX_HEIGHT / newImage.height;
-        var resScaleW = QUESTION_IMAGE_MAX_WIDTH / newImage.width;
+        var resScaleH = this.QUESTION_IMAGE_MAX_HEIGHT / newImage.height;
+        var resScaleW = this.QUESTION_IMAGE_MAX_WIDTH / newImage.width;
         var resScale = Math.min(resScaleH, resScaleW);
         newImage.height = newImage.height * resScale;
         newImage.width = newImage.width * resScale;
 
         newImage.x = this.game.world.centerX;
-        newImage.y = newImage.height / 2 + this.game.height * .03;
+        newImage.y = newImage.height / 2 + this.game.height * .02;
 
         this.questionImage = newImage;
     },
@@ -238,7 +255,7 @@ Paloquiz.states.Main.prototype = {
 
     loadAnswers: function (answers) {
         for (var i = 0; i < answers.length; i++) {
-            this.optButtons[i].setLabel(answers[i])
+            this.optLabels[i].setText(answers[i])
         }
     },
 
@@ -263,35 +280,3 @@ Paloquiz.states.Main.prototype = {
     }
 
 };
-
-
-var LabelButton = function(game, x, y, key, label, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
-    Phaser.Button.call(this, game.game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
-    //Label style
-    this.style = {
-        font: 'Pixel Art',
-        fontSize: '12px',
-        align: 'center',
-        fill: 'white'
-    };
-
-    this.anchor.setTo(0.5, 0.5);
-    this.label = game.add.text(0, 0, label, this.style);
-
-    //puts the label in the center of the button
-    this.label.anchor.setTo(0.5, 0.5);
-    this.addChild(this.label);
-    this.setLabel(label);
-
-    //adds button to game
-    game.add.existing(this);
-};
-
-LabelButton.prototype = Object.create(Phaser.Button.prototype);
-
-LabelButton.prototype.constructor = LabelButton;
-
-LabelButton.prototype.setLabel = function(label) {
-    this.label.setText(label);
-};
-
