@@ -336,7 +336,7 @@ Paloquiz.states.Main.prototype = {
 
     startGame: function () {
         getJSON('/start', this.updateStatus, this);
-    }
+    },
 
     shutdown: function() {
         // Remove handlers
