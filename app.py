@@ -177,8 +177,9 @@ def answer(answer_id):
 
     # Check answer
     delay = int(time() * 1000) - question_time
+    timeout = delay > game.MAX_TIME
     try:
-        correct = correct_answers[answer_id] and delay < game.MAX_TIME
+        correct = correct_answers[answer_id] and not timeout
         if correct:
             earned_score = game.get_answer_score(delay)
         else:
@@ -197,8 +198,19 @@ def answer(answer_id):
     # Return response
     return jsonify({
         'correct': correct,
+        'timeout': timeout,
         'score': session[SCORE]
     })
+
+
+@app.route('/finish')
+def finish():
+    session[CURRENT_QUESTION] = 0
+    session[CURRENT_ANSWERS] = []
+    session[QUESTIONS] = {}
+    session[QUESTION_LIST] = []
+    session[SCORE] = 0
+    return status()
 
 
 @app.route('/status')
@@ -241,21 +253,26 @@ def status():
 
 @app.route('/summary')
 def summary():
-    get_current_question_id(session)
+    session[QUESTION_LIST] = session.get(QUESTION_LIST, [])
     session[QUESTIONS] = session.get(QUESTIONS, {})
-    questions = session[QUESTIONS]
     session[SCORE] = session.get(SCORE, 0)
-    score = session[SCORE]
+    session[CURRENT_QUESTION] = session.get(CURRENT_QUESTION, 0)
+
+    if not session[QUESTION_LIST]:
+        raise InvalidUsage('The game has not started yet')
 
     corrects = []
-    for i in range(session[CURRENT_QUESTION]):
-        qi = session[QUESTION_LIST][session[CURRENT_QUESTION]]
-        answered = questions.get(qi, {}).get(ANSWER, NOT_ANSWERED)
-        # NOT_ANSWERED is considered as incorrect here
-        corrects.append(answered == CORRECT)
+    try:
+        for i in range(session[CURRENT_QUESTION]):
+            qi = session[QUESTION_LIST][i]
+            answered = session[QUESTIONS].get(qi, {}).get(ANSWER, NOT_ANSWERED)
+            # NOT_ANSWERED is considered as incorrect here
+            corrects.append(answered == CORRECT)
+    except Exception:
+        raise InvalidUsage('Invalid session data')
 
     return jsonify({
-        'score': score,
+        'score': session[SCORE],
         'answers': corrects
     })
 
