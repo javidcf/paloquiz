@@ -7,6 +7,7 @@ Paloquiz.states.Main = function (game) {
     this.messageText;
     this.questionText;
     this.timebar;
+    this.timebarTween;
     this.barProgress;
     this.optGroup;
     this.optButtons;
@@ -144,24 +145,15 @@ Paloquiz.states.Main.prototype = {
         }
     },
 
-    answerCorrect: function (buttonId) {
-        this.optButtons[buttonId].setFrames(3, 3, 3);
-        this.messageText.setText('Correct! :)');
-        this.messageText.visible = true;
-        this.enableInput(false);
-        this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
-            this.messageText.visible = false;
-            this.enableInput(true);
-            this.optButtons[buttonId].setFrames(2, 1, 0);
-            this.barProgress = this.optionsPane.width; 
-            this.updateStatus();
-        }, this);
+    showAnswerMessage: function (buttonId, correct) {
+        if(correct){
+            this.optButtons[buttonId].setFrames(3, 3, 3);
+            this.messageText.setText('Correct! :)');
+        }else{
+            this.optButtons[buttonId].setFrames(4, 4, 4);
+            this.messageText.setText('Wrong! >:(');
+        }
 
-    },
-
-    answerWrong: function (buttonId) {
-        this.optButtons[buttonId].setFrames(4, 4, 4);
-        this.messageText.setText('Wrong! >:(');
         this.messageText.visible = true;
         this.enableInput(false);
         this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
@@ -185,12 +177,13 @@ Paloquiz.states.Main.prototype = {
 
 
     actionOnClick: function (button) {
+        this.timebarTween.stop();
         getJSON('/answer/' + button.answerId, function(answerResponse) {
 
             if (answerResponse['correct']) {
-                this.answerCorrect(button.answerId);
+                this.showAnswerMessage(button.answerId, true);
             } else {
-                this.answerWrong(button.answerId);
+                this.showAnswerMessage(button.answerId, false);
             }
         }, this);
     },
@@ -281,15 +274,28 @@ Paloquiz.states.Main.prototype = {
     initTimeBar: function(time, maxTime){
         this.barProgress = time * this.optionsPane.width / maxTime;
 
-        var barTween = this.add.tween(this);
-        console.info(time)
-        console.info(maxTime)
-        barTween.to({barProgress: 0}, time, null, true, 0, 0);
-        barTween.onUpdateCallback(this.updateTimebar, this);
+        this.timebarTween = this.add.tween(this);
+        this.timebarTween.to({barProgress: 0}, time, null, true, 0, 0);
+
+        this.timebarTween.onUpdateCallback(this.updateTimebar, this);
+        this.timebarTween.onComplete.add(function () {
+            this.messageText.setText('Time Out! :S');
+            this.messageText.visible = true;
+            this.enableInput(false);
+            this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
+                this.messageText.visible = false;
+                this.enableInput(true);
+                this.barProgress = this.optionsPane.width; 
+
+                // call answer with any id  and call updateStatus
+                getJSON('/answer/0', function() {
+                    this.updateStatus();
+                }, this);
+            }, this);
+        }, this);
     },
 
     updateTimebar: function(){
-        console.info(this.barProgress)
         // ensure you clear the context each time you update it or the bar will draw on top of itself
         this.timebar.context.clearRect(0, 0, this.timebar.width, this.timebar.height);
         
