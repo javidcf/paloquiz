@@ -9,7 +9,7 @@ import game
 from config import FB_APP_ID, SESSION_ENCRYPT_KEY, SESSION_VALIDATE_KEY
 
 
-app = Flask('paloquiz')
+app = Flask(__name__)
 
 
 # Some constants to use as enum
