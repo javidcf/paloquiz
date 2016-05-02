@@ -200,7 +200,7 @@ Paloquiz.states.Highscores.prototype = {
             font: 'Pixel Art',
             fontSize: '12px',
             align: 'left',
-            fill: 'red'
+            fill: 'red',
             align: 'left',
             boundsAlignH: 'left',
             boundsAlignV: 'middle',
@@ -211,7 +211,7 @@ Paloquiz.states.Highscores.prototype = {
             font: 'Pixel Art',
             fontSize: '12px',
             align: 'center',
-            fill: 'red'
+            fill: 'red',
             align: 'center',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
