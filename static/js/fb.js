@@ -1,6 +1,6 @@
 // Some functions to interact with Facebook
 
-var FB_PERMISSIONS = 'public_profile, user_friends, publish_actions';
+var FB_PERMISSIONS = 'public_profile,user_friends,publish_actions';
 
 var FB_UID = undefined;
 var FB_ACCESS_TOKEN = undefined;
