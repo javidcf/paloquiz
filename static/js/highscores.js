@@ -44,17 +44,17 @@ Paloquiz.states.Highscores.prototype = {
 
         this.POSITION_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .0;
         this.POSITION_BOX.y = this.ENTRY_BOX.y;
-        this.POSITION_BOX.width = this.ENTRIES_BOX.width * .1;
+        this.POSITION_BOX.width = this.ENTRIES_BOX.width * .05;
         this.POSITION_BOX.height = this.ENTRY_BOX.height;
 
-        this.IMAGE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .10;
+        this.IMAGE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .05;
         this.IMAGE_BOX.y = this.ENTRY_BOX.y;
         this.IMAGE_BOX.width = this.ENTRIES_BOX.width * .25;
         this.IMAGE_BOX.height = this.ENTRY_BOX.height;
 
-        this.NAME_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .35;
+        this.NAME_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .30;
         this.NAME_BOX.y = this.ENTRY_BOX.y;
-        this.NAME_BOX.width = this.ENTRIES_BOX.width * .4;
+        this.NAME_BOX.width = this.ENTRIES_BOX.width * .45;
         this.NAME_BOX.height = this.ENTRY_BOX.height;
 
         this.SCORE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .78;
@@ -194,35 +194,51 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     createFontStyles: function () {
+        var fontFace = 'Pixel Art';
         var textSize = Math.floor(this.ENTRY_BOX.height / 5) + 'px';
+        var positionTextSize = textSize;
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
+        var normalColor = 'white';
+        var userColor = 'red';
+        // Normal
+        this.positionTextStyle = {
+            font: fontFace,
+            fontSize: positionTextSize,
+            fill: normalColor,
+            align: 'right',
+            boundsAlignH: 'right',
+            boundsAlignV: 'middle'
+        };
         this.nameTextStyle = {
-            font: 'Pixel Art',
-            fontSize: nameTextSize,
-            align: 'left',
-            fill: 'white',
+            font: fontFace,
+            fontSize: positionTextSize,
+            fill: normalColor,
             align: 'left',
             boundsAlignH: 'left',
-            boundsAlignV: 'middle',
-            wordWrap: true,
-            wordWrapWidth: this.NAME_BOX.width
+            boundsAlignV: 'middle'
         };
         this.scoreTextStyle = {
-            font: 'Pixel Art',
+            font: fontFace,
             fontSize: scoreTextSize,
-            align: 'center',
             fill: 'white',
             align: 'center',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        this.positionTextStyle = this.nameTextStyle;
+        // User
+        this.positionUserTextStyle = {
+            font: fontFace,
+            fontSize: positionTextSize,
+            fill: userColor,
+            align: 'right',
+            boundsAlignH: 'right',
+            boundsAlignV: 'middle'
+        };
         this.nameUserTextStyle = {
-            font: 'Pixel Art',
+            font: fontFace,
             fontSize: nameTextSize,
-            align: 'left',
-            fill: 'red',
+            fill: userColor,
             align: 'left',
             boundsAlignH: 'left',
             boundsAlignV: 'middle',
@@ -230,15 +246,13 @@ Paloquiz.states.Highscores.prototype = {
             wordWrapWidth: this.NAME_BOX.width
         };
         this.scoreUserTextStyle = {
-            font: 'Pixel Art',
+            font: fontFace,
             fontSize: scoreTextSize,
-            align: 'center',
-            fill: 'red',
+            fill: userColor,
             align: 'center',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
-        this.positionUserTextStyle = this.nameUserTextStyle;
     },
 
     createHighscoreEntries: function () {
