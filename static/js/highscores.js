@@ -191,7 +191,7 @@ Paloquiz.states.Highscores.prototype = {
             font: 'Pixel Art',
             fontSize: '12px',
             align: 'center',
-            fill: 'white'
+            fill: 'white',
             align: 'center',
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
