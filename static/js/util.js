@@ -1,5 +1,22 @@
-function getJSON(url, callback, callbackError)
+
+function isFunction(functionToCheck) {
+    var getType = {};
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+function getJSON(url, callback, callbackError, thisArg)
 {
+    if (arguments.length < 4 && isFunction(callbackError)) {
+        thisArg = callbackError;
+        callbackError = undefined;
+    }
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
+    if (callbackError) {
+        callbackError = callbackError.bind(thisArg);
+    }
+
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
 

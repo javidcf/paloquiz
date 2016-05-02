@@ -15,7 +15,18 @@ function fbIsLoggedIn() {
     return Boolean(FB_UID && FB_ACCESS_TOKEN);
 }
 
-function fbPublishScore(score, callback, errorCallback) {
+function fbPublishScore(score, callback, errorCallback, thisArg) {
+    if (arguments.length < 4 && isFunction(errorCallback)) {
+        thisArg = errorCallback;
+        errorCallback = undefined;
+    }
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
+    if (errorCallback) {
+        errorCallback = errorCallback.bind(thisArg);
+    }
+
     fbUseApi('/' + FB_UID + '/scores', 'post', {},
         function(response) {
             if (response.success) {
@@ -31,7 +42,10 @@ function fbPublishScore(score, callback, errorCallback) {
         });
 }
 
-function fbGetUserScore(callback) {
+function fbGetUserScore(callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
     fbUseApi('/' + FB_UID + '/scores', 'get', {},
         function(response) {
             data = response.data;
@@ -58,7 +72,10 @@ function fbGetUserScore(callback) {
         });
 }
 
-function fbGetFriendsScores(callback) {
+function fbGetFriendsScores(callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
     fbUseApi('/' + FB_APP_ID + '/scores', 'get', {},
         function(response) {
             data = response.data;
@@ -77,7 +94,10 @@ function fbGetFriendsScores(callback) {
         });
 }
 
-function fbGetProfilePicture(uid, callback) {
+function fbGetProfilePicture(uid, callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
     fbUseApi('/' + uid + '/picture', 'get', {},
         function(response) {
             if (callback) {
@@ -86,7 +106,10 @@ function fbGetProfilePicture(uid, callback) {
         });
 }
 
-function fbGetUserProfilePicture(callback) {
+function fbGetUserProfilePicture(callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
     fbUseApi('/me/picture', 'get', {},
         function(response) {
             if (callback) {
@@ -95,15 +118,21 @@ function fbGetUserProfilePicture(callback) {
         });
 }
 
-function fbUseApi(url, method, params, callback) {
+function fbUseApi(url, method, params, callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
     params = params || ({});
-    fbLogin(function() {
+    fbLogIn(function() {
         params.access_token = FB_ACCESS_TOKEN;
         FB.api(url, method, params, callback);
     });
 }
 
-function fbLogIn(callback) {
+function fbLogIn(callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
     if (fbIsLoggedIn()) {
         // Already logged in
         if (callback) {
@@ -131,7 +160,17 @@ function fbLogIn(callback) {
     }
 }
 
-function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
+function fbInit(callbackLoggedIn, callbackNotLoggedIn, thisArg) {
+    if (arguments.length < 3 && isFunction(callbackNotLoggedIn)) {
+        thisArg = callbackNotLoggedIn;
+        callbackNotLoggedIn = undefined;
+    }
+    if (callbackLoggedIn) {
+        callbackLoggedIn = callbackLoggedIn.bind(thisArg);
+    }
+    if (callbackNotLoggedIn) {
+        callbackNotLoggedIn = callbackNotLoggedIn.bind(thisArg);
+    }
     if (fbIsLoggedIn()) {
         // Already logged in
         if (callbackLoggedIn) {
@@ -153,7 +192,10 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn) {
     }
 }
 
-function fbLogOut(callback) {
+function fbLogOut(callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
     if (fbIsLoggedIn()) {
         FB.logout(function() {
             FB_UID = undefined;
