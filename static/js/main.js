@@ -338,4 +338,14 @@ Paloquiz.states.Main.prototype = {
         getJSON('/start', this.updateStatus, this);
     }
 
+    shutdown: function() {
+        // Remove handlers
+        this.load.onLoadStart.remove(this.loadStart, this);
+        this.load.onFileComplete.remove(this.fileComplete, this);
+        this.load.onLoadComplete.remove(this.loadComplete, this);
+
+
+        this.enableInput(true);
+    },
+
 };
