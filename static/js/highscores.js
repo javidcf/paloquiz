@@ -216,7 +216,7 @@ Paloquiz.states.Highscores.prototype = {
     createUI: function () {
         // Back button to go back to main state
         var backButton = this.add.button(
-            this.game.width * .1, this.game.height * .1, 'backButton',
+            this.game.width * .1, this.game.height * .1, 'back',
             function () {
                 this.state.start('Main');
             }, this, 0, 0, 0);
