@@ -16,7 +16,7 @@ function fbIsLoggedIn() {
 }
 
 function fbPublishScore(score, callback, errorCallback, thisArg) {
-    if (arguments.length < 4 && !isFunction(errorCallback)) {
+    if (arguments.length < 4 && isFunction(errorCallback)) {
         thisArg = errorCallback;
         errorCallback = undefined;
     }
@@ -161,7 +161,7 @@ function fbLogIn(callback, thisArg) {
 }
 
 function fbInit(callbackLoggedIn, callbackNotLoggedIn, thisArg) {
-    if (arguments.length < 3 && !isFunction(callbackNotLoggedIn)) {
+    if (arguments.length < 3 && isFunction(callbackNotLoggedIn)) {
         thisArg = callbackNotLoggedIn;
         callbackNotLoggedIn = undefined;
     }
