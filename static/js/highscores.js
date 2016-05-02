@@ -43,8 +43,8 @@ Paloquiz.states.Highscores.prototype = {
             this.HIGHSCORE_REGION.height / this.PAGE_SIZE;
 
         this.HIGHSCORE_IMAGE_SIZE = .8 * Math.min(
-            this.HIGHSCORE_REGION.width * .25,
-            this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
+            this.HIGHSCORE_ENTRY_SIZE.width * .25,
+            this.HIGHSCORE_ENTRY_SIZE.height);
 
         // Font styles
         this.nameTextStyle = {
