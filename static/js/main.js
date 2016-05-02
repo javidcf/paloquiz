@@ -4,7 +4,6 @@ Paloquiz.states.Main = function (game) {
     this.host;
     this.scoreText;
     this.loadText;
-    this.messageText;
     this.questionText;
     this.timebar;
     this.timebarTween;
@@ -19,6 +18,13 @@ Paloquiz.states.Main.prototype = {
     QUESTION_IMAGE_MAX_HEIGHT: 0,
     QUESTION_IMAGE_MAX_WIDTH: 0,
     TIMEBAR_OK_COLOR: '#0f0',
+    TIMEBAR_WARN_COLOR: '#ff0',
+    TIMEBAR_CRIT_COLOR: '#f00',
+    ANSWER_TEXT_SIZE: '40px',
+    ANSWER_OK_COLOR: '#8b0a50',
+    ANSWER_FAIL_COLOR:'#ff0000',
+    QUESTION_COLOR: '#ffffff',
+    QUESTION_TEXT_SIZE:'26px',
 
     init: function () {
         this.QUESTION_IMAGE_MAX_HEIGHT = this.game.height * .32;
@@ -27,12 +33,12 @@ Paloquiz.states.Main.prototype = {
 
     preload: function () {
         this.load.baseURL = '/static/';
-        this.load.spritesheet('host', 'assets/palo.png', 30, 85);
+        this.load.image('host', 'assets/palo.png', 30, 85);
         this.load.image('dialogPane', 'assets/dialog_pane.png');
         this.load.image('optionsPane', 'assets/options_pane.png');
         this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 189, 66);
         //game.load.bitmapFont('carrier_command', 'assets/carrier_command.png', 'assets/carrier_command.xml');
-        this.load.bitmapFont('desyrel', 'assets/desyrel.png', 'assets/desyrel.xml');
+        //this.load.bitmapFont('desyrel', 'assets/desyrel.png', 'assets/desyrel.xml');
 
     },
 
@@ -43,28 +49,28 @@ Paloquiz.states.Main.prototype = {
         var worldHeight = this.game.world.height;
         var worldWidth = this.game.world.width;
 
-        this.game.stage.background = this.add.sprite(worldCenterX, worldCenterY, 'background');
-        this.game.stage.background.anchor.setTo(0.5, 0.5);
-        this.game.stage.background.width = this.game.width
-        this.game.stage.background.height = this.game.height
+        var background = this.add.image(this.game.world.centerX, this.game.world.centerY, 'background');
+        background.anchor.setTo(0.5, 0.5);
+        background.width = this.game.width;
+        background.height = this.game.height;
 
 
-        this.optionsPane = this.add.sprite(worldCenterX, worldHeight - 260, 'optionsPane');
+        this.optionsPane = this.add.image(worldCenterX, worldHeight - 260, 'optionsPane');
         this.optionsPane.anchor.setTo(0.5, 0.0);
 
-        this.dialogPane = this.add.sprite(worldCenterX, 220, 'dialogPane');
+        this.dialogPane = this.add.image(worldCenterX, 220, 'dialogPane');
         this.dialogPane.anchor.setTo(0.5, 0.0);
 
         //  var bar = this.add.bitmapData(300, 200);
         this.timebar = this.add.bitmapData(this.optionsPane.width, 8);
-        var timebarSprite = this.add.sprite(worldCenterX, worldHeight - 269, this.timebar);
-        timebarSprite.anchor.setTo(0.5, 0.0);
+        var timebarImage = this.add.image(worldCenterX, worldHeight - 269, this.timebar);
+        timebarImage.anchor.setTo(0.5, 0.0);
         
         this.timebar.context.fillStyle = this.TIMEBAR_OK_COLOR;
         this.timebar.context.fillRect(0, 0, this.optionsPane.width, 8);
         this.barProgress = this.optionsPane.width;
 
-        this.host = this.add.sprite(0, 0, 'host');
+        this.host = this.add.image(0, 0, 'host');
         this.host.smoothed = false;
         this.host.x = worldWidth - this.host.width / 2 - 55;
         this.host.y = worldHeight - 140;
@@ -73,36 +79,29 @@ Paloquiz.states.Main.prototype = {
 
 
         //  You can listen for each of these events from Phaser.Loader
-        this.load.onLoadStart.add(this.loadStart, this);
         this.load.onFileComplete.add(this.fileComplete, this);
-        this.load.onLoadComplete.add(this.loadComplete, this);
 
         // Score text
         this.scoreText = this.add.text(worldCenterX + worldWidth / 2 - 70, 10, '0', {
-            fill: '#ff8000'
-        });
-
-        //  Progress report
-        this.loadText = this.add.text(worldCenterX, 50, 'Image', {
             fill: '#ffffff'
         });
 
         //  Bit map Text
 
         //messageText = game.add.bitmapText(200, 100, 'desyrel', 'Phaser & Pixi\nrocking!', 64);
-        this.messageText = this.add.bitmapText(worldCenterX, worldCenterY, 'desyrel', 'Correct', 80);
-        this.messageText.inputEnabled = true;
-        this.messageText.anchor.setTo(0.5, 0.5);
-        this.messageText.visible = false
+        //this.messageText = this.add.bitmapText(worldCenterX, worldCenterY, 'desyrel', 'Correct', 80);
+        //this.messageText.inputEnabled = true;
+        //this.messageText.anchor.setTo(0.5, 0.5);
+        //this.messageText.visible = false
 
 
         // Question text
         var qTextY = this.dialogPane.y + this.dialogPane.height / 2
         this.questionText = this.add.text(worldCenterX, qTextY, 'Question', {
             font: 'Pixel Art',
-            fontSize: '26px',
+            fontSize: this.QUESTION_TEXT_SIZE,
             align: 'center',
-            fill: '#ffffff'
+            fill: this.QUESTION_COLOR
         });
         this.questionText.anchor.setTo(0.5, 0.5);
 
@@ -147,16 +146,20 @@ Paloquiz.states.Main.prototype = {
     showAnswerMessage: function (buttonId, correct) {
         if(correct){
             this.optButtons[buttonId].setFrames(3, 3, 3);
-            this.messageText.setText('Correct! :)');
+            this.questionText.setText('Correct! :)');
+            this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
+            this.questionText.fill = this.ANSWER_OK_COLOR;
         }else{
             this.optButtons[buttonId].setFrames(4, 4, 4);
-            this.messageText.setText('Wrong! >:(');
+            this.questionText.setText('Wrong! >:(');
+            this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
+            this.questionText.fill = this.ANSWER_FAIL_COLOR;
         }
 
-        this.messageText.visible = true;
         this.enableInput(false);
-        this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
-            this.messageText.visible = false;
+        this.time.events.add(Phaser.Timer.SECOND * 2, function() {
+            this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
+            this.questionText.fill = this.QUESTION_COLOR;
             this.enableInput(true);
             this.optButtons[buttonId].setFrames(2, 1, 0);
             this.barProgress = this.optionsPane.width; 
@@ -165,13 +168,12 @@ Paloquiz.states.Main.prototype = {
     },
 
     finishGame: function () {
-        this.messageText.setText('Score = ' + this.scoreText.text);
-        this.messageText.visible = true;
+        this.questionText.setText('Score = ' + this.scoreText.text);
         this.enableInput(false);
     },
 
     enableInput: function (enable) {
-        this.game.input.enabled = enable;
+        this.input.enabled = enable;
     },
 
 
@@ -193,13 +195,10 @@ Paloquiz.states.Main.prototype = {
         this.load.start();
     },
 
-    loadStart: function () {
-        this.loadText.setText('Loading ...');
-    },
 
     //  This callback is sent the following parameters:
     fileComplete: function (progress, cacheKey, success, totalLoaded, totalFiles) {
-        this.loadText.setText('File Complete: ' + progress + '% - ' + totalLoaded + ' out of ' + totalFiles);
+      //  this.loadText.setText('File Complete: ' + progress + '% - ' + totalLoaded + ' out of ' + totalFiles);
         if (cacheKey == 'questionImage') {
             this.replaceQuestionImage(cacheKey);
             if (this.onQuestionImageLoaded) {
@@ -208,14 +207,10 @@ Paloquiz.states.Main.prototype = {
         }
     },
 
-    loadComplete: function () {
-        this.loadText.setText('Loaded');
-    },
-
     replaceQuestionImage: function (cacheKey) {
         this.clearQuestionImage();
 
-        var newImage = this.add.sprite(0, 0, cacheKey);
+        var newImage = this.add.image(0, 0, cacheKey);
 
         newImage.anchor.setTo(0.5, 0.5);
 
@@ -278,13 +273,15 @@ Paloquiz.states.Main.prototype = {
 
         this.timebarTween.onUpdateCallback(this.updateTimebar, this);
         this.timebarTween.onComplete.add(function () {
-            this.messageText.setText('Time Out! :S');
-            this.messageText.visible = true;
+            this.questionText.setText('Time Out! :S');
+            this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
+            this.questionText.fill = this.ANSWER_FAIL_COLOR;
             this.enableInput(false);
-            this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
-                this.messageText.visible = false;
+            this.time.events.add(Phaser.Timer.SECOND * 2, function() {
                 this.enableInput(true);
                 this.barProgress = this.optionsPane.width; 
+                this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
+                this.questionText.fill = this.QUESTION_COLOR;
 
                 // call answer with any id  and call updateStatus
                 getJSON('/answer/0', function() {
@@ -300,11 +297,11 @@ Paloquiz.states.Main.prototype = {
         
         // 25%  = warning
         if (this.barProgress < this.timebar.width * 0.25) {
-           this.timebar.context.fillStyle = '#f00';   
+           this.timebar.context.fillStyle = this.TIMEBAR_CRIT_COLOR;   
         }
         // 50%  = warning
         else if (this.barProgress < this.timebar.width * 0.5) {
-            this.timebar.context.fillStyle = '#ff0';
+            this.timebar.context.fillStyle = this.TIMEBAR_WARN_COLOR;
         }
         else {
             this.timebar.context.fillStyle = this.TIMEBAR_OK_COLOR;
@@ -336,9 +333,7 @@ Paloquiz.states.Main.prototype = {
 
     shutdown: function() {
         // Remove handlers
-        this.load.onLoadStart.remove(this.loadStart, this);
         this.load.onFileComplete.remove(this.fileComplete, this);
-        this.load.onLoadComplete.remove(this.loadComplete, this);
 
 
         this.enableInput(true);
