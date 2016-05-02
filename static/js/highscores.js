@@ -103,7 +103,7 @@ Paloquiz.states.Highscores.prototype = {
 
     shutdown: function() {
         // Remove handlers
-        this.load.onLoadComplete.remove(loadComplete, this);
+        this.load.onLoadComplete.remove(this.loadComplete, this);
     },
 
     loadComplete: function() {
