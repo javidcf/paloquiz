@@ -6,7 +6,7 @@ function isFunction(functionToCheck) {
 
 function getJSON(url, callback, callbackError, thisArg)
 {
-    if (arguments.length < 4 && isFunction(callbackError)) {
+    if (arguments.length < 4 && !isFunction(callbackError)) {
         thisArg = callbackError;
         callbackError = undefined;
     }
