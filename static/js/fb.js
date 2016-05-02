@@ -94,28 +94,30 @@ function fbGetFriendsScores(callback, thisArg) {
         });
 }
 
-function fbGetProfilePicture(uid, callback, thisArg) {
+function fbGetProfileDetails(uid, callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    fbUseApi('/' + uid + '/picture', 'get', {},
-        function(response) {
-            if (callback) {
-                callback(response.data.url, response.data.is_silhouette);
-            }
+    fbUseApi('/' + uid + '/?fields=name,first_name', 'get', {},
+        function (response1) {
+            fbUseApi('/' + uid + '/picture', 'get', {},
+                function(response2) {
+                    if (callback) {
+                        callback({
+                            name: response1.name,
+                            firstName: response1.first_name,
+                            image: {
+                                url: response2.data.url,
+                                isSilhouette: response2.data.is_silhouette
+                            }
+                        });
+                    }
+                });
         });
 }
 
-function fbGetUserProfilePicture(callback, thisArg) {
-    if (callback) {
-        callback = callback.bind(thisArg);
-    }
-    fbUseApi('/me/picture', 'get', {},
-        function(response) {
-            if (callback) {
-                callback(response.data.url, response.data.is_silhouette);
-            }
-        });
+function fbGetUserProfileDetails(callback, thisArg) {
+    fbGetProfileDetails('me', callback, thisArg);
 }
 
 function fbUseApi(url, method, params, callback, thisArg) {
