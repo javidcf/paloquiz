@@ -1,7 +1,13 @@
 
+function isFunction(functionToCheck) {
+    var getType = {};
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+
 function getJSON(url, callback, callbackError, thisArg)
 {
-    if (arguments.length < 4) {
+    if (arguments.length < 4 && !isFunction(callbackError)) {
         thisArg = callbackError;
         callbackError = undefined;
     }
