@@ -27,7 +27,6 @@ Paloquiz.states.Main.prototype = {
 
     preload: function () {
         this.load.baseURL = '/static/';
-        this.load.image('background', 'assets/background.png');
         this.load.spritesheet('host', 'assets/palo.png', 30, 85);
         this.load.image('dialogPane', 'assets/dialog_pane.png');
         this.load.image('optionsPane', 'assets/options_pane.png');
@@ -137,7 +136,7 @@ Paloquiz.states.Main.prototype = {
 
             this.optButtons[i].answerId = i;
 
-            this.optLabels[i] = this.add.text(bX, bY + bHeight * i, 'Option', labelStyle);
+            this.optLabels[i] = this.add.text(bX, bY + bHeight * i, '', labelStyle);
             this.optLabels[i].anchor.setTo(0.5, 0.5)
 
             this.optGroup.add(this.optButtons[i]);
@@ -322,7 +321,7 @@ Paloquiz.states.Main.prototype = {
         getJSON('/status', function(gameStatus) {
             this.scoreText.setText(gameStatus['score']);
             if (gameStatus['status'] == 'start') {
-                this.startGame();
+                this.state.start('Start');
             } else if (gameStatus['status'] == 'question') {
                 this.loadQuestion(true);
             } else if (gameStatus['status'] == 'answer') {
@@ -334,9 +333,6 @@ Paloquiz.states.Main.prototype = {
 
     },
 
-    startGame: function () {
-        getJSON('/start', this.updateStatus, this);
-    },
 
     shutdown: function() {
         // Remove handlers
