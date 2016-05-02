@@ -31,6 +31,9 @@ Paloquiz.states.Highscores.prototype = {
     IMAGE_SIZE: 0,
 
     init: function() {
+        // Check Facebook status
+        fbInit();
+
         // Compute box sizes
         this.ENTRIES_BOX.x = this.game.width * .1;
         this.ENTRIES_BOX.y = this.game.height * .1;
