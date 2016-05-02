@@ -3,12 +3,10 @@
 from flask import Flask, request, render_template, session, jsonify, redirect
 from flask.sessions import SessionInterface
 from beaker.middleware import SessionMiddleware
-import json
 from time import time
-import os
 
 import game
-from config import FB_APP_ID
+from config import FB_APP_ID, SESSION_ENCRYPT_KEY, SESSION_VALIDATE_KEY
 
 
 app = Flask('paloquiz')
@@ -29,13 +27,6 @@ ANSWER = 'a'
 TIME = 't'
 
 
-# Read secrets keys
-_site_root = os.path.realpath(os.path.dirname(__file__))
-_secret_path = os.path.join(_site_root, 'resources', 'secret.json')
-with open(_secret_path, 'r') as f:
-    _secrets = json.load(f)
-
-
 # Eases Beaker session integration
 class BeakerSessionInterface(SessionInterface):
     def open_session(self, app, request):
@@ -49,8 +40,8 @@ class BeakerSessionInterface(SessionInterface):
 # Session configuration
 session_opts = {
     'session.type': 'cookie',
-    'session.validate_key': ''.join(_secrets['session_validate_key']),
-    'session.encrypt_key': ''.join(_secrets['session_encrypt_key'])
+    'session.validate_key': SESSION_VALIDATE_KEY,
+    'session.encrypt_key': SESSION_ENCRYPT_KEY
 }
 app.wsgi_app = SessionMiddleware(app.wsgi_app, session_opts)
 app.session_interface = BeakerSessionInterface()
@@ -100,7 +91,7 @@ def root():
 
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', FB_APP_ID=FB_APP_ID)
+    return render_template('index.html', FB_APP_ID=FB_APP_ID)   
 
 
 @app.route('/start')
