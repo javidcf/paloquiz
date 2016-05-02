@@ -20,7 +20,7 @@ Paloquiz.states.Highscores = function(game) {
 
 Paloquiz.states.Highscores.prototype = {
 
-    PAGE_SIZE: 5,
+    PAGE_SIZE: 6,
     ENTRIES_BOX: {
         x: 0,
         y: 0,
@@ -225,7 +225,7 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     createFontStyles: function() {
-        var textSize = Math.floor(this.NAME_BOX.width / 30.0) + 'px';
+        var textSize = Math.floor(this.NAME_BOX.width / 6.0) + 'px';
 
         var fontFace = 'Pixel Art';
         var positionTextSize = textSize;
@@ -376,12 +376,11 @@ Paloquiz.states.Highscores.prototype = {
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
-        this.arrowLeft.width = arrowSize;
+        this.arrowLeft.width = -arrowSize;
         this.arrowLeft.height = arrowSize;
         this.arrowLeft.smoothed = false;
-        this.arrowLeft.scale.setTo(-1, 1);
         this.arrowLeft.anchor.setTo(1, 1);
-        this.arrowLeft.x = this.arrowLeft.width * .2;
+        this.arrowLeft.x = -this.arrowLeft.width * .2;
         this.arrowLeft.y = this.game.height - this.arrowLeft.height * .2;
         this.arrowLeft.visible = false;
     }
