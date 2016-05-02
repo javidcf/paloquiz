@@ -27,7 +27,7 @@ function fbPublishScore(score, callback, errorCallback, thisArg) {
         errorCallback = errorCallback.bind(thisArg);
     }
 
-    fbUseApi('/' + FB_UID + '/scores', 'post', {},
+    fbUseApi('/' + FB_UID + '/scores', 'post', {score: score},
         function(response) {
             if (response.success) {
                 if (callback) {
