@@ -342,6 +342,7 @@ Paloquiz.states.Highscores.prototype = {
             function() {
                 this.state.start('Main');
             }, this, 0, 0, 0);
+        backButton.smoothed = false;
         var backButtonSize = .1 * Math.min(this.game.width, this.game.height);
         backButton.width = backButtonSize;
         backButton.height = backButtonSize;
@@ -358,6 +359,7 @@ Paloquiz.states.Highscores.prototype = {
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
+        this.arrowRight.smoothed = false;
         this.arrowRight.anchor.setTo(1, 1);
         this.arrowRight.visible = false;
 
@@ -369,6 +371,7 @@ Paloquiz.states.Highscores.prototype = {
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
+        this.arrowLeft.smoothed = false;
         this.arrowLeft.scale.setTo(-1, 1);
         this.arrowLeft.anchor.setTo(1, 1);
         this.arrowLeft.visible = false;
