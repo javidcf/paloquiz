@@ -206,7 +206,7 @@ Paloquiz.states.Highscores.prototype = {
             (function(iScore, iFriend) {
                 fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
                     this.scores[iScore].pos.setText((iFriend + 1) + '.');
-                    this.scores[iScore].name.setText(friend.first_name || friend.name);
+                    this.scores[iScore].name.setText(friend.firstName || friend.name);
                     this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
                     // Use special style for the user
                     if (iFriend == this.userPos) {
