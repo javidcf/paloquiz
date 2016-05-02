@@ -247,7 +247,9 @@ Paloquiz.states.Highscores.prototype = {
             fill: normalColor,
             align: 'left',
             boundsAlignH: 'left',
-            boundsAlignV: 'middle'
+            boundsAlignV: 'middle',
+            wordWrap: true,
+            wordWrapWidth: this.NAME_BOX.width
         };
         this.scoreTextStyle = {
             font: fontFace,
