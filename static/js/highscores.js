@@ -255,8 +255,8 @@ Paloquiz.states.Highscores.prototype = {
             font: fontFace,
             fontSize: scoreTextSize,
             fill: 'white',
-            align: 'center',
-            boundsAlignH: 'center',
+            align: 'right',
+            boundsAlignH: 'right',
             boundsAlignV: 'middle'
         };
         // User
@@ -282,8 +282,8 @@ Paloquiz.states.Highscores.prototype = {
             font: fontFace,
             fontSize: scoreTextSize,
             fill: userColor,
-            align: 'center',
-            boundsAlignH: 'center',
+            align: 'right',
+            boundsAlignH: 'right',
             boundsAlignV: 'middle'
         };
     },
