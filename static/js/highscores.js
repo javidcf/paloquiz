@@ -26,6 +26,10 @@ Paloquiz.states.Highscores.prototype = {
         width: 0,
         height: 0
     },
+    HIGHSCORE_ENTRY_SIZE: {
+        width: 0,
+        height: 0
+    },
     HIGHSCORE_IMAGE_SIZE: 0,
 
     init: function() {
@@ -33,6 +37,10 @@ Paloquiz.states.Highscores.prototype = {
         this.HIGHSCORE_REGION.y = this.game.height * .1;
         this.HIGHSCORE_REGION.width = this.game.width * .8;
         this.HIGHSCORE_REGION.height = this.game.height * .8;
+
+        this.HIGHSCORE_ENTRY_SIZE.width = this.HIGHSCORE_REGION.width;
+        this.HIGHSCORE_ENTRY_SIZE.height =
+            this.HIGHSCORE_REGION.height / this.PAGE_SIZE;
 
         this.HIGHSCORE_IMAGE_SIZE = .8 * Math.min(
             this.HIGHSCORE_REGION.width * .25,
@@ -184,26 +192,38 @@ Paloquiz.states.Highscores.prototype = {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
             // Y baseline
             var y = this.game.world.centerY - (this.HIGHSCORE_REGION.height / 2) +
-                (i + .5) * (this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
+                i * (this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
+
             // Image occupies the first 25% in X dimension
             var img = this.add.image(
                 this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125, y,
                 'noface');
-            img.anchor.setTo(.5, .5);
+            img.anchor.setTo(0, .5);
             img.width = this.HIGHSCORE_IMAGE_SIZE;
             img.height = this.HIGHSCORE_IMAGE_SIZE;
             img.visible = false;
+
             // Name goes after image
-            var name = this.add.text(
-                this.HIGHSCORE_REGION.x - this.HIGHSCORE_REGION.width * .25, y,
-                '', this.nameTextStyle);
-            name.anchor.setTo(0, .5);
+            var name = this.add.text(0, 0, '', this.nameTextStyle);
+            // Set bounds
+            name.setTextBounds(
+                this.HIGHSCORE_REGION.x - this.HIGHSCORE_REGION.width * .25,
+                y,
+                this.HIGHSCORE_REGION.width * .5,
+                this.HIGHSCORE_ENTRY_SIZE.height);
+            name.boundsAlignH = 'left';
+            name.boundsAlignV = 'middle';
             name.visible = false;
+
             // Score goes at the end
-            var score = this.add.text(
-                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .875, y,
-                '', this.scoreTextStyle);
-            score.anchor.setTo(.5, .5);
+            var score = this.add.text(0, 0, '', this.scoreTextStyle);
+            score.setTextBounds(
+                this.HIGHSCORE_REGION.x - this.HIGHSCORE_REGION.width * .75,
+                y,
+                this.HIGHSCORE_REGION.width * .25,
+                this.HIGHSCORE_ENTRY_SIZE.height);
+            score.boundsAlignH = 'center';
+            score.boundsAlignV = 'middle';
             score.visible = false;
             this.scores.push({
                 img: img,
