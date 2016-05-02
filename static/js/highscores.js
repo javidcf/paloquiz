@@ -30,6 +30,10 @@ Paloquiz.states.Highscores.prototype = {
         width: 0,
         height: 0
     },
+    HIGHSCORE_NAME_SIZE: {
+        width: 0,
+        height: 0
+    },
     HIGHSCORE_IMAGE_SIZE: 0,
 
     init: function() {
@@ -42,35 +46,15 @@ Paloquiz.states.Highscores.prototype = {
         this.HIGHSCORE_ENTRY_SIZE.height =
             this.HIGHSCORE_REGION.height / this.PAGE_SIZE;
 
+        this.HIGHSCORE_NAME_SIZE.width = this.HIGHSCORE_REGION.width * .5;
+        this.HIGHSCORE_NAME_SIZE.height = this.HIGHSCORE_ENTRY_SIZE.height;
+
         this.HIGHSCORE_IMAGE_SIZE = .8 * Math.min(
             this.HIGHSCORE_ENTRY_SIZE.width * .25,
             this.HIGHSCORE_ENTRY_SIZE.height);
 
         // Font styles
-        this.nameTextStyle = {
-            font: 'Pixel Art',
-            fontSize: '12px',
-            align: 'left',
-            fill: 'white'
-        }
-        this.scoreTextStyle = {
-            font: 'Pixel Art',
-            fontSize: '12px',
-            align: 'center',
-            fill: 'white'
-        }
-        this.nameUserTextStyle = {
-            font: 'Pixel Art',
-            fontSize: '12px',
-            align: 'left',
-            fill: 'red'
-        }
-        this.scoreUserTextStyle = {
-            font: 'Pixel Art',
-            fontSize: '12px',
-            align: 'center',
-            fill: 'red'
-        }
+        this.createFontStyles();
     },
 
     preload: function() {
@@ -191,6 +175,49 @@ Paloquiz.states.Highscores.prototype = {
         }
     },
 
+    createFontStyles: function () {
+        this.nameTextStyle = {
+            font: 'Pixel Art',
+            fontSize: '12px',
+            align: 'left',
+            fill: 'white',
+            align: 'left',
+            boundsAlignH: 'left',
+            boundsAlignV: 'middle',
+            wordWrap: true,
+            wordWrapWidth: this.HIGHSCORE_NAME_SIZE.width
+        };
+        this.scoreTextStyle = {
+            font: 'Pixel Art',
+            fontSize: '12px',
+            align: 'center',
+            fill: 'white'
+            align: 'center',
+            boundsAlignH: 'center',
+            boundsAlignV: 'middle'
+        };
+        this.nameUserTextStyle = {
+            font: 'Pixel Art',
+            fontSize: '12px',
+            align: 'left',
+            fill: 'red'
+            align: 'left',
+            boundsAlignH: 'left',
+            boundsAlignV: 'middle',
+            wordWrap: true,
+            wordWrapWidth: this.HIGHSCORE_NAME_SIZE.width
+        };
+        this.scoreUserTextStyle = {
+            font: 'Pixel Art',
+            fontSize: '12px',
+            align: 'center',
+            fill: 'red'
+            align: 'center',
+            boundsAlignH: 'center',
+            boundsAlignV: 'middle'
+        };
+    },
+
     createHighscoreEntries: function () {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
             // Y baseline
@@ -214,8 +241,6 @@ Paloquiz.states.Highscores.prototype = {
                 y,
                 this.HIGHSCORE_REGION.width * .5,
                 this.HIGHSCORE_ENTRY_SIZE.height);
-            name.boundsAlignH = 'left';
-            name.boundsAlignV = 'middle';
             name.visible = false;
 
             // Score goes at the end
@@ -225,8 +250,6 @@ Paloquiz.states.Highscores.prototype = {
                 y,
                 this.HIGHSCORE_REGION.width * .25,
                 this.HIGHSCORE_ENTRY_SIZE.height);
-            score.boundsAlignH = 'center';
-            score.boundsAlignV = 'middle';
             score.visible = false;
             this.scores.push({
                 img: img,
