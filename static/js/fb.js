@@ -97,7 +97,7 @@ function fbGetUserProfilePicture(callback) {
 
 function fbUseApi(url, method, params, callback) {
     params = params || ({});
-    fbLogin(function() {
+    fbLogIn(function() {
         params.access_token = FB_ACCESS_TOKEN;
         FB.api(url, method, params, callback);
     });
