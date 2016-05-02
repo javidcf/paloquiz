@@ -172,7 +172,7 @@ Paloquiz.states.Main.prototype = {
     },
 
     enableInput: function (enable) {
-        this.game.input.disabled = !enable;
+        this.game.input.enabled = enable;
     },
 
 
