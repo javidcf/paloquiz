@@ -364,8 +364,8 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowRight.width = backButtonSize;
         this.arrowRight.height = backButtonSize;
         this.arrowRight.anchor.setTo(1, 1);
-        this.arrowRight.x = this.arrowRight.width * .2;
-        this.arrowRight.y = this.arrowRight.height * .2;
+        this.arrowRight.x = this.game.width - this.arrowRight.width * .2;
+        this.arrowRight.y = this.game.height - this.arrowRight.height * .2;
         this.arrowRight.visible = false;
 
         this.arrowLeft = this.add.button(
@@ -382,7 +382,7 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowLeft.scale.setTo(-1, 1);
         this.arrowLeft.anchor.setTo(1, 1);
         this.arrowLeft.x = this.arrowLeft.width * .2;
-        this.arrowLeft.y = this.arrowLeft.height * .2;
+        this.arrowLeft.y = this.game.height - this.arrowLeft.height * .2;
         this.arrowLeft.visible = false;
     }
 
