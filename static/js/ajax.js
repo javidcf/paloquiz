@@ -1,5 +1,17 @@
-function getJSON(url, callback, callbackError)
+
+function getJSON(url, callback, callbackError, thisArg)
 {
+    if (arguments.length < 4) {
+        thisArg = callbackError;
+        callbackError = undefined;
+    }
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
+    if (callbackError) {
+        callbackError = callbackError.bind(thisArg);
+    }
+
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
 
