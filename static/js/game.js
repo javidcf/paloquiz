@@ -8,7 +8,7 @@ window.onload = function () {
 
     var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
     var transparent = false;
-    var antialias = false;
+    var antialias = true;
 
     function init() {
             fbInit();
