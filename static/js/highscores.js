@@ -191,14 +191,13 @@ Paloquiz.states.Highscores.prototype = {
     createHighscoreEntries: function () {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
             // Y baseline
-            var y = this.game.world.centerY - (this.HIGHSCORE_REGION.height / 2) +
-                i * (this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
+            var y = i * (this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
 
             // Image occupies the first 25% in X dimension
             var img = this.add.image(
                 this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125, y,
                 'noface');
-            img.anchor.setTo(0, 0);
+            img.anchor.setTo(.5, 0);
             img.width = this.HIGHSCORE_IMAGE_SIZE;
             img.height = this.HIGHSCORE_IMAGE_SIZE;
             img.visible = false;
