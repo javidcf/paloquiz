@@ -241,7 +241,7 @@ Paloquiz.states.Highscores.prototype = {
                 }
             }, this, 0, 0, 0);
         this.arrowLeft.scale.setTo(-1, 1);
-        this.arrowLeft.anchor.setTo(0, 0);
+        this.arrowLeft.anchor.setTo(1, 1);
     }
 
 };
