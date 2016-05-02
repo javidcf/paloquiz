@@ -91,7 +91,12 @@ def root():
 
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', FB_APP_ID=FB_APP_ID)   
+    return render_template('index.html', FB_APP_ID=FB_APP_ID)
+
+
+@app.route('/robots.txt')
+def robots():
+    return app.send_static_file('robots.txt')
 
 
 @app.route('/start')
