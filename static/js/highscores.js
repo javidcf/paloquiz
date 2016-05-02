@@ -229,7 +229,7 @@ Paloquiz.states.Highscores.prototype = {
             // Image occupies the first 25% in X dimension
             var img = this.add.image(
                 this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125,
-                y + this.HIGHSCORE_REGION.height / 2,
+                y + this.HIGHSCORE_ENTRY_SIZE.height / 2,
                 'noface');
             img.visible = false;
 
