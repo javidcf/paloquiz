@@ -141,6 +141,7 @@ def question():
     elapsed_time = max(min(current_time - question_time, game.MAX_TIME), 0)
     time_left = game.MAX_TIME - elapsed_time
     question_data['time'] = time_left
+    question_data['max_time'] = game.MAX_TIME
 
     # Save session data
     session[CURRENT_ANSWERS] = correct_answers
