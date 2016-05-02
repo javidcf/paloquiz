@@ -226,7 +226,7 @@ Paloquiz.states.Highscores.prototype = {
 
     createFontStyles: function() {
         var fontFace = 'Pixel Art';
-        var textSize = Math.floor(this.ENTRY_BOX.height / 5) + 'px';
+        var textSize = Math.floor(this.ENTRY_BOX.height / 3) + 'px';
         var positionTextSize = textSize;
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
