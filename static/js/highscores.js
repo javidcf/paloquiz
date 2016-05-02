@@ -265,7 +265,7 @@ Paloquiz.states.Highscores.prototype = {
             function () {
                 this.state.start('Main');
             }, this, 0, 0, 0);
-        var backButtonSize= .2 * Math.min(this.game.width, this.game.height);
+        var backButtonSize= .1 * Math.min(this.game.width, this.game.height);
         backButton.width = backButtonSize;
         backButton.height = backButtonSize;
         backButton.anchor.setTo(0, 0);
