@@ -158,7 +158,7 @@ Paloquiz.states.Main.prototype = {
             } else {
                 this.answerWrong(button.answerId);
             }
-        });
+        }, this);
     },
 
     loadQuestionImage: function (imageName, callback) {
@@ -175,7 +175,7 @@ Paloquiz.states.Main.prototype = {
     fileComplete: function (progress, cacheKey, success, totalLoaded, totalFiles) {
         this.loadText.setText('File Complete: ' + progress + '% - ' + totalLoaded + ' out of ' + totalFiles);
         if (cacheKey == 'questionImage') {
-            replaceQuestionImage(cacheKey);
+            this.replaceQuestionImage(cacheKey);
             if (this.onQuestionImageLoaded) {
                 this.onQuestionImageLoaded();
             }
@@ -199,8 +199,8 @@ Paloquiz.states.Main.prototype = {
         newImage.height = newImage.height * resScale;
         newImage.width = newImage.width * resScale;
 
-        newImage.x = game.world.centerX;
-        newImage.y = newImage.height / 2 + game.height * .03;
+        newImage.x = this.game.world.centerX;
+        newImage.y = newImage.height / 2 + this.game.height * .03;
 
         this.questionImage = newImage;
     },
@@ -218,21 +218,21 @@ Paloquiz.states.Main.prototype = {
 
         if (useHeader) {
             getJSON('/questionHeader', function(questionHeader) {
-                // questionText.setText(questionHeader['question']);
+                this.questionText.setText(questionHeader['question']);
                 this.loadQuestionImage(questionHeader['img'], function() {
                     getJSON('/question', function(question) {
                         this.questionText.setText(question['question']);
                         this.loadAnswers(question['answers']);
-                    });
+                    }, this);
                 });
-            });
+            }, this);
         } else {
             this.onQuestionImageReplaced = undefined;
             getJSON('/question', function(question) {
                 this.questionText.setText(question['question']);
                 this.loadAnswers(question['answers']);
                 this.loadQuestionImage(question['img']);
-            });
+            }, this);
         }
     },
 
@@ -254,19 +254,19 @@ Paloquiz.states.Main.prototype = {
             } else if (gameStatus['status'] == 'finish') {
                 this.finishGame();
             }
-        });
+        }, this);
 
     },
 
     startGame: function () {
-        getJSON('/start', this.updateStatus);
+        getJSON('/start', this.updateStatus, this);
     }
 
 };
 
 
 var LabelButton = function(game, x, y, key, label, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
-    Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+    Phaser.Button.call(this, game.game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
     //Label style
     this.style = {
         font: 'Pixel Art',
@@ -276,7 +276,7 @@ var LabelButton = function(game, x, y, key, label, callback, callbackContext, ov
     };
 
     this.anchor.setTo(0.5, 0.5);
-    this.label = new Phaser.Text(Paloquiz.game, 0, 0, label, this.style);
+    this.label = game.add.text(0, 0, label, this.style);
 
     //puts the label in the center of the button
     this.label.anchor.setTo(0.5, 0.5);
