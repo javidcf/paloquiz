@@ -105,7 +105,7 @@ Paloquiz.states.Highscores.prototype = {
             }
             this.scores[i].img.width = this.HIGHSCORE_IMAGE_SIZE;
             this.scores[i].img.height = this.HIGHSCORE_IMAGE_SIZE;
-            this.scores[i].img.anchor.setTo(.5, 0);
+            this.scores[i].img.anchor.setTo(.5, .5);
             this.scores[i].img.visible = true;
         }
     },
@@ -229,9 +229,6 @@ Paloquiz.states.Highscores.prototype = {
                 this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125,
                 y + this.HIGHSCORE_IMAGE_SIZE / 2,
                 'noface');
-            img.width = this.HIGHSCORE_IMAGE_SIZE;
-            img.height = this.HIGHSCORE_IMAGE_SIZE;
-            img.anchor.setTo(.5, .5);
             img.visible = false;
 
             // Name goes after image
