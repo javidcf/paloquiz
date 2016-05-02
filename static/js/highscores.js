@@ -176,9 +176,12 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     createFontStyles: function () {
+        var textSize = Math.floor(this.HIGHSCORE_ENTRY_SIZE.height / 3) + 'px';
+        var nameTextSize = textSize;
+        var scoreTextSize = textSize;
         this.nameTextStyle = {
             font: 'Pixel Art',
-            fontSize: '12px',
+            fontSize: nameTextSize,
             align: 'left',
             fill: 'white',
             align: 'left',
@@ -189,7 +192,7 @@ Paloquiz.states.Highscores.prototype = {
         };
         this.scoreTextStyle = {
             font: 'Pixel Art',
-            fontSize: '12px',
+            fontSize: scoreTextSize,
             align: 'center',
             fill: 'white',
             align: 'center',
@@ -198,7 +201,7 @@ Paloquiz.states.Highscores.prototype = {
         };
         this.nameUserTextStyle = {
             font: 'Pixel Art',
-            fontSize: '12px',
+            fontSize: nameTextSize,
             align: 'left',
             fill: 'red',
             align: 'left',
@@ -209,7 +212,7 @@ Paloquiz.states.Highscores.prototype = {
         };
         this.scoreUserTextStyle = {
             font: 'Pixel Art',
-            fontSize: '12px',
+            fontSize: scoreTextSize,
             align: 'center',
             fill: 'red',
             align: 'center',
@@ -221,13 +224,12 @@ Paloquiz.states.Highscores.prototype = {
     createHighscoreEntries: function () {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
             // Y baseline
-            var y = this.HIGHSCORE_REGION.y +
-                i * (this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
+            var y = this.HIGHSCORE_REGION.y + i * this.HIGHSCORE_ENTRY_SIZE.height;
 
             // Image occupies the first 25% in X dimension
             var img = this.add.image(
                 this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125,
-                y + this.HIGHSCORE_IMAGE_SIZE / 2,
+                y + this.HIGHSCORE_REGION.height / 2,
                 'noface');
             img.visible = false;
 
