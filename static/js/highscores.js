@@ -91,7 +91,7 @@ Paloquiz.states.Highscores.prototype = {
         this.SCORE_BOX.width = this.ENTRIES_BOX.width * .22;
         this.SCORE_BOX.height = this.ENTRY_BOX.height;
 
-        this.IMAGE_SIZE = .7 * Math.min(
+        this.IMAGE_SIZE = .6 * Math.min(
             this.ENTRY_BOX.width * .25,
             this.ENTRY_BOX.height);
 
@@ -206,7 +206,7 @@ Paloquiz.states.Highscores.prototype = {
             (function(iScore, iFriend) {
                 fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
                     this.scores[iScore].pos.setText((iFriend + 1) + '.');
-                    this.scores[iScore].name.setText(friend.first_name || friend.name);
+                    this.scores[iScore].name.setText(friend.firstName || friend.name);
                     this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
                     // Use special style for the user
                     if (iFriend == this.userPos) {
@@ -226,7 +226,7 @@ Paloquiz.states.Highscores.prototype = {
 
     createFontStyles: function() {
         var fontFace = 'Pixel Art';
-        var textSize = Math.floor(this.ENTRY_BOX.height / 5) + 'px';
+        var textSize = Math.floor(this.ENTRY_BOX.height / 4) + 'px';
         var positionTextSize = textSize;
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
@@ -255,8 +255,8 @@ Paloquiz.states.Highscores.prototype = {
             font: fontFace,
             fontSize: scoreTextSize,
             fill: 'white',
-            align: 'center',
-            boundsAlignH: 'center',
+            align: 'right',
+            boundsAlignH: 'right',
             boundsAlignV: 'middle'
         };
         // User
@@ -282,8 +282,8 @@ Paloquiz.states.Highscores.prototype = {
             font: fontFace,
             fontSize: scoreTextSize,
             fill: userColor,
-            align: 'center',
-            boundsAlignH: 'center',
+            align: 'right',
+            boundsAlignH: 'right',
             boundsAlignV: 'middle'
         };
     },
