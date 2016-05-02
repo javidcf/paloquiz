@@ -176,7 +176,7 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     createFontStyles: function () {
-        var textSize = Math.floor(this.HIGHSCORE_ENTRY_SIZE.height / 3) + 'px';
+        var textSize = Math.floor(this.HIGHSCORE_ENTRY_SIZE.height / 4) + 'px';
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
         this.nameTextStyle = {
