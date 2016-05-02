@@ -110,7 +110,7 @@ Paloquiz.states.Highscores.prototype = {
             s.img.visible = false;
             s.name.visible = false;
             s.score.visible = false;
-        });
+        }, this);
 
         // Count friends in page
         var iFriendStart = this.PAGE_SIZE * this.currentPage;
@@ -125,21 +125,23 @@ Paloquiz.states.Highscores.prototype = {
             if (readFriends >= this.numFriendsInPage) {
                 this.profileImagesData.forEach(function(img, i) {
                     this.load.image(i, img.url);
-                });
+                }, this);
                 this.load.start();
             }
         }
+        friendInformationRead = friendInformationRead.bind(this);
 
         // Iterate through friends
         for (var iFriend = iFriendStart, iScore = 0; iFriend < iFriendEnd; iFriend++, iScore++) {
             // Copy index to use in closure
-            var idx = iFriend;
+            var iFriendCpy = iFriend;
+            var iScoreCpy = iScore;
             fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
-                this.scores[iScore].name.setText(friend.first_name || friend.name);
-                this.scores[iScore].name.visible = true;
-                this.scores[iScore].score.setText(this.friendsScores[idx].score);
-                this.scores[iScore].score.visible = true;
-                this.profileImagesData[iScore] = friend.image;
+                this.scores[iScoreCpy].name.setText(friend.first_name || friend.name);
+                this.scores[iScoreCpy].name.visible = true;
+                this.scores[iScoreCpy].score.setText(this.friendsScores[iFriendCpy].score);
+                this.scores[iScoreCpy].score.visible = true;
+                this.profileImagesData[iScoreCpy] = friend.image;
                 friendInformationRead();
             }, this);
         }
