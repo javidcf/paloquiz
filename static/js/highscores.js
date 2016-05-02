@@ -1,4 +1,3 @@
-
 Paloquiz.states.Highscores = function(game) {
     this.currentPage = 0;
     this.friendsScores = [];
@@ -22,18 +21,45 @@ Paloquiz.states.Highscores = function(game) {
 Paloquiz.states.Highscores.prototype = {
 
     PAGE_SIZE: 5,
-    ENTRIES_BOX: { x: 0, y: 0, width: 0, height: 0 },
-    ENTRY_BOX: { x: 0, y: 0, width: 0, height: 0 },
-    POSITION_BOX: { x: 0, y: 0, width: 0, height: 0 },
-    IMAGE_BOX: { x: 0, y: 0, width: 0, height: 0 },
-    NAME_BOX: { x: 0, y: 0, width: 0, height: 0 },
-    SCORE_BOX: { x: 0, y: 0, width: 0, height: 0 },
+    ENTRIES_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    ENTRY_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    POSITION_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    IMAGE_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    NAME_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    SCORE_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
     IMAGE_SIZE: 0,
 
     init: function() {
-        // Check Facebook status
-        fbInit();
-
         // Compute box sizes
         this.ENTRIES_BOX.x = this.game.width * .1;
         this.ENTRIES_BOX.y = this.game.height * .1;
@@ -96,17 +122,19 @@ Paloquiz.states.Highscores.prototype = {
         // Handler for loaded profile pictures
         this.load.onLoadComplete.add(this.loadComplete, this);
 
-        // Exit if not logged in
-        if (!fbIsLoggedIn()) {
-            this.state.start('Main');
-            return;
-        }
-        fbGetFriendsScores(function(friendsScores, userPos) {
-            this.friendsScores = friendsScores;
-            this.userPos = userPos;
-            this.maxPage = Math.floor(this.friendsScores.length / this.PAGE_SIZE);
-            this.loadScoresPage();
-        }, this);
+        // Go on only if logged in
+        fbInit(function() {
+                fbGetFriendsScores(function(friendsScores, userPos) {
+                    this.friendsScores = friendsScores;
+                    this.userPos = userPos;
+                    this.maxPage = Math.floor(this.friendsScores.length / this.PAGE_SIZE);
+                    this.loadScoresPage();
+                }, this);
+            },
+            function() {
+                // Exit if not logged in
+                this.state.start('Main');
+            });
     },
 
     shutdown: function() {
@@ -196,7 +224,7 @@ Paloquiz.states.Highscores.prototype = {
         }
     },
 
-    createFontStyles: function () {
+    createFontStyles: function() {
         var fontFace = 'Pixel Art';
         var textSize = Math.floor(this.ENTRY_BOX.height / 5) + 'px';
         var positionTextSize = textSize;
@@ -258,7 +286,7 @@ Paloquiz.states.Highscores.prototype = {
         };
     },
 
-    createHighscoreEntries: function () {
+    createHighscoreEntries: function() {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
             var xOffset = 0;
             var yOffset = i * this.ENTRY_BOX.height;
@@ -306,13 +334,13 @@ Paloquiz.states.Highscores.prototype = {
         }
     },
 
-    createUI: function () {
+    createUI: function() {
         // Back button to go back to main state
         var backButton = this.add.button(0, 0, 'back',
-            function () {
+            function() {
                 this.state.start('Main');
             }, this, 0, 0, 0);
-        var backButtonSize= .1 * Math.min(this.game.width, this.game.height);
+        var backButtonSize = .1 * Math.min(this.game.width, this.game.height);
         backButton.width = backButtonSize;
         backButton.height = backButtonSize;
         backButton.anchor.setTo(0, 0);
@@ -322,7 +350,7 @@ Paloquiz.states.Highscores.prototype = {
         // Arrows to navigate through pages
         this.arrowRight = this.add.button(
             this.game.width * .9, this.game.height * .9, 'arrow',
-            function () {
+            function() {
                 if (this.currentPage < this.maxPage) {
                     this.currentPage++;
                     this.loadScoresPage();
@@ -333,7 +361,7 @@ Paloquiz.states.Highscores.prototype = {
 
         this.arrowLeft = this.add.button(
             this.game.width * .1, this.game.height * .9, 'arrow',
-            function () {
+            function() {
                 if (this.currentPage > 0) {
                     this.currentPage--;
                     this.loadScoresPage();
