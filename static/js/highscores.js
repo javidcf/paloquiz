@@ -226,11 +226,12 @@ Paloquiz.states.Highscores.prototype = {
 
             // Image occupies the first 25% in X dimension
             var img = this.add.image(
-                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125, y,
+                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125,
+                y + this.HIGHSCORE_IMAGE_SIZE / 2,
                 'noface');
             img.width = this.HIGHSCORE_IMAGE_SIZE;
             img.height = this.HIGHSCORE_IMAGE_SIZE;
-            img.anchor.setTo(.5, 0);
+            img.anchor.setTo(.5, .5);
             img.visible = false;
 
             // Name goes after image
