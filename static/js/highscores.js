@@ -134,7 +134,8 @@ Paloquiz.states.Highscores.prototype = {
             function() {
                 // Exit if not logged in
                 this.state.start('Main');
-            });
+            },
+            this);
     },
 
     shutdown: function() {
