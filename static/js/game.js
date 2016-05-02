@@ -11,7 +11,7 @@ window.onload = function () {
 
     var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
     var transparent = false;
-    var antialias = false;
+    var antialias = true;
 
     Paloquiz.game = new Phaser.Game(container.clientWidth, container.clientHeight,
         renderer, CONTAINER_ID, {}, transparent, antialias);

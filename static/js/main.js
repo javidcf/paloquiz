@@ -6,6 +6,7 @@ Paloquiz.states.Main = function (game) {
     this.loadText;
     this.messageText;
     this.questionText;
+    this.timebar;
     this.optGroup;
     this.optButtons;
     this.optLabels;
@@ -15,6 +16,7 @@ Paloquiz.states.Main.prototype = {
 
     QUESTION_IMAGE_MAX_HEIGHT: 0,
     QUESTION_IMAGE_MAX_WIDTH: 0,
+    TIMEBAR_OK_COLOR: '#0f0',
 
     init: function () {
         this.QUESTION_IMAGE_MAX_HEIGHT = this.game.height * .32;
@@ -27,7 +29,7 @@ Paloquiz.states.Main.prototype = {
         this.load.spritesheet('host', 'assets/palo.png', 30, 85);
         this.load.image('dialogPane', 'assets/dialog_pane.png');
         this.load.image('optionsPane', 'assets/options_pane.png');
-        this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
+        this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 189, 66);
         //game.load.bitmapFont('carrier_command', 'assets/carrier_command.png', 'assets/carrier_command.xml');
         this.load.bitmapFont('desyrel', 'assets/desyrel.png', 'assets/desyrel.xml');
 
@@ -52,8 +54,16 @@ Paloquiz.states.Main.prototype = {
         this.dialogPane = this.add.sprite(worldCenterX, 220, 'dialogPane');
         this.dialogPane.anchor.setTo(0.5, 0.0);
 
+        //  var bar = this.add.bitmapData(300, 200);
+        this.timebar = this.add.bitmapData(this.optionsPane.width, 8);
+        var timebarSprite = this.add.sprite(worldCenterX, worldHeight - 269, this.timebar);
+        timebarSprite.anchor.setTo(0.5, 0.0);
+        
+        this.timebar.context.fillStyle = this.TIMEBAR_OK_COLOR;
+        this.timebar.context.fillRect(0, 0, this.optionsPane.width, 8);
+
         this.host = this.add.sprite(0, 0, 'host');
-        // host.smoothed = false;  // does this do something?
+        this.host.smoothed = false;
         this.host.x = worldWidth - this.host.width / 2 - 55;
         this.host.y = worldHeight - 140;
         this.host.anchor.setTo(0.5, 0.5);
@@ -133,7 +143,7 @@ Paloquiz.states.Main.prototype = {
     },
 
     answerCorrect: function (buttonId) {
-
+        this.optButtons[buttonId].setFrames(3, 3, 3);
         this.messageText.setText('Correct! :)');
         this.messageText.visible = true;
         this.enableInput(false);
@@ -141,6 +151,7 @@ Paloquiz.states.Main.prototype = {
             this.messageText.visible = false;
             this.enableInput(true);
             this.updateStatus();
+            this.optButtons[buttonId].setFrames(2, 1, 0);
         }, this);
 
     },
