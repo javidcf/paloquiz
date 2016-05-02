@@ -130,12 +130,13 @@ Paloquiz.states.Highscores.prototype = {
             }
             // Iterate throud friends
         for (var iFriend = iFriendStart, iScore = 0; iFriend < iFriendEnd; iFriend++, iScore++) {
-            this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
             fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
+                console.debug('first_name: ' + friend.first_name + ', name: ' + friend.name);
                 this.scores[iScore].name.setText(friend.first_name || friend.name);
                 this.scores[iScore].name.visible = true;
+                this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
                 this.scores[iScore].score.visible = true;
-                profileImageUrls[iScore](friend.image);
+                this.profileImagesData[iScore] = friend.image;
                 friendInformationRead();
             }, this);
         }
