@@ -220,7 +220,7 @@ Paloquiz.states.Highscores.prototype = {
                     this.profileImagesData[iScore] = friend.image;
                     friendInformationRead();
                 }, this);
-            }).bind(this)(iFriend, iScore);
+            }).bind(this)(iScore, iFriend);
         }
     },
 
