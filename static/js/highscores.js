@@ -85,7 +85,7 @@ Paloquiz.states.Highscores.prototype = {
         fbGetFriendsScores(function(friendsScores, userPos) {
             this.friendsScores = friendsScores;
             this.userPos = userPos;
-            loadScoresPage();
+            this.loadScoresPage();
         }, this);
     },
 
@@ -112,30 +112,34 @@ Paloquiz.states.Highscores.prototype = {
             s.score.visible = false;
         });
 
-        // Read friends information
+        // Count friends in page
         var iFriendStart = this.PAGE_SIZE * this.currentPage;
         var iFriendEnd = Math.min(this.PAGE_SIZE * (this.currentPage + 1), this.friendsScores.length);
         this.numFriendsInPage = iFriendEnd - iFriendStart;
         this.profileImagesData = new Array(this.numFriendsInPage);
+
         // Function that starts the loader after every friend information is read
         var readFriends = 0;
         var friendInformationRead = function() {
-                readFriends++;
-                if (readFriends >= this.numFriendsInPage) {
-                    this.profileImagesData.forEach(function(img, i) {
-                        this.load.image(i, img.url);
-                    });
-                    this.load.start();
-                }
+            readFriends++;
+            if (readFriends >= this.numFriendsInPage) {
+                this.profileImagesData.forEach(function(img, i) {
+                    this.load.image(i, img.url);
+                });
+                this.load.start();
             }
-            // Iterate throud friends
+        }
+
+        // Iterate through friends
         for (var iFriend = iFriendStart, iScore = 0; iFriend < iFriendEnd; iFriend++, iScore++) {
-            this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
+            // Copy index to use in closure
+            var idx = iFriend;
             fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
                 this.scores[iScore].name.setText(friend.first_name || friend.name);
                 this.scores[iScore].name.visible = true;
+                this.scores[iScore].score.setText(this.friendsScores[idx].score);
                 this.scores[iScore].score.visible = true;
-                profileImageUrls[iScore](friend.image);
+                this.profileImagesData[iScore] = friend.image;
                 friendInformationRead();
             }, this);
         }
