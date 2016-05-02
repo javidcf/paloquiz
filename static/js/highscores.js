@@ -351,6 +351,7 @@ Paloquiz.states.Highscores.prototype = {
         backButton.y = backButton.width * .2;
 
         // Arrows to navigate through pages
+        var arrowSize = .1 * Math.min(this.game.width, this.game.height);
         this.arrowRight = this.add.button(
             this.game.width * .9, this.game.height * .9, 'arrow',
             function() {
@@ -359,6 +360,8 @@ Paloquiz.states.Highscores.prototype = {
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
+        this.arrowRight.width = backButtonSize;
+        this.arrowRight.height = backButtonSize;
         this.arrowRight.smoothed = false;
         this.arrowRight.anchor.setTo(1, 1);
         this.arrowRight.visible = false;
@@ -371,6 +374,8 @@ Paloquiz.states.Highscores.prototype = {
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
+        this.arrowLeft.width = backButtonSize;
+        this.arrowLeft.height = backButtonSize;
         this.arrowLeft.smoothed = false;
         this.arrowLeft.scale.setTo(-1, 1);
         this.arrowLeft.anchor.setTo(1, 1);
