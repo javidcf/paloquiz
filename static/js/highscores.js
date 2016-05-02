@@ -191,7 +191,8 @@ Paloquiz.states.Highscores.prototype = {
     createHighscoreEntries: function () {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
             // Y baseline
-            var y = i * (this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
+            var y = this.HIGHSCORE_REGION.y +
+                i * (this.HIGHSCORE_REGION.height / this.PAGE_SIZE);
 
             // Image occupies the first 25% in X dimension
             var img = this.add.image(
