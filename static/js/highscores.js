@@ -89,7 +89,7 @@ Paloquiz.states.Highscores.prototype = {
         this.load.onLoadComplete.add(this.loadComplete, this);
 
         // Exit if not logged in
-        if (fbIsLoggedIn()) {
+        if (!fbIsLoggedIn()) {
             this.state.start('Main');
             return;
         }
