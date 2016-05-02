@@ -14,10 +14,7 @@ window.onload = function () {
     var antialias = false;
 
     Paloquiz.game = new Phaser.Game(container.clientWidth, container.clientHeight,
-        renderer, CONTAINER_ID, {
-            init: init
-        },
-        transparent, antialias);
+        renderer, CONTAINER_ID, {}, transparent, antialias);
 
     // Does this do something?
     PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
