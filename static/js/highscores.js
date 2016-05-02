@@ -91,7 +91,7 @@ Paloquiz.states.Highscores.prototype = {
         this.SCORE_BOX.width = this.ENTRIES_BOX.width * .22;
         this.SCORE_BOX.height = this.ENTRY_BOX.height;
 
-        this.IMAGE_SIZE = .7 * Math.min(
+        this.IMAGE_SIZE = .6 * Math.min(
             this.ENTRY_BOX.width * .25,
             this.ENTRY_BOX.height);
 
@@ -226,7 +226,7 @@ Paloquiz.states.Highscores.prototype = {
 
     createFontStyles: function() {
         var fontFace = 'Pixel Art';
-        var textSize = Math.floor(this.ENTRY_BOX.height / 3) + 'px';
+        var textSize = Math.floor(this.ENTRY_BOX.height / 4) + 'px';
         var positionTextSize = textSize;
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
