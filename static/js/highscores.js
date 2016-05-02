@@ -198,7 +198,7 @@ Paloquiz.states.Highscores.prototype = {
             var img = this.add.image(
                 this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125, y,
                 'noface');
-            img.anchor.setTo(0, .5);
+            img.anchor.setTo(0, 0);
             img.width = this.HIGHSCORE_IMAGE_SIZE;
             img.height = this.HIGHSCORE_IMAGE_SIZE;
             img.visible = false;
@@ -207,7 +207,7 @@ Paloquiz.states.Highscores.prototype = {
             var name = this.add.text(0, 0, '', this.nameTextStyle);
             // Set bounds
             name.setTextBounds(
-                this.HIGHSCORE_REGION.x - this.HIGHSCORE_REGION.width * .25,
+                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .25,
                 y,
                 this.HIGHSCORE_REGION.width * .5,
                 this.HIGHSCORE_ENTRY_SIZE.height);
@@ -218,7 +218,7 @@ Paloquiz.states.Highscores.prototype = {
             // Score goes at the end
             var score = this.add.text(0, 0, '', this.scoreTextStyle);
             score.setTextBounds(
-                this.HIGHSCORE_REGION.x - this.HIGHSCORE_REGION.width * .75,
+                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .75,
                 y,
                 this.HIGHSCORE_REGION.width * .25,
                 this.HIGHSCORE_ENTRY_SIZE.height);
