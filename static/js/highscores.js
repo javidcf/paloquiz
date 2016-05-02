@@ -135,8 +135,8 @@ Paloquiz.states.Highscores.prototype = {
         }
 
         // Hide arrows as needed
-        this.arrowRight.visible = this.currentPage >= this.maxPage;
-        this.arrowLeft.visible = this.currentPage <= 0;
+        this.arrowRight.visible = this.currentPage < this.maxPage;
+        this.arrowLeft.visible = this.currentPage > 0;
 
         // Count friends in page
         var iFriendStart = this.PAGE_SIZE * this.currentPage;
