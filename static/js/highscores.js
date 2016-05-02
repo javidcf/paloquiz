@@ -96,7 +96,7 @@ Paloquiz.states.Highscores.prototype = {
         fbGetFriendsScores(function(friendsScores, userPos) {
             this.friendsScores = friendsScores;
             this.userPos = userPos;
-            this.maxPage = Math.floor(this.friendsScores / this.PAGE_SIZE);
+            this.maxPage = Math.floor(this.friendsScores.length / this.PAGE_SIZE);
             this.loadScoresPage();
         }, this);
     },
