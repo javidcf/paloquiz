@@ -158,8 +158,8 @@ window.onload = function() {
         });
     }
 
-    function loadQuestionImage(imageName) {
-
+    function loadQuestionImage(imageName, callback) {
+        game.onQuestionImageLoaded = callback;
         game.load.image('questionImage', 'questions/' + imageName);
         game.load.start();
     }
@@ -173,6 +173,9 @@ window.onload = function() {
         loadText.setText('File Complete: ' + progress + '% - ' + totalLoaded + ' out of ' + totalFiles);
         if (cacheKey == 'questionImage') {
             replaceQuestionImage(cacheKey);
+            if (game.onQuestionImageLoaded) {
+                game.onQuestionImageLoaded();
+            }
         }
     }
 
@@ -197,10 +200,6 @@ window.onload = function() {
         newImage.y = newImage.height / 2 + game.height * .03;
 
         game.questionImage = newImage;
-
-        if (game.onQuestionImageReplaced) {
-            game.onQuestionImageReplaced();
-        }
     }
 
     function clearQuestionImage() {
@@ -215,15 +214,14 @@ window.onload = function() {
         clearQuestionImage();
 
         if (useHeader) {
-            game.onQuestionImageReplaced = function() {
-                getJSON('/question', function(question) {
-                    questionText.setText(question['question']);
-                    loadAnswers(question['answers']);
-                });
-            }
             getJSON('/questionHeader', function(questionHeader) {
                 // questionText.setText(questionHeader['question']);
-                loadQuestionImage(questionHeader['img']);
+                loadQuestionImage(questionHeader['img'], function() {
+                    getJSON('/question', function(question) {
+                        questionText.setText(question['question']);
+                        loadAnswers(question['answers']);
+                    });
+                });
             });
         } else {
             game.onQuestionImageReplaced = undefined;
