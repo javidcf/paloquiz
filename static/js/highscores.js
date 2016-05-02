@@ -10,8 +10,10 @@ Paloquiz.states.Highscores = function(game) {
     this.scores = [];
     this.nameTextStyle;
     this.scoreTextStyle;
+    this.positionTextStyle;
     this.nameUserTextStyle;
     this.scoreUserTextStyle;
+    this.positionUserTextStyle;
     this.arrowRight;
     this.arrowLeft;
     this.backButton;
@@ -20,38 +22,49 @@ Paloquiz.states.Highscores = function(game) {
 Paloquiz.states.Highscores.prototype = {
 
     PAGE_SIZE: 5,
-    HIGHSCORE_REGION: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    },
-    HIGHSCORE_ENTRY_SIZE: {
-        width: 0,
-        height: 0
-    },
-    HIGHSCORE_NAME_SIZE: {
-        width: 0,
-        height: 0
-    },
-    HIGHSCORE_IMAGE_SIZE: 0,
+    ENTRIES_BOX: { x: 0, y: 0, width: 0, height: 0 },
+    ENTRY_BOX: { x: 0, y: 0, width: 0, height: 0 },
+    POSITION_BOX: { x: 0, y: 0, width: 0, height: 0 },
+    IMAGE_BOX: { x: 0, y: 0, width: 0, height: 0 },
+    NAME_BOX: { x: 0, y: 0, width: 0, height: 0 },
+    SCORE_BOX: { x: 0, y: 0, width: 0, height: 0 },
+    IMAGE_SIZE: 0,
 
     init: function() {
-        this.HIGHSCORE_REGION.x = this.game.width * .1;
-        this.HIGHSCORE_REGION.y = this.game.height * .1;
-        this.HIGHSCORE_REGION.width = this.game.width * .8;
-        this.HIGHSCORE_REGION.height = this.game.height * .8;
+        // Compute box sizes
+        this.ENTRIES_BOX.x = this.game.width * .1;
+        this.ENTRIES_BOX.y = this.game.height * .1;
+        this.ENTRIES_BOX.width = this.game.width * .8;
+        this.ENTRIES_BOX.height = this.game.height * .8;
 
-        this.HIGHSCORE_ENTRY_SIZE.width = this.HIGHSCORE_REGION.width;
-        this.HIGHSCORE_ENTRY_SIZE.height =
-            this.HIGHSCORE_REGION.height / this.PAGE_SIZE;
+        this.ENTRY_BOX.x = this.ENTRIES_BOX.x;
+        this.ENTRY_BOX.y = this.ENTRIES_BOX.y;
+        this.ENTRY_BOX.width = this.ENTRIES_BOX.width;
+        this.ENTRY_BOX.height = this.ENTRIES_BOX.height / this.PAGE_SIZE;
 
-        this.HIGHSCORE_NAME_SIZE.width = this.HIGHSCORE_REGION.width * .5;
-        this.HIGHSCORE_NAME_SIZE.height = this.HIGHSCORE_ENTRY_SIZE.height;
+        this.POSITION_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .0;
+        this.POSITION_BOX.y = this.ENTRY_BOX.y;
+        this.POSITION_BOX.width = this.ENTRIES_BOX.width * .1;
+        this.POSITION_BOX.height = this.ENTRY_BOX.height;
 
-        this.HIGHSCORE_IMAGE_SIZE = .7 * Math.min(
-            this.HIGHSCORE_ENTRY_SIZE.width * .25,
-            this.HIGHSCORE_ENTRY_SIZE.height);
+        this.IMAGE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .10;
+        this.IMAGE_BOX.y = this.ENTRY_BOX.y;
+        this.IMAGE_BOX.width = this.ENTRIES_BOX.width * .25;
+        this.IMAGE_BOX.height = this.ENTRY_BOX.height;
+
+        this.NAME_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .35;
+        this.NAME_BOX.y = this.ENTRY_BOX.y;
+        this.NAME_BOX.width = this.ENTRIES_BOX.width * .4;
+        this.NAME_BOX.height = this.ENTRY_BOX.height;
+
+        this.SCORE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .78;
+        this.SCORE_BOX.y = this.ENTRY_BOX.y;
+        this.SCORE_BOX.width = this.ENTRIES_BOX.width * .22;
+        this.SCORE_BOX.height = this.ENTRY_BOX.height;
+
+        this.IMAGE_SIZE = .7 * Math.min(
+            this.ENTRY_BOX.width * .25,
+            this.ENTRY_BOX.height);
 
         // Font styles
         this.createFontStyles();
@@ -103,8 +116,8 @@ Paloquiz.states.Highscores.prototype = {
             if (!this.profileImagesData[i].isSilhouette) {
                 this.scores[i].img.loadTexture(i);
             }
-            this.scores[i].img.width = this.HIGHSCORE_IMAGE_SIZE;
-            this.scores[i].img.height = this.HIGHSCORE_IMAGE_SIZE;
+            this.scores[i].img.width = this.IMAGE_SIZE;
+            this.scores[i].img.height = this.IMAGE_SIZE;
             this.scores[i].img.anchor.setTo(.5, .5);
             this.scores[i].img.visible = true;
         }
@@ -115,6 +128,8 @@ Paloquiz.states.Highscores.prototype = {
         this.scores.forEach(function(s) {
             s.img.loadTexture('noface');
             s.img.visible = false;
+            s.pos.setStyle(this.positionTextStyle);
+            s.pos.visible = false;
             s.name.setStyle(this.nameTextStyle);
             s.name.visible = false;
             s.score.setStyle(this.scoreTextStyle);
@@ -160,13 +175,16 @@ Paloquiz.states.Highscores.prototype = {
             var iFriendCpy = iFriend;
             var iScoreCpy = iScore;
             fbGetProfileDetails(this.friendsScores[iFriend].user.id, function(friend) {
+                this.scores[iScoreCpy].pos.setText(iFriendCpy + '.');
                 this.scores[iScoreCpy].name.setText(friend.first_name || friend.name);
                 this.scores[iScoreCpy].score.setText(this.friendsScores[iFriendCpy].score);
                 // Use special style for the user
                 if (iFriendCpy == this.userPos) {
+                    this.scores[iScoreCpy].pos.setStyle(this.positionUserTextStyle);
                     this.scores[iScoreCpy].name.setStyle(this.nameUserTextStyle);
                     this.scores[iScoreCpy].score.setStyle(this.scoreUserTextStyle);
                 }
+                this.scores[iScoreCpy].pos.visible = true;
                 this.scores[iScoreCpy].name.visible = true;
                 this.scores[iScoreCpy].score.visible = true;
                 this.profileImagesData[iScoreCpy] = friend.image;
@@ -176,7 +194,7 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     createFontStyles: function () {
-        var textSize = Math.floor(this.HIGHSCORE_ENTRY_SIZE.height / 4) + 'px';
+        var textSize = Math.floor(this.ENTRY_BOX.height / 5) + 'px';
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
         this.nameTextStyle = {
@@ -188,7 +206,7 @@ Paloquiz.states.Highscores.prototype = {
             boundsAlignH: 'left',
             boundsAlignV: 'middle',
             wordWrap: true,
-            wordWrapWidth: this.HIGHSCORE_NAME_SIZE.width
+            wordWrapWidth: this.NAME_BOX.width
         };
         this.scoreTextStyle = {
             font: 'Pixel Art',
@@ -199,6 +217,7 @@ Paloquiz.states.Highscores.prototype = {
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
+        this.positionTextStyle = this.nameTextStyle;
         this.nameUserTextStyle = {
             font: 'Pixel Art',
             fontSize: nameTextSize,
@@ -208,7 +227,7 @@ Paloquiz.states.Highscores.prototype = {
             boundsAlignH: 'left',
             boundsAlignV: 'middle',
             wordWrap: true,
-            wordWrapWidth: this.HIGHSCORE_NAME_SIZE.width
+            wordWrapWidth: this.NAME_BOX.width
         };
         this.scoreUserTextStyle = {
             font: 'Pixel Art',
@@ -219,39 +238,50 @@ Paloquiz.states.Highscores.prototype = {
             boundsAlignH: 'center',
             boundsAlignV: 'middle'
         };
+        this.positionUserTextStyle = this.nameUserTextStyle;
     },
 
     createHighscoreEntries: function () {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
-            // Y baseline
-            var y = this.HIGHSCORE_REGION.y + i * this.HIGHSCORE_ENTRY_SIZE.height;
+            var xOffset = 0;
+            var yOffset = i * this.ENTRY_BOX.height;
 
-            // Image occupies the first 25% in X dimension
+            // Position
+            var pos = this.add.text(0, 0, '', this.positionTextStyle);
+            pos.setTextBounds(
+                this.POSITION_BOX.x + xOffset,
+                this.POSITION_BOX.y + yOffset,
+                this.POSITION_BOX.width,
+                this.POSITION_BOX.height);
+            pos.visible = false;
+
+            // Image
             var img = this.add.image(
-                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .125,
-                y + this.HIGHSCORE_ENTRY_SIZE.height / 2,
+                this.IMAGE_BOX.x + this.IMAGE_BOX.width / 2 + xOffset,
+                this.IMAGE_BOX.y + this.IMAGE_BOX.height / 2 + yOffset,
                 'noface');
             img.visible = false;
 
-            // Name goes after image
+            // Name
             var name = this.add.text(0, 0, '', this.nameTextStyle);
-            // Set bounds
             name.setTextBounds(
-                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .25,
-                y,
-                this.HIGHSCORE_REGION.width * .5,
-                this.HIGHSCORE_ENTRY_SIZE.height);
+                this.NAME_BOX.x + xOffset,
+                this.NAME_BOX.y + yOffset,
+                this.NAME_BOX.width,
+                this.NAME_BOX.height);
             name.visible = false;
 
-            // Score goes at the end
+            // Score
             var score = this.add.text(0, 0, '', this.scoreTextStyle);
             score.setTextBounds(
-                this.HIGHSCORE_REGION.x + this.HIGHSCORE_REGION.width * .75,
-                y,
-                this.HIGHSCORE_REGION.width * .25,
-                this.HIGHSCORE_ENTRY_SIZE.height);
+                this.SCORE_BOX.x + xOffset,
+                this.SCORE_BOX.y + yOffset,
+                this.SCORE_BOX.width,
+                this.SCORE_BOX.height);
             score.visible = false;
+
             this.scores.push({
+                pos: pos,
                 img: img,
                 name: name,
                 score: score
