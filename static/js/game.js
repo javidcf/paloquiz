@@ -19,8 +19,8 @@ window.onload = function() {
     var maxRatioH = 16.0 / 9.0;
     if ((width / height) > maxRatioW) {
         width = Math.round(height * maxRatioW);
-    } else if ((height / width) > maxRatio) {
-        height = Math.round(width * maxRatio);
+    } else if ((height / width) > maxRatioH) {
+        height = Math.round(width * maxRatioH);
     }
 
     var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
