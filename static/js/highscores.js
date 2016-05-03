@@ -142,7 +142,7 @@ Paloquiz.states.Highscores.prototype = {
             if (!this.profileImagesData[i].isSilhouette) {
                 this.scores[i].img.loadTexture(i);
             } else {
-                this.scores[i].loadTexture('noface');
+                this.scores[i].img.loadTexture('noface');
             }
             this.scores[i].img.width = this.IMAGE_SIZE;
             this.scores[i].img.height = this.IMAGE_SIZE;
