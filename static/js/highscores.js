@@ -102,10 +102,6 @@ Paloquiz.states.Highscores.prototype = {
     preload: function() {
         // Enable cross-origin image loading
         this.load.crossOrigin = 'anonymous';
-
-        this.load.image('noface', 'assets/noface.png');
-        this.load.image('arrow', 'assets/arrow.png');
-        this.load.image('back', 'assets/back.png');
     },
 
     create: function() {

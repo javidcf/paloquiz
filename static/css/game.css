@@ -3,5 +3,8 @@
 {
     width: 480px;
     height: 640px;
+    background-size: 480px, 640px;
+    background-repeat: no-repeat;
+    background: url(/static/assets/background.png);
     margin: 0 auto;
 }

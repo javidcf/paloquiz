@@ -10,7 +10,7 @@ window.onload = function () {
     fbInit();
 
     var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
-    var transparent = false;
+    var transparent = true;
     var antialias = true;
 
     Paloquiz.game = new Phaser.Game(container.clientWidth, container.clientHeight,
@@ -23,16 +23,10 @@ window.onload = function () {
         Phaser.Canvas.setSmoothingEnabled(game.context, false);
     }
 
+    Paloquiz.game.state.add('Preloader', Paloquiz.states.Preloader);
     Paloquiz.game.state.add('Start', Paloquiz.states.Start);
     Paloquiz.game.state.add('Main', Paloquiz.states.Main);
     Paloquiz.game.state.add('Highscores', Paloquiz.states.Highscores);
 
-    getJSON('/status', function(gameStatus) {
-        if (gameStatus['status'] == 'start') {
-            Paloquiz.game.state.start('Start');
-        }else{
-            Paloquiz.game.state.start('Main');
-        }
-    }, this);
-    
+    Paloquiz.game.state.start('Preloader');
 }

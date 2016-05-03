@@ -22,9 +22,6 @@ Paloquiz.states.Start.prototype = {
     },
 
     preload: function () {
-        this.load.baseURL = '/static/';
-        this.load.image('background', 'assets/background.png');
-        this.load.spritesheet('startButton', 'assets/button_sprite_sheet.png', 189, 66);
     },
 
     create: function () {
