@@ -72,8 +72,6 @@ Paloquiz.setupScale = function() {
     // Check device
     if (game.device.desktop) {
         // On desktop
-        console.log(minWidth, minHeight,
-            game.width, game.height);
         game.scale.setMinMax(minWidth, minHeight,
             game.width, game.height);
         game.scale.refresh();
