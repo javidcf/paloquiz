@@ -335,11 +335,26 @@ Paloquiz.states.Highscores.prototype = {
 
     destroyHighscoreEntries: function () {
         for (var i = 0; i < this.scores.length; i++) {
-            this.scores[i].img.loadTexture('noface');
-            this.scores[i].img.destroy();
-            this.scores[i].name.destroy();
-            this.scores[i].pos.destroy();
-            this.scores[i].score.destroy();
+            if (this.scores[i])
+            {
+                if (this.scores[i].img)
+                {
+                    this.scores[i].img.loadTexture('noface');
+                    this.scores[i].img.destroy();
+                }
+                if (this.scores[i].name)
+                {
+                    this.scores[i].name.destroy();
+                }
+                if (this.scores[i].pos)
+                {
+                    this.scores[i].pos.destroy();
+                }
+                if (this.scores[i].score)
+                {
+                    this.scores[i].score.destroy();
+                }
+            }
         }
         this.scores = [];
     },

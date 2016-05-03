@@ -1,0 +1,11 @@
+
+Fonts:
+* nokia_cellphone: Zeh Fernando (zeh@fatorcaos.com.br, www.fatorcaos.com.br)
+* Phatone: Stefanie Koerner / pheist, Eimsbütteler Chaussee 14, 20259 Hamburg, Germany, hello (at) pheist.net, pheist.net
+* Pixel: ivancr72
+
+Images:
+* Star icon: photoshopwizard (http://pswizard.tumblr.com)
+
+Libs:
+* Phaser: photonstorm

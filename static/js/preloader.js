@@ -10,7 +10,7 @@ Paloquiz.states.Preloader.prototype = {
         // Start
         this.load.spritesheet('startButton', 'assets/button_sprite_sheet.png', 189, 66);
         this.load.spritesheet('fbButton', 'assets/fb.png', 32, 32);
-        this.load.spritesheet('hiscoresButton', 'assets/hiscores.png', 32, 32);
+        this.load.spritesheet('hiscoresButton', 'assets/star_button.png', 16, 16);
 
         // Main
         this.load.spritesheet('host', 'assets/palo.png', 30, 85);

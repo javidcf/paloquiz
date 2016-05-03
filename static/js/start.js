@@ -69,6 +69,7 @@ Paloquiz.states.Start.prototype = {
                 this.hiscoresButton.visible = true;
             }, this);
         }, this, 1, 0, 1);
+        this.fbButton.smoothed = false;
         this.fbButton.height = buttonSize;
         this.fbButton.width = buttonSize;
         this.fbButton.anchor.setTo(0, 0);
@@ -79,6 +80,7 @@ Paloquiz.states.Start.prototype = {
         this.hiscoresButton = this.add.button(0, 0, 'hiscoresButton', function() {
             this.state.start('Highscores');
         }, this, 1, 0, 1);
+        this.hiscoresButton.smoothed = false;
         this.hiscoresButton.height = buttonSize;
         this.hiscoresButton.width = buttonSize;
         this.hiscoresButton.anchor.setTo(0, 0);
