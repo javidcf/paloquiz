@@ -133,8 +133,8 @@ Paloquiz.states.Highscores.prototype = {
         // Remove handlers
         this.load.onLoadComplete.remove(this.loadComplete, this);
 
-        destroyUI();
-        destroyHighscoreEntries();
+        this.destroyUI();
+        this.destroyHighscoreEntries();
     },
 
     loadComplete: function() {
