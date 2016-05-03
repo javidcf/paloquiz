@@ -64,7 +64,6 @@ Paloquiz.states.Preloader.prototype = {
     },
 
     createPreloaderElements: function() {
-        Paloquiz.setupBackground();
 
         var loadingText = this.add.text(
             this.game.world.centerX, this.game.world.centerY, 'Cargando...', {

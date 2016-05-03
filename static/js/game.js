@@ -63,6 +63,9 @@ Paloquiz.setupScale = function() {
     var game = Paloquiz.game;
     // Stretch
     game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+    // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    // game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+
     // Center
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
@@ -74,7 +77,7 @@ Paloquiz.setupScale = function() {
         // On desktop
         game.scale.setMinMax(minWidth, minHeight,
             game.width, game.height);
-        game.scale.refresh();
+        game.scale.updateLayout();
     } else {
         // On mobile
         game.scale.setMinMax(minWidth, minHeight,
@@ -95,9 +98,9 @@ Paloquiz.setupScale = function() {
             if (Paloquiz.orientationBlock) {
                 Paloquiz.orientationBlock.style.display = 'none';
             }
-            game.scale.refresh();
+            game.scale.updateLayout();
         }, this);
-        game.scale.refresh();
+        game.scale.updateLayout();
     }
 }
 
