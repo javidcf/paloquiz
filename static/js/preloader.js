@@ -24,24 +24,6 @@ Paloquiz.states.Preloader.prototype = {
         this.load.image('back', 'assets/back.png');
     },
 
-    init: function() {
-        this.stage.disableVisibilityChange = true;
-
-        this.input.onDown.add(Paloquiz.goFullscreen);
-    },
-
-    preload: function() {
-        // Base URL for the loader
-        this.load.baseURL = '/static/';
-
-        // Enable cross-origin image loading
-        this.load.crossOrigin = 'anonymous';
-
-        // Preloader assets
-        this.load.image('background', 'assets/background.png');
-        this.load.spritesheet('loadBar', 'assets/load_bar.png', 128, 16);
-    },
-
     create: function() {
         this.input.enabled = false;
         this.createPreloaderElements();
