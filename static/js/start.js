@@ -26,16 +26,16 @@ Paloquiz.states.Start.prototype = {
 
     create: function () {
 
-        this.game.stage.background = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'background');
-        this.game.stage.background.anchor.setTo(0.5, 0.5);
-        this.game.stage.background.width = this.game.width
-        this.game.stage.background.height = this.game.height
+        var background = this.add.image(this.game.world.centerX, this.game.world.centerY, 'background');
+        background.anchor.setTo(0.5, 0.5);
+        background.width = this.game.width;
+        background.height = this.game.height;
 
         this.startButton = this.add.button(this.START_BUTTON.x, this.START_BUTTON.y, 'startButton', function() {
             getJSON('/start', function() {
                 this.state.start('Main');
             }, this);
-        }, this, 0, 1, 2);
+        }, this, 1, 0, 2);
 
         this.startButton.height = this.START_BUTTON.height;
         this.startButton.width = this.START_BUTTON.width;
