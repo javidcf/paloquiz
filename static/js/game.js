@@ -48,3 +48,11 @@ Paloquiz.setupBackground = function () {
     Paloquiz.background.width = Paloquiz.game.width;
     Paloquiz.background.height = Paloquiz.game.height;
 }
+
+Paloquiz.goFullscreen() {
+    Paloquiz.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    if (!Paloquiz.game.scale.isFullScreen)
+    {
+        Paloquiz.game.scale.startFullscreen(false);
+    }
+}
