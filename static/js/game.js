@@ -6,15 +6,23 @@ Paloquiz.orientationBlock;
 var CONTAINER_ID = 'gameContainer';
 
 window.onload = function() {
-
     // Check Facebook status
     fbInit();
 
     // Element with orientation image
     Paloquiz.orientationBlock = document.getElementById('orientation');
 
-    var width = 640;
-    var height = 960;
+    // Read browser size
+    var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var maxRatioW = 1.0;
+    var maxRatioH = 16.0 / 9.0;
+    if ((width / height) > maxRatioW) {
+        width = Math.round(height * maxRatioW);
+    } else if ((height / width) > maxRatio) {
+        height = Math.round(width * maxRatio);
+    }
+
     var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
     var transparent = true;
     var antialias = true;
@@ -61,27 +69,19 @@ Paloquiz.setupScale = function() {
     Paloquiz.orientated = true;
 
     var game = Paloquiz.game;
+
     // Stretch
-    game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-    // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    // game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+    game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
 
     // Center
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
 
-    var minWidth = game.width / 2;
-    var minHeight = game.height / 2;
     // Check device
     if (game.device.desktop) {
         // On desktop
-        game.scale.setMinMax(minWidth, minHeight,
-            game.width, game.height);
-        game.scale.updateLayout();
     } else {
         // On mobile
-        game.scale.setMinMax(minWidth, minHeight,
-            game.width * 2.5, game.height * 2.5);
         // Force portrait
         game.scale.forceOrientation(false, true);
         // Game resizing callback
@@ -98,9 +98,8 @@ Paloquiz.setupScale = function() {
             if (Paloquiz.orientationBlock) {
                 Paloquiz.orientationBlock.style.display = 'none';
             }
-            game.scale.updateLayout();
+            // game.scale.updateLayout();
         }, this);
-        game.scale.updateLayout();
     }
 }
 
