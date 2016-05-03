@@ -32,14 +32,6 @@ Paloquiz.states.Main.prototype = {
     },
 
     preload: function () {
-        this.load.baseURL = '/static/';
-        this.load.image('host', 'assets/palo.png', 30, 85);
-        this.load.image('dialogPane', 'assets/dialog_pane.png');
-        this.load.image('optionsPane', 'assets/options_pane.png');
-        this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 189, 66);
-        //game.load.bitmapFont('carrier_command', 'assets/carrier_command.png', 'assets/carrier_command.xml');
-        //this.load.bitmapFont('desyrel', 'assets/desyrel.png', 'assets/desyrel.xml');
-
     },
 
     create: function () {

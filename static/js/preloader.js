@@ -15,7 +15,6 @@ Paloquiz.states.Preloader.prototype = {
         this.load.image('dialogPane', 'assets/dialog_pane.png');
         this.load.image('optionsPane', 'assets/options_pane.png');
         this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 189, 66);
-        this.load.bitmapFont('desyrel', 'assets/desyrel.png', 'assets/desyrel.xml');
 
         // Highscores
         this.load.image('noface', 'assets/noface.png');
