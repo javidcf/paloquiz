@@ -27,7 +27,7 @@ Paloquiz.states.Preloader.prototype = {
     init: function() {
         this.stage.disableVisibilityChange = true;
 
-        this.input.onDown(Paloquiz.goFullscreen);
+        this.input.onDown.add(Paloquiz.goFullscreen);
     },
 
     preload: function() {
