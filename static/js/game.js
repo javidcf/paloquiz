@@ -24,9 +24,20 @@ window.onload = function () {
     }
 
     Paloquiz.game.state.add('Preloader', Paloquiz.states.Preloader);
+    Paloquiz.game.state.add('Router', Paloquiz.states.Router);
     Paloquiz.game.state.add('Start', Paloquiz.states.Start);
     Paloquiz.game.state.add('Main', Paloquiz.states.Main);
     Paloquiz.game.state.add('Highscores', Paloquiz.states.Highscores);
 
     Paloquiz.game.state.start('Preloader');
+}
+
+// Common game functions
+
+Paloquiz.addBackground = function (state) {
+    var background = state.add.image(state.game.world.centerX, state.game.world.centerY, 'background');
+    background.anchor.setTo(0.5, 0.5);
+    background.width = state.game.width;
+    background.height = state.game.height;
+    return background;
 }

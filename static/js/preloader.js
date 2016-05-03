@@ -9,6 +9,8 @@ Paloquiz.states.Preloader.prototype = {
     preloadFiles: function() {
         // Start
         this.load.spritesheet('startButton', 'assets/button_sprite_sheet.png', 189, 66);
+        this.load.spritesheet('fbButton', 'assets/fb.png', 32, 32);
+        this.load.spritesheet('hiscoresButton', 'assets/hiscores.png', 32, 32);
 
         // Main
         this.load.spritesheet('host', 'assets/palo.png', 30, 85);
@@ -22,7 +24,9 @@ Paloquiz.states.Preloader.prototype = {
         this.load.image('back', 'assets/back.png');
     },
 
-    init: function() {},
+    init: function() {
+        this.stage.disableVisibilityChange = true;
+    },
 
     preload: function() {
         // Base URL for the loader
@@ -72,21 +76,11 @@ Paloquiz.states.Preloader.prototype = {
 
     loadComplete: function() {
         // Preloaded
-        getJSON('/status', function(gameStatus) {
-            if (gameStatus['status'] == 'start') {
-                this.state.start('Start');
-            } else {
-                this.state.start('Main');
-            }
-        }, this);
+        this.state.start('Router');
     },
 
     createPreloaderElements: function() {
-        var background = this.add.image(
-            this.game.world.centerX, this.game.world.centerY, 'background');
-        background.anchor.setTo(.5, .5);
-        background.width = this.game.width;
-        background.height = this.game.height;
+        Paloquiz.addBackground(this);
 
         var loadingText = this.add.text(
             this.game.world.centerX, this.game.world.centerY, 'Cargando...', {
@@ -101,17 +95,20 @@ Paloquiz.states.Preloader.prototype = {
         var preloadBarHeight = .2 * smallDim;
         this.preloadBarMaxWidth = .8 * smallDim;
 
-        var preloadBase = this.add.image(
-            this.game.world.centerX, this.game.world.centerY, 'loadBar', 0);
-        preloadBase.anchor.setTo(.5, 0);
+        var preloadBase = this.add.image(0, 0, 'loadBar', 0);
+        preloadBase.anchor.setTo(0, 0);
         preloadBase.height = preloadBarHeight;
         preloadBase.width = this.preloadBarMaxWidth;
+        preloadBase.x = this.game.world.centerX - preloadBase.width / 2;
+        preloadBase.y = this.game.world.centerY;
 
-        this.preloadBar = this.add.image(
-            this.game.world.centerX, this.game.world.centerY, 'loadBar', 1);
-        this.preloadBar.anchor.setTo(.5, 0);
+        this.preloadBar = this.add.image(0, 0, 'loadBar', 1);
+        this.preloadBar.anchor.setTo(0, 0);
         this.preloadBar.height = preloadBarHeight;
         this.preloadBar.width = this.preloadBarMaxWidth;
+        this.preloadBar.x = this.game.world.centerX - this.preloadBar.width / 2;
+        this.preloadBar.y = this.game.world.centerY;
+
         this.preloadBarCrop = new Phaser.Rectangle(0, 0, 0, preloadBarHeight);
         this.preloadBar.crop(this.preloadBarCrop);
     }
