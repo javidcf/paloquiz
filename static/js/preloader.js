@@ -80,7 +80,7 @@ Paloquiz.states.Preloader.prototype = {
     },
 
     createPreloaderElements: function() {
-        Paloquiz.addBackground(this);
+        Paloquiz.setupBackground();
 
         var loadingText = this.add.text(
             this.game.world.centerX, this.game.world.centerY, 'Cargando...', {
@@ -92,7 +92,7 @@ Paloquiz.states.Preloader.prototype = {
         loadingText.anchor.setTo(.5, 1);
 
         var smallDim = Math.min(this.game.world.width, this.game.world.height);
-        var preloadBarHeight = .2 * smallDim;
+        var preloadBarHeight = .1 * smallDim;
         this.preloadBarMaxWidth = .8 * smallDim;
 
         var preloadBase = this.add.image(0, 0, 'loadBar', 0);

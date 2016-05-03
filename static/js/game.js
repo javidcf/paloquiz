@@ -23,6 +23,8 @@ window.onload = function () {
         Phaser.Canvas.setSmoothingEnabled(game.context, false);
     }
 
+    Paloquiz.game.state.onStateChange.add(Paloquiz.setupBackground);
+
     Paloquiz.game.state.add('Preloader', Paloquiz.states.Preloader);
     Paloquiz.game.state.add('Router', Paloquiz.states.Router);
     Paloquiz.game.state.add('Start', Paloquiz.states.Start);
@@ -34,10 +36,15 @@ window.onload = function () {
 
 // Common game functions
 
-Paloquiz.addBackground = function (state) {
-    var background = state.add.image(state.game.world.centerX, state.game.world.centerY, 'background');
-    background.anchor.setTo(0.5, 0.5);
-    background.width = state.game.width;
-    background.height = state.game.height;
-    return background;
+Paloquiz.setupBackground = function () {
+    if (!Paloquiz.game.cache.checkImageKey('background')) {
+        return;
+    }
+    if (!Paloquiz.background) {
+        Paloquiz.background = new Phaser.Image(Paloquiz.game, 0, 0, 'background');
+        Paloquiz.background.anchor.setTo(0, 0);
+        Paloquiz.game.stage.addChildAt(Paloquiz.background, 0);
+    }
+    Paloquiz.background.width = Paloquiz.game.width;
+    Paloquiz.background.height = Paloquiz.game.height;
 }

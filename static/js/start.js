@@ -25,8 +25,6 @@ Paloquiz.states.Start.prototype = {
 
     create: function () {
 
-        Paloquiz.addBackground(this);
-
         this.startButton = this.add.button(this.START_BUTTON.x, this.START_BUTTON.y, 'startButton', function() {
             getJSON('/start', function() {
                 this.state.start('Main');

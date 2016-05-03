@@ -18,9 +18,6 @@ Paloquiz.states.Router.prototype = {
 
     create: function() {
         this.input.enabled = false;
-
-        Paloquiz.addBackground(this);
-
         getJSON('/status', this.nextStatus, this);
     },
 

@@ -105,11 +105,6 @@ Paloquiz.states.Highscores.prototype = {
     },
 
     create: function() {
-        // Set up background
-        var background = this.add.image(this.game.world.centerX, this.game.world.centerY, 'background');
-        background.anchor.setTo(0.5, 0.5);
-        background.width = this.game.width;
-        background.height = this.game.height;
 
         // Create game objects
         this.createHighscoreEntries();
@@ -137,12 +132,17 @@ Paloquiz.states.Highscores.prototype = {
     shutdown: function() {
         // Remove handlers
         this.load.onLoadComplete.remove(this.loadComplete, this);
+
+        destroyUI();
+        destroyHighscoreEntries();
     },
 
     loadComplete: function() {
         for (var i = 0; i < this.numFriendsInPage; i++) {
             if (!this.profileImagesData[i].isSilhouette) {
                 this.scores[i].img.loadTexture(i);
+            } else {
+                this.scores[i].loadTexture('noface');
             }
             this.scores[i].img.width = this.IMAGE_SIZE;
             this.scores[i].img.height = this.IMAGE_SIZE;
@@ -154,7 +154,6 @@ Paloquiz.states.Highscores.prototype = {
     loadScoresPage: function() {
         // Hide all entries
         this.scores.forEach(function(s) {
-            s.img.loadTexture('noface');
             s.img.visible = false;
             s.pos.setStyle(this.positionTextStyle);
             s.pos.visible = false;
@@ -334,19 +333,30 @@ Paloquiz.states.Highscores.prototype = {
         }
     },
 
+    destroyHighscoreEntries: function () {
+        for (var i = 0; i < this.scores.length; i++) {
+            this.scores[i].img.loadTexture('noface');
+            this.scores[i].img.destroy();
+            this.scores[i].name.destroy();
+            this.scores[i].pos.destroy();
+            this.scores[i].score.destroy();
+        }
+        this.scores = [];
+    },
+
     createUI: function() {
         // Back button to go back to main state
-        var backButton = this.add.button(0, 0, 'back',
+        this.backButton = this.add.button(0, 0, 'back',
             function() {
                 this.state.start('Router');
             }, this, 0, 0, 0);
-        backButton.smoothed = false;
+        this.backButton.smoothed = false;
         var backButtonSize = .1 * Math.min(this.game.width, this.game.height);
-        backButton.width = backButtonSize;
-        backButton.height = backButtonSize;
-        backButton.anchor.setTo(0, 0);
-        backButton.x = backButton.width * .2;
-        backButton.y = backButton.height * .2;
+        this.backButton.width = backButtonSize;
+        this.backButton.height = backButtonSize;
+        this.backButton.anchor.setTo(0, 0);
+        this.backButton.x = backButton.width * .2;
+        this.backButton.y = backButton.height * .2;
 
         // Arrows to navigate through pages
         var arrowSize = .1 * Math.min(this.game.width, this.game.height);
@@ -379,6 +389,12 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowLeft.x = -this.arrowLeft.width * .2;
         this.arrowLeft.y = this.game.height - this.arrowLeft.height * .2;
         this.arrowLeft.visible = false;
+    },
+
+    destroyUI: function () {
+        this.backButton.destroy();
+        this.arrowRight.destroy();
+        this.arrowLeft.destroy();
     }
 
 };
