@@ -355,8 +355,8 @@ Paloquiz.states.Highscores.prototype = {
         this.backButton.width = backButtonSize;
         this.backButton.height = backButtonSize;
         this.backButton.anchor.setTo(0, 0);
-        this.backButton.x = backButton.width * .2;
-        this.backButton.y = backButton.height * .2;
+        this.backButton.x = this.backButton.width * .2;
+        this.backButton.y = this.backButton.height * .2;
 
         // Arrows to navigate through pages
         var arrowSize = .1 * Math.min(this.game.width, this.game.height);
