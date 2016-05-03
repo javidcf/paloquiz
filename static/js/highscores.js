@@ -338,7 +338,7 @@ Paloquiz.states.Highscores.prototype = {
         // Back button to go back to main state
         var backButton = this.add.button(0, 0, 'back',
             function() {
-                this.state.start('Main');
+                this.state.start('Router');
             }, this, 0, 0, 0);
         backButton.smoothed = false;
         var backButtonSize = .1 * Math.min(this.game.width, this.game.height);
