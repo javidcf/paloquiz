@@ -75,7 +75,7 @@ Paloquiz.states.Start.prototype = {
         this.fbButton.anchor.setTo(0, 0);
         this.fbButton.x = this.fbButton.width * .2;
         this.fbButton.y = this.fbButton.height * .2;
-        this.fbButton.visible = false;
+        this.fbButton.visible = true;
 
         this.hiscoresButton = this.add.button(0, 0, 'hiscoresButton', function() {
             this.state.start('Highscores');
