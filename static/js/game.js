@@ -2,13 +2,14 @@ Paloquiz = {};
 Paloquiz.states = {};
 Paloquiz.orientated = false;
 Paloquiz.orientationBlock;
+Paloquiz.booted = false;
+
+Paloquiz.MAX_WIDTH_RATIO = 12.0 / 16.0;
+Paloquiz.MAX_HEIGHT_RATIO = 16.0 / 9.0;
 
 var CONTAINER_ID = 'gameContainer';
 
 window.onload = function() {
-
-    var MAX_WIDTH_RATIO = 12.0 / 16.0;
-    var MAX_HEIGHT_RATIO = 16.0 / 9.0;
 
     // Check Facebook status
     fbInit();
@@ -16,20 +17,19 @@ window.onload = function() {
     // Element with orientation image
     Paloquiz.orientationBlock = document.getElementById('orientation');
 
-    // Read browser size
-    var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    if ((width / height) > MAX_WIDTH_RATIO) {
-        width = Math.round(height * MAX_WIDTH_RATIO);
-    } else if ((height / width) > MAX_HEIGHT_RATIO) {
-        height = Math.round(width * MAX_HEIGHT_RATIO);
-    }
+    // // Get game dimensions
+    // var gameSize = Paloquiz.getGameScale();
 
     var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
     var transparent = true;
     var antialias = true;
 
-    Paloquiz.game = new Phaser.Game(width, height, renderer, CONTAINER_ID, {}, transparent, antialias);
+    // Paloquiz.game = new Phaser.Game(gameSize.width, gameSize.height,
+    //     renderer, CONTAINER_ID, {}, transparent, antialias);
+    var width = 640;
+    var height = 960;
+    Paloquiz.game = new Phaser.Game(width, height,
+        renderer, CONTAINER_ID, {}, transparent, antialias);
 
     // Does this do something?
     PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
@@ -51,10 +51,7 @@ window.onload = function() {
 // Common game functions
 
 Paloquiz.init = function() {
-    // Base URL for the loader
-    Paloquiz.game.load.baseURL = '/static/';
-    // Enable cross-origin image loading
-    Paloquiz.game.load.crossOrigin = 'anonymous';
+    Paloquiz.setupLoader();
 
     // Avoid multiple pointer input
     Paloquiz.game.input.maxPointers = 1;
@@ -64,7 +61,14 @@ Paloquiz.init = function() {
 
     Paloquiz.setupScale();
 
-    Paloquiz.game.state.onStateChange.add(Paloquiz.setupBackground);
+    Paloquiz.game.state.onStateChange.add(Paloquiz.stateChanged);
+}
+
+Paloquiz.setupLoader = function() {
+    // Base URL for the loader
+    Paloquiz.game.load.baseURL = '/static/';
+    // Enable cross-origin image loading
+    Paloquiz.game.load.crossOrigin = 'anonymous';
 }
 
 Paloquiz.setupScale = function() {
@@ -86,8 +90,6 @@ Paloquiz.setupScale = function() {
         // On mobile
         // Force portrait
         game.scale.forceOrientation(false, true);
-        // Game resizing callback
-        // game.scale.hasResized.add(function () {}, this);
         // Game orientation callbacks
         game.scale.enterIncorrectOrientation.add(function() {
             Paloquiz.orientated = false;
@@ -100,9 +102,35 @@ Paloquiz.setupScale = function() {
             if (Paloquiz.orientationBlock) {
                 Paloquiz.orientationBlock.style.display = 'none';
             }
-            // game.scale.updateLayout();
         }, this);
     }
+
+    // Game resizing callback
+    game.scale.setResizeCallback(Paloquiz.resize, this);
+}
+
+Paloquiz.resize = function () {
+    var gameScale = Paloquiz.getGameScale();
+    Paloquiz.game.scale.setUserScale(gameScale.x, gameScale.y);
+}
+
+Paloquiz.getGameScale = function() {
+    var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    if ((width / height) > Paloquiz.MAX_WIDTH_RATIO) {
+        width = Math.round(height * Paloquiz.MAX_WIDTH_RATIO);
+    } else if ((height / width) > Paloquiz.MAX_HEIGHT_RATIO) {
+        height = Math.round(width * Paloquiz.MAX_HEIGHT_RATIO);
+    }
+    return {
+        x: width / Paloquiz.game.width,
+        y: height / Paloquiz.game.height
+    };
+}
+
+Paloquiz.stateChanged = function() {
+    Paloquiz.resize();
+    Paloquiz.setupBackground();
 }
 
 Paloquiz.setupBackground = function() {

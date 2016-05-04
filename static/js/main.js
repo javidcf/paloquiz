@@ -18,14 +18,25 @@ Paloquiz.states.Main.prototype = {
     TIMEBAR_OK_COLOR: '#0f0',
     TIMEBAR_WARN_COLOR: '#ff0',
     TIMEBAR_CRIT_COLOR: '#f00',
-    ANSWER_TEXT_SIZE: '40px',
+    ANSWER_TEXT_SIZE: '',
     ANSWER_OK_COLOR: '#8b0a50',
     ANSWER_FAIL_COLOR: '#ff0000',
+    QUESTION_TEXT_SIZE: '',
     QUESTION_COLOR: '#ffffff',
-    QUESTION_TEXT_SIZE: '26px',
+    OPTION_TEXT_SIZE: '',
+    OPTION_COLOR: '#ffffff',
+    SCORE_TEXT_SIZE: '',
+    SCORE_COLOR: '#ffffff',
     NUM_ANSWERS: 4,
 
     init: function() {
+        // Font sizes
+        var smallerDim = Math.min(this.game.width, this.game.height);
+        this.SCORE_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
+        this.ANSWER_TEXT_SIZE = Math.round(.08 * smallerDim) + 'px';
+        this.QUESTION_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
+        this.OPTION_TEXT_SIZE = Math.round(.03 * smallerDim) + 'px';
+
         this.createLayoutBoxes();
     },
 
@@ -78,7 +89,9 @@ Paloquiz.states.Main.prototype = {
         // Score text
         var scoreMargin = .05 * Math.min(this.game.width, this.game.height);
         this.scoreText = this.add.text(this.game.width - scoreMargin, scoreMargin, '0', {
-            fill: '#ffffff',
+            font: 'Pixel Art',
+            fontSize: this.SCORE_TEXT_SIZE,
+            fill: this.SCORE_COLOR,
             align: 'center'
         });
         this.scoreText.anchor.setTo(1, 0);
@@ -106,7 +119,8 @@ Paloquiz.states.Main.prototype = {
         //Label style
         var labelStyle = {
             font: 'Pixel Art',
-            fontSize: '12px',
+            fontSize: this.OPTION_TEXT_SIZE,
+            fill: this.OPTION_COLOR,
             align: 'center',
             fill: 'white'
         };
@@ -125,7 +139,7 @@ Paloquiz.states.Main.prototype = {
 
             this.optLabels[i] = this.add.text(
                 this.OPTION_BOX.x + this.OPTION_BOX.width / 2 + xOffset,
-                this.OPTION_BOX.y + this.OPTION_BOX.height / 2 + yOffset,
+                this.OPTION_BOX.y + this.OPTION_BOX.height / 1.8 + yOffset,  // 1.8 works better (?)
                 '', labelStyle);
             this.optLabels[i].anchor.setTo(0.5, 0.5)
 
@@ -162,7 +176,7 @@ Paloquiz.states.Main.prototype = {
 
     finishGame: function() {
         this.questionText.setText('Score = ' + this.scoreText.text);
-        this.enableInput(false);
+        // this.enableInput(false);
     },
 
     enableInput: function(enable) {
@@ -235,7 +249,7 @@ Paloquiz.states.Main.prototype = {
                     getJSON('/question', function(question) {
                         this.questionText.setText(question['question']);
                         this.loadAnswers(question['answers']);
-                        this.initTimeBar(question['max_time'], question['time']);
+                        this.initTimeBar(question['time'], question['max_time']);
                     }, this);
                 });
             }, this);
@@ -244,7 +258,7 @@ Paloquiz.states.Main.prototype = {
                 this.questionText.setText(question['question']);
                 this.loadAnswers(question['answers']);
                 this.loadQuestionImage(question['img']);
-                this.initTimeBar(question['max_time'], question['time']);
+                this.initTimeBar(question['time'], question['max_time']);
             }, this);
         }
     },
