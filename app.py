@@ -15,7 +15,7 @@ app = Flask(__name__)
 # Some constants to use as enum
 NOT_ANSWERED = -1
 INCORRECT = 0
-CORRECT = 0
+CORRECT = 1
 
 # Session data keys (not public, keep small to reduce cookie size)
 QUESTIONS = 'q'
@@ -143,6 +143,10 @@ def question():
     question_data['time'] = time_left
     question_data['max_time'] = game.MAX_TIME
 
+    # Add question index info
+    question_data['question_idx'] = session[CURRENT_QUESTION]
+    question_data['num_questions'] = len(session[QUESTION_LIST])
+
     # Save session data
     session[CURRENT_ANSWERS] = correct_answers
     session[QUESTIONS][question_id] = {
@@ -159,11 +163,10 @@ def answer(answer_id):
     session[CURRENT_ANSWERS] = session.get(CURRENT_ANSWERS, [])
     correct_answers = session[CURRENT_ANSWERS]
 
-    sessionQuestions = session.get(QUESTIONS, {})
-    if question_id not in sessionQuestions or not correct_answers:
+    if question_id not in session[QUESTIONS] or not correct_answers:
         raise InvalidUsage('The question has not been asked')
 
-    q = sessionQuestions[question_id]
+    q = session[QUESTIONS][question_id]
     if TIME not in q or ANSWER not in q:
         raise InvalidUsage('Invalid session data')
 
@@ -199,7 +202,9 @@ def answer(answer_id):
     return jsonify({
         'correct': correct,
         'timeout': timeout,
-        'score': session[SCORE]
+        'score': session[SCORE],
+        'question_idx': session[CURRENT_QUESTION],
+        'num_questions': len(session[QUESTION_LIST])
     })
 
 
@@ -234,20 +239,25 @@ def status():
             # Waiting for question
             return jsonify({
                 'status': 'question',
-                'score': session[SCORE]
+                'score': session[SCORE],
+                'question_idx': session[CURRENT_QUESTION],
+                'num_questions': len(session[QUESTION_LIST])
             })
         else:
             # Not checking if the question has already been answered,
             # but that should not be possible
             return jsonify({
                 'status': 'answer',
-                'score': session[SCORE]
+                'score': session[SCORE],
+                'question_idx': session[CURRENT_QUESTION],
+                'num_questions': len(session[QUESTION_LIST])
             })
     else:
         # Game is finished
         return jsonify({
             'status': 'finish',
-            'score': session[SCORE]
+            'score': session[SCORE],
+            'num_questions': len(session[QUESTION_LIST])
         })
 
 
@@ -273,7 +283,8 @@ def summary():
 
     return jsonify({
         'score': session[SCORE],
-        'answers': corrects
+        'answers': corrects,
+        'num_questions': len(session[QUESTION_LIST])
     })
 
 

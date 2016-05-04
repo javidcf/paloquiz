@@ -87,7 +87,7 @@ Paloquiz.states.Main.prototype = {
         this.load.onFileComplete.add(this.fileComplete, this);
 
         // Score text
-        var scoreMargin = .05 * Math.min(this.game.width, this.game.height);
+        var scoreMargin = .02 * Math.min(this.game.width, this.game.height);
         this.scoreText = this.add.text(this.game.width - scoreMargin, scoreMargin, '0', {
             font: 'Pixel Art',
             fontSize: this.SCORE_TEXT_SIZE,
@@ -218,9 +218,11 @@ Paloquiz.states.Main.prototype = {
         this.clearQuestionImage();
 
         var newImage = this.add.image(
-            this.IMAGE_BOX.x + this.IMAGE_BOX.width / 2, this.IMAGE_BOX.y, cacheKey);
+            this.IMAGE_BOX.x + this.IMAGE_BOX.width / 2,
+            this.IMAGE_BOX.y + this.IMAGE_BOX.height / 2,
+            cacheKey);
 
-        newImage.anchor.setTo(0.5, 0);
+        newImage.anchor.setTo(0.5, 0.5);
 
         var resScaleW = this.IMAGE_BOX.width / newImage.width;
         var resScaleH = this.IMAGE_BOX.height / newImage.height;
@@ -401,9 +403,9 @@ Paloquiz.states.Main.prototype = {
         this.UI_BOX.width = this.game.width - 2 * margin;
         this.UI_BOX.height = this.game.height - 2 * margin;
 
-        this.IMAGE_BOX.x = this.UI_BOX.x;
+        this.IMAGE_BOX.x = this.UI_BOX.x + this.UI_BOX.width * .18;
         this.IMAGE_BOX.y = this.UI_BOX.y;
-        this.IMAGE_BOX.width = this.UI_BOX.width;
+        this.IMAGE_BOX.width = this.UI_BOX.width * .62;
         this.IMAGE_BOX.height = this.UI_BOX.height * .37;
 
         this.DIALOG_PANE_BOX.x = this.UI_BOX.x;
