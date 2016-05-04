@@ -3,6 +3,7 @@ Paloquiz.states.Main = function(game) {
     this.dialogPane;
     this.host;
     this.scoreText;
+    this.qCountText;
     this.loadText;
     this.questionText;
     this.timebar;
@@ -27,6 +28,8 @@ Paloquiz.states.Main.prototype = {
     OPTION_COLOR: '#ffffff',
     SCORE_TEXT_SIZE: '',
     SCORE_COLOR: '#ffffff',
+    QCOUNT_TEXT_SIZE: '',
+    QCOUNT_COLOR: '#ff8000',
     NUM_ANSWERS: 4,
 
     init: function() {
@@ -36,6 +39,7 @@ Paloquiz.states.Main.prototype = {
         this.ANSWER_TEXT_SIZE = Math.round(.08 * smallerDim) + 'px';
         this.QUESTION_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
         this.OPTION_TEXT_SIZE = Math.round(.03 * smallerDim) + 'px';
+        this.QCOUNT_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
 
         this.createLayoutBoxes();
     },
@@ -96,6 +100,15 @@ Paloquiz.states.Main.prototype = {
         });
         this.scoreText.anchor.setTo(1, 0);
 
+        this.qCountText = this.add.text(this.UI_BOX.x + this.UI_BOX.width , 
+                                        this.IMAGE_BOX.y + this.IMAGE_BOX.height, '', {
+            font: 'Pixel Art',
+            fontSize: this.QCOUNT_TEXT_SIZE,
+            fill: this.QCOUNT_COLOR,
+            align: 'center'
+        });
+        this.qCountText.anchor.setTo(1, 1);
+
         // Question text
         this.questionText = this.add.text(
             this.DIALOG_PANE_BOX.x + this.DIALOG_PANE_BOX.width / 2,
@@ -152,6 +165,8 @@ Paloquiz.states.Main.prototype = {
     },
 
     showAnswerMessage: function(buttonId, correct) {
+        this.enableInput(false);
+
         if (correct) {
             this.optButtons[buttonId].setFrames(3, 3, 3);
             this.questionText.setText('Correct! :)');
@@ -164,7 +179,6 @@ Paloquiz.states.Main.prototype = {
             this.questionText.fill = this.ANSWER_FAIL_COLOR;
         }
 
-        this.enableInput(false);
         this.time.events.add(Phaser.Timer.SECOND * 2, function() {
             this.questionText.setText('');
             this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
@@ -246,6 +260,8 @@ Paloquiz.states.Main.prototype = {
                 this.questionText.setText(questionHeader['question']);
                 this.loadQuestionImage(questionHeader['img'], function() {
                     getJSON('/question', function(question) {
+                        var count = question["question_idx"] + 1 + "/" + question["num_questions"]
+                        this.qCountText.setText(count);
                         this.questionText.setText(question['question']);
                         this.loadAnswers(question['answers']);
                         this.initTimeBar(question['time'], question['max_time']);
@@ -254,6 +270,8 @@ Paloquiz.states.Main.prototype = {
             }, this);
         } else {
             getJSON('/question', function(question) {
+                var count = question["question_idx"] + 1 + "/" + question["num_questions"]
+                this.qCountText.setText(count);
                 this.questionText.setText(question['question']);
                 this.loadAnswers(question['answers']);
                 this.loadQuestionImage(question['img']);
@@ -278,10 +296,11 @@ Paloquiz.states.Main.prototype = {
 
         this.timebarTween.onUpdateCallback(this.updateTimebar, this);
         this.timebarTween.onComplete.add(function() {
+            this.enableInput(false);
             this.questionText.setText('Time Out! :S');
             this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
             this.questionText.fill = this.ANSWER_FAIL_COLOR;
-            this.enableInput(false);
+            
             this.time.events.add(Phaser.Timer.SECOND * 2, function() {
                 this.enableInput(true);
                 this.barProgress = this.TIMEBAR_BOX.width;
