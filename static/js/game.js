@@ -130,6 +130,9 @@ Paloquiz.getGameScale = function() {
 }
 
 Paloquiz.stateChanged = function() {
+    // Overchecking doesn't hurt
+    fbInit();
+
     Paloquiz.resize();
     Paloquiz.setupBackground();
 }

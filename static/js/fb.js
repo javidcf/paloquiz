@@ -125,10 +125,10 @@ function fbUseApi(url, method, params, callback, thisArg) {
         callback = callback.bind(thisArg);
     }
     params = params || ({});
-    fbLogIn(function() {
+    fbInit(function() {
         params.access_token = FB_ACCESS_TOKEN;
         FB.api(url, method, params, callback);
-    });
+    }, this);
 }
 
 function fbLogIn(callback, thisArg) {

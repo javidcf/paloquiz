@@ -7,6 +7,7 @@ Paloquiz.states.Finish = function(game) {
     this.hiscoresLabel;
     this.exitButton;
     this.exitLabel;
+    this.fbButton;
 }
 
 Paloquiz.states.Finish.prototype = {
@@ -19,7 +20,6 @@ Paloquiz.states.Finish.prototype = {
     },
 
     create: function() {
-
         getJSON('/status', function(gameStatus) {
             if (gameStatus['status'] !== 'finish') {
                 this.status.start('Router');
@@ -32,10 +32,11 @@ Paloquiz.states.Finish.prototype = {
                 this.createScoreText();
                 this.createUI();
                 this.createStars();
-                fbLogIn(function() {
+                fbInit(function() {
+                    this.fbButton.visible = false;
                     fbGetUserScore(function(currentScore) {
                         if (this.score > currentScore) {
-                            fbPublishScore(currentScore);
+                            fbPublishScore(this.score);
                         }
                     }, this);
                 }, this);
@@ -61,8 +62,7 @@ Paloquiz.states.Finish.prototype = {
 
         hitRate = hits / this.numQuestions;
         var starsAchieved = Math.round(this.STARS_NUMBER * hitRate);
-        console.info(starsAchieved);
-        console.info(hitRate);
+
         for (var i = 0; i < this.STARS_NUMBER; i++) {
             if (i+1 <= starsAchieved){
                 this.stars[i] = this.add.image(0, 0, 'star', 1)
@@ -157,5 +157,33 @@ Paloquiz.states.Finish.prototype = {
             this.exitButton.y + this.exitButton.height / 2,
             'Salir', labelStyle);
         this.exitLabel.anchor.setTo(.5, .5);
+
+        this.createFbUI();
+    },
+
+    createFbUI: function() {
+        var buttonSize = .1 * Math.min(this.world.width, this.world.height);
+
+        this.fbButton = this.add.button(0, 0, 'fbButton', function() {
+            fbLogIn(function() {
+                getJSON('/status', function(gameStatus) {
+                    this.score = gameStatus['score'];
+                    fbGetUserScore(function(currentScore) {
+                        if (this.score > currentScore) {
+                            fbPublishScore(currentScore, function() {
+                                    this.fbButton.visible = false;
+                                }, this);
+                        }
+                    }, this);
+                }, this);
+            }, this);
+        }, this, 1, 0, 1);
+        this.fbButton.smoothed = false;
+        this.fbButton.height = buttonSize;
+        this.fbButton.width = buttonSize;
+        this.fbButton.anchor.setTo(0, 0);
+        this.fbButton.x = this.fbButton.width * .2;
+        this.fbButton.y = this.fbButton.height * .2;
+        this.fbButton.visible = true;
     }
 }
