@@ -24,6 +24,9 @@ Paloquiz.states.Preloader.prototype = {
         this.load.image('arrow', 'assets/arrow.png');
         this.load.image('back', 'assets/back.png');
 
+        // Percentage stars
+        this.load.spritesheet('star', 'assets/star_button.png', 16, 16);
+
         // Finish
         this.load.spritesheet('finishButton', 'assets/button_sprite_sheet.png', 189, 66);
     },

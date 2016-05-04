@@ -1,5 +1,8 @@
 Paloquiz.states.Finish = function(game) {
     this.score = 0;
+    this.starts;
+    this.answers;
+    this.numQuestions;
     this.hiscoresButton;
     this.hiscoresLabel;
     this.exitButton;
@@ -8,7 +11,15 @@ Paloquiz.states.Finish = function(game) {
 
 Paloquiz.states.Finish.prototype = {
 
+    STARS_NUMBER: 5,
+    STAR_SIZE: 0,
+
+    init: function() {
+        this.STAR_SIZE = 0.1 * Math.min(this.world.width, this.world.height);
+    },
+
     create: function() {
+
         getJSON('/status', function(gameStatus) {
             if (gameStatus['status'] !== 'finish') {
                 this.status.start('Router');
@@ -20,6 +31,7 @@ Paloquiz.states.Finish.prototype = {
                 this.numQuestions = summary['num_questions'];
                 this.createScoreText();
                 this.createUI();
+                this.createStars();
                 fbLogIn(function() {
                     fbGetUserScore(function(currentScore) {
                         if (this.score > currentScore) {
@@ -33,37 +45,72 @@ Paloquiz.states.Finish.prototype = {
 
     shutdown: function() {},
 
+    createStars: function() {
+        this.stars = new Array();
+        var startY = this.world.centerY 
+        var firstStartX = this.world.centerX - (this.STAR_SIZE * this.STARS_NUMBER/2)
+
+        var hitRate = 0;
+        var hits = 0;
+
+        this.answers.forEach(function(hit){
+           if (hit){
+                hits = hits + 1;
+           }
+        });
+
+        hitRate = hits / this.numQuestions;
+        var starsAchieved = Math.round(this.STARS_NUMBER * hitRate);
+        console.info(starsAchieved);
+        console.info(hitRate);
+        for (var i = 0; i < this.STARS_NUMBER; i++) {
+            if (i+1 <= starsAchieved){
+                this.stars[i] = this.add.image(0, 0, 'star', 1)
+            }else{
+                this.stars[i] = this.add.image(0, 0, 'star', 0)
+            }
+
+            this.stars[i].smoothed = false;
+            this.stars[i].height = this.STAR_SIZE;
+            this.stars[i].width = this.STAR_SIZE;
+            this.stars[i].anchor.setTo(0, 0);
+            this.stars[i].x = firstStartX + this.STAR_SIZE * i ;
+            this.stars[i].y = startY;
+        }
+    },
+
+
     createScoreText: function() {;
         var scoreBaseTextSize = Math.round(.06 * this.world.height);
         var scoreTextColor = '#ff4f1a';
 
         var scoreHeader = this.add.text(
             this.world.centerX,
-            this.world.height * .2,
+            this.world.height * 0.15,
             'Puntuación', {
                 font: 'Pixel Art',
                 fontSize: scoreBaseTextSize + 'px',
                 fill: scoreTextColor,
                 align: 'center'
             });
-        scoreHeader.anchor.setTo(.5, 0);
+        scoreHeader.anchor.setTo(0.5, 0);
 
         var scoreText = this.add.text(
             this.world.centerX,
-            this.world.height * .33,
+            this.world.height * 0.28,
             this.score, {
                 font: 'Pixel Art',
                 fontSize: Math.round(scoreBaseTextSize * 2.2) + 'px',
                 fill: scoreTextColor,
                 align: 'center'
             });
-        scoreText.anchor.setTo(.5, 0);
+        scoreText.anchor.setTo(0.5, 0);
     },
 
     createUI: function() {
         // Hiscores
         this.hiscoresButton =
-            this.add.button(this.world.centerX, this.world.height * .55,
+            this.add.button(this.world.centerX, this.world.height * 0.60,
                 'finishButton',
                  function() {
                     fbLogIn(function() {
@@ -72,7 +119,7 @@ Paloquiz.states.Finish.prototype = {
                 }, this, 2, 1, 0);
         this.hiscoresButton.smoothed = false;
         this.hiscoresButton.width = this.world.width * .6;
-        this.hiscoresButton.height = this.hiscoresButton.width * .3;
+        this.hiscoresButton.height = this.hiscoresButton.width * 0.3;
         this.hiscoresButton.anchor.setTo(.5, 0);
 
         // Exit
