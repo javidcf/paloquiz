@@ -7,7 +7,7 @@ var CONTAINER_ID = 'gameContainer';
 
 window.onload = function() {
 
-    var MAX_WIDTH_RATIO = 9.0 / 16.0;
+    var MAX_WIDTH_RATIO = 12.0 / 16.0;
     var MAX_HEIGHT_RATIO = 16.0 / 9.0;
 
     // Check Facebook status
