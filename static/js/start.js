@@ -30,7 +30,7 @@ Paloquiz.states.Start.prototype = {
                 this.state.start('Main');
             }, this);
         }, this, 1, 0, 2);
-
+        this.startButton.smoothed = false;
         this.startButton.height = this.START_BUTTON.height;
         this.startButton.width = this.START_BUTTON.width;
         this.startButton.anchor.setTo(0.5, 0.5);

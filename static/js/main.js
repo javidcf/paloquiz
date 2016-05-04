@@ -133,6 +133,7 @@ Paloquiz.states.Main.prototype = {
             this.optButtons[i] = this.add.button(
                 this.OPTION_BOX.x + xOffset, this.OPTION_BOX.y + yOffset,
                 'optionButton', this.actionOnClick, this, 2, 1, 0);
+            this.optButtons[i].smoothed = false;
             this.optButtons[i].width = this.OPTION_BOX.width;
             this.optButtons[i].height = this.OPTION_BOX.height;
             this.optButtons[i].anchor.setTo(0, 0)
