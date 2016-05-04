@@ -83,7 +83,7 @@ Paloquiz.states.Highscores.prototype = {
             fbGetUserScore(function(score) {
                 if ((gameStatus['score'] > score) && tryUpdate) {
                     // Score has improved
-                    fbPublishScore(currentScore, function() {
+                    fbPublishScore(score, function() {
                         this.checkStatus(false);
                     }, function() {
                         this.checkStatus(false);
