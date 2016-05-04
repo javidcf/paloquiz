@@ -40,6 +40,8 @@ Paloquiz.states.Main.prototype = {
                     this.state.start('Router');
                 }, this);
             }, this, 1, 0, 1);
+        exitButton.width = exitButtonSize;
+        exitButton.height = exitButtonSize;
 
         this.optionsPane = this.add.image(this.OPTIONS_PANE_BOX.x, this.OPTIONS_PANE_BOX.y, 'optionsPane');
         this.optionsPane.width = this.OPTIONS_PANE_BOX.width;
