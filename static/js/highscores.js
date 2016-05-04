@@ -108,7 +108,7 @@ Paloquiz.states.Highscores.prototype = {
                 }, this);
             }, this);
         }, this);
-    }
+    },
 
     loadScoresPage: function() {
         // Hide all entries
