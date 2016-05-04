@@ -129,7 +129,7 @@ Paloquiz.states.Finish.prototype = {
                                 }, this);
                         }
                     }, this);
-                });
+                }, this);
             }, this);
         }, this, 1, 0, 1);
         this.fbButton.smoothed = false;
