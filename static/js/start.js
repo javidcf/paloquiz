@@ -16,8 +16,8 @@ Paloquiz.states.Start.prototype = {
 
     init: function() {
         // Compute box sizes
-        this.START_BUTTON.x = this.game.world.centerX;
-        this.START_BUTTON.y = this.game.world.centerY;
+        this.START_BUTTON.x = this.world.centerX;
+        this.START_BUTTON.y = this.world.centerY;
         this.START_BUTTON.width = 200;
         this.START_BUTTON.height = 80;
         this.START_BUTTON.label = "Jugar";
@@ -62,7 +62,7 @@ Paloquiz.states.Start.prototype = {
     },
 
     createFbUI: function () {
-        var buttonSize = .1 * Math.min(this.game.width, this.game.height);
+        var buttonSize = .1 * Math.min(this.world.width, this.world.height);
 
         this.fbButton = this.add.button(0, 0, 'fbButton', function() {
             fbLogIn(function() {

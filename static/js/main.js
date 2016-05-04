@@ -31,7 +31,7 @@ Paloquiz.states.Main.prototype = {
 
     init: function() {
         // Font sizes
-        var smallerDim = Math.min(this.game.width, this.game.height);
+        var smallerDim = Math.min(this.world.width, this.world.height);
         this.SCORE_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
         this.ANSWER_TEXT_SIZE = Math.round(.08 * smallerDim) + 'px';
         this.QUESTION_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
@@ -44,7 +44,7 @@ Paloquiz.states.Main.prototype = {
 
     create: function() {
 
-        var exitButtonSize = .1 * Math.min(this.game.width, this.game.height);
+        var exitButtonSize = .1 * Math.min(this.world.width, this.world.height);
         var exitButton = this.add.button(.2 * exitButtonSize, .2 * exitButtonSize,
             'exitButton', function() {
                 getJSON('/finish', function() {
@@ -87,8 +87,8 @@ Paloquiz.states.Main.prototype = {
         this.load.onFileComplete.add(this.fileComplete, this);
 
         // Score text
-        var scoreMargin = .02 * Math.min(this.game.width, this.game.height);
-        this.scoreText = this.add.text(this.game.width - scoreMargin, scoreMargin, '0', {
+        var scoreMargin = .02 * Math.min(this.world.width, this.world.height);
+        this.scoreText = this.add.text(this.world.width - scoreMargin, scoreMargin, '0', {
             font: 'Pixel Art',
             fontSize: this.SCORE_TEXT_SIZE,
             fill: this.SCORE_COLOR,
@@ -400,11 +400,11 @@ Paloquiz.states.Main.prototype = {
     },
 
     createLayoutBoxes: function() {
-        var margin = 0.03 * Math.min(this.game.width, this.game.height);
+        var margin = 0.03 * Math.min(this.world.width, this.world.height);
         this.UI_BOX.x = margin;
         this.UI_BOX.y = margin;
-        this.UI_BOX.width = this.game.width - 2 * margin;
-        this.UI_BOX.height = this.game.height - 2 * margin;
+        this.UI_BOX.width = this.world.width - 2 * margin;
+        this.UI_BOX.height = this.world.height - 2 * margin;
 
         this.IMAGE_BOX.x = this.UI_BOX.x + this.UI_BOX.width * .18;
         this.IMAGE_BOX.y = this.UI_BOX.y;

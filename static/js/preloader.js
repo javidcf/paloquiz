@@ -23,6 +23,9 @@ Paloquiz.states.Preloader.prototype = {
         this.load.image('noface', 'assets/noface.png');
         this.load.image('arrow', 'assets/arrow.png');
         this.load.image('back', 'assets/back.png');
+
+        // Finish
+        this.load.spritesheet('finishButton', 'assets/button_sprite_sheet.png', 189, 66);
     },
 
     create: function() {
@@ -67,7 +70,7 @@ Paloquiz.states.Preloader.prototype = {
     createPreloaderElements: function() {
 
         var loadingText = this.add.text(
-            this.game.world.centerX, this.game.world.centerY, 'Cargando...', {
+            this.world.centerX, this.world.centerY, 'Cargando...', {
                 font: 'Pixel Art',
                 fontSize: '40px',
                 fill: 'white',
@@ -75,7 +78,7 @@ Paloquiz.states.Preloader.prototype = {
             });
         loadingText.anchor.setTo(.5, 1);
 
-        var smallDim = Math.min(this.game.world.width, this.game.world.height);
+        var smallDim = Math.min(this.world.width, this.world.height);
         var preloadBarHeight = .1 * smallDim;
         this.preloadBarMaxWidth = .8 * smallDim;
 
@@ -83,15 +86,15 @@ Paloquiz.states.Preloader.prototype = {
         preloadBase.anchor.setTo(0, 0);
         preloadBase.height = preloadBarHeight;
         preloadBase.width = this.preloadBarMaxWidth;
-        preloadBase.x = this.game.world.centerX - preloadBase.width / 2;
-        preloadBase.y = this.game.world.centerY;
+        preloadBase.x = this.world.centerX - preloadBase.width / 2;
+        preloadBase.y = this.world.centerY;
 
         this.preloadBar = this.add.image(0, 0, 'loadBar', 1);
         this.preloadBar.anchor.setTo(0, 0);
         this.preloadBar.height = preloadBarHeight;
         this.preloadBar.width = this.preloadBarMaxWidth;
-        this.preloadBar.x = this.game.world.centerX - this.preloadBar.width / 2;
-        this.preloadBar.y = this.game.world.centerY;
+        this.preloadBar.x = this.world.centerX - this.preloadBar.width / 2;
+        this.preloadBar.y = this.world.centerY;
 
         this.preloadBarCrop = new Phaser.Rectangle(0, 0, 0, preloadBarHeight);
         this.preloadBar.crop(this.preloadBarCrop);

@@ -291,7 +291,7 @@ Paloquiz.states.Highscores.prototype = {
                 this.state.start('Router');
             }, this, 0, 0, 0);
         this.backButton.smoothed = false;
-        var backButtonSize = .1 * Math.min(this.game.width, this.game.height);
+        var backButtonSize = .1 * Math.min(this.world.width, this.world.height);
         this.backButton.width = backButtonSize;
         this.backButton.height = backButtonSize;
         this.backButton.anchor.setTo(0, 0);
@@ -299,7 +299,7 @@ Paloquiz.states.Highscores.prototype = {
         this.backButton.y = this.backButton.height * .2;
 
         // Arrows to navigate through pages
-        var arrowSize = .1 * Math.min(this.game.width, this.game.height);
+        var arrowSize = .1 * Math.min(this.world.width, this.world.height);
         this.arrowRight = this.add.button(0, 0, 'arrow',
             function() {
                 if (this.currentPage < this.maxPage) {
@@ -311,8 +311,8 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowRight.width = arrowSize;
         this.arrowRight.height = arrowSize;
         this.arrowRight.anchor.setTo(1, 1);
-        this.arrowRight.x = this.game.width - this.arrowRight.width * .2;
-        this.arrowRight.y = this.game.height - this.arrowRight.height * .2;
+        this.arrowRight.x = this.world.width - this.arrowRight.width * .2;
+        this.arrowRight.y = this.world.height - this.arrowRight.height * .2;
         this.arrowRight.visible = false;
 
         this.arrowLeft = this.add.button(0, 0, 'arrow',
@@ -327,7 +327,7 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowLeft.smoothed = false;
         this.arrowLeft.anchor.setTo(1, 1);
         this.arrowLeft.x = -this.arrowLeft.width * .2;
-        this.arrowLeft.y = this.game.height - this.arrowLeft.height * .2;
+        this.arrowLeft.y = this.world.height - this.arrowLeft.height * .2;
         this.arrowLeft.visible = false;
     },
 
@@ -378,11 +378,11 @@ Paloquiz.states.Highscores.prototype = {
     IMAGE_SIZE: 0,
 
     createLayoutBoxes: function() {
-        var margin = .15 * Math.min(this.game.width, this.game.height);
+        var margin = .15 * Math.min(this.world.width, this.world.height);
         this.ENTRIES_BOX.x = margin;
         this.ENTRIES_BOX.y = margin;
-        this.ENTRIES_BOX.width = this.game.width - 2 * margin;
-        this.ENTRIES_BOX.height = this.game.height - 2 * margin;
+        this.ENTRIES_BOX.width = this.world.width - 2 * margin;
+        this.ENTRIES_BOX.height = this.world.height - 2 * margin;
 
         this.ENTRY_BOX.x = this.ENTRIES_BOX.x;
         this.ENTRY_BOX.y = this.ENTRIES_BOX.y;
