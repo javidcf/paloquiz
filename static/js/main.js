@@ -33,6 +33,14 @@ Paloquiz.states.Main.prototype = {
 
     create: function() {
 
+        var exitButtonSize = .1 * Math.min(this.game.width, this.game.height);
+        var exitButton = this.add.button(.2 * exitButtonSize, .2 * exitButtonSize,
+            'exitButton', function() {
+                getJSON('/finish', function() {
+                    this.state.start('Router');
+                }, this);
+            }, this, 1, 0, 1);
+
         this.optionsPane = this.add.image(this.OPTIONS_PANE_BOX.x, this.OPTIONS_PANE_BOX.y, 'optionsPane');
         this.optionsPane.width = this.OPTIONS_PANE_BOX.width;
         this.optionsPane.height = this.OPTIONS_PANE_BOX.height;
@@ -108,7 +116,7 @@ Paloquiz.states.Main.prototype = {
 
             this.optButtons[i] = this.add.button(
                 this.OPTION_BOX.x + xOffset, this.OPTION_BOX.y + yOffset,
-                'button', this.actionOnClick, this, 2, 1, 0);
+                'optionButton', this.actionOnClick, this, 2, 1, 0);
             this.optButtons[i].width = this.OPTION_BOX.width;
             this.optButtons[i].height = this.OPTION_BOX.height;
             this.optButtons[i].anchor.setTo(0, 0)
