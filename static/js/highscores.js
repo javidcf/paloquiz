@@ -21,79 +21,9 @@ Paloquiz.states.Highscores = function(game) {
 Paloquiz.states.Highscores.prototype = {
 
     PAGE_SIZE: 6,
-    ENTRIES_BOX: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    },
-    ENTRY_BOX: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    },
-    POSITION_BOX: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    },
-    IMAGE_BOX: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    },
-    NAME_BOX: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    },
-    SCORE_BOX: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    },
-    IMAGE_SIZE: 0,
 
     init: function() {
-        // Compute box sizes
-        this.ENTRIES_BOX.x = this.game.width * .1;
-        this.ENTRIES_BOX.y = this.game.height * .1;
-        this.ENTRIES_BOX.width = this.game.width * .8;
-        this.ENTRIES_BOX.height = this.game.height * .8;
-
-        this.ENTRY_BOX.x = this.ENTRIES_BOX.x;
-        this.ENTRY_BOX.y = this.ENTRIES_BOX.y;
-        this.ENTRY_BOX.width = this.ENTRIES_BOX.width;
-        this.ENTRY_BOX.height = this.ENTRIES_BOX.height / this.PAGE_SIZE;
-
-        this.POSITION_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .0;
-        this.POSITION_BOX.y = this.ENTRY_BOX.y;
-        this.POSITION_BOX.width = this.ENTRIES_BOX.width * .05;
-        this.POSITION_BOX.height = this.ENTRY_BOX.height;
-
-        this.IMAGE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .05;
-        this.IMAGE_BOX.y = this.ENTRY_BOX.y;
-        this.IMAGE_BOX.width = this.ENTRIES_BOX.width * .25;
-        this.IMAGE_BOX.height = this.ENTRY_BOX.height;
-
-        this.NAME_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .30;
-        this.NAME_BOX.y = this.ENTRY_BOX.y;
-        this.NAME_BOX.width = this.ENTRIES_BOX.width * .45;
-        this.NAME_BOX.height = this.ENTRY_BOX.height;
-
-        this.SCORE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .78;
-        this.SCORE_BOX.y = this.ENTRY_BOX.y;
-        this.SCORE_BOX.width = this.ENTRIES_BOX.width * .22;
-        this.SCORE_BOX.height = this.ENTRY_BOX.height;
-
-        this.IMAGE_SIZE = .6 * Math.min(
-            this.ENTRY_BOX.width * .25,
-            this.ENTRY_BOX.height);
+        this.createLayoutBoxes();
 
         // Font styles
         this.createFontStyles();
@@ -333,25 +263,20 @@ Paloquiz.states.Highscores.prototype = {
         }
     },
 
-    destroyHighscoreEntries: function () {
+    destroyHighscoreEntries: function() {
         for (var i = 0; i < this.scores.length; i++) {
-            if (this.scores[i])
-            {
-                if (this.scores[i].img)
-                {
+            if (this.scores[i]) {
+                if (this.scores[i].img) {
                     this.scores[i].img.loadTexture('noface');
                     this.scores[i].img.destroy();
                 }
-                if (this.scores[i].name)
-                {
+                if (this.scores[i].name) {
                     this.scores[i].name.destroy();
                 }
-                if (this.scores[i].pos)
-                {
+                if (this.scores[i].pos) {
                     this.scores[i].pos.destroy();
                 }
-                if (this.scores[i].score)
-                {
+                if (this.scores[i].score) {
                     this.scores[i].score.destroy();
                 }
             }
@@ -406,10 +331,87 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowLeft.visible = false;
     },
 
-    destroyUI: function () {
+    destroyUI: function() {
         this.backButton.destroy();
         this.arrowRight.destroy();
         this.arrowLeft.destroy();
+    },
+
+    // Boxes
+
+    ENTRIES_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    ENTRY_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    POSITION_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    IMAGE_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    NAME_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    SCORE_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+    IMAGE_SIZE: 0,
+
+    createLayoutBoxes: function() {
+        var margin = .15 * Math.min(this.game.width, this.game.height);
+        this.ENTRIES_BOX.x = margin;
+        this.ENTRIES_BOX.y = margin;
+        this.ENTRIES_BOX.width = this.game.width - 2 * margin;
+        this.ENTRIES_BOX.height = this.game.height - 2 * margin;
+
+        this.ENTRY_BOX.x = this.ENTRIES_BOX.x;
+        this.ENTRY_BOX.y = this.ENTRIES_BOX.y;
+        this.ENTRY_BOX.width = this.ENTRIES_BOX.width;
+        this.ENTRY_BOX.height = this.ENTRIES_BOX.height / this.PAGE_SIZE;
+
+        this.POSITION_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .0;
+        this.POSITION_BOX.y = this.ENTRY_BOX.y;
+        this.POSITION_BOX.width = this.ENTRIES_BOX.width * .05;
+        this.POSITION_BOX.height = this.ENTRY_BOX.height;
+
+        this.IMAGE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .05;
+        this.IMAGE_BOX.y = this.ENTRY_BOX.y;
+        this.IMAGE_BOX.width = this.ENTRIES_BOX.width * .25;
+        this.IMAGE_BOX.height = this.ENTRY_BOX.height;
+
+        this.NAME_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .30;
+        this.NAME_BOX.y = this.ENTRY_BOX.y;
+        this.NAME_BOX.width = this.ENTRIES_BOX.width * .45;
+        this.NAME_BOX.height = this.ENTRY_BOX.height;
+
+        this.SCORE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .78;
+        this.SCORE_BOX.y = this.ENTRY_BOX.y;
+        this.SCORE_BOX.width = this.ENTRIES_BOX.width * .22;
+        this.SCORE_BOX.height = this.ENTRY_BOX.height;
+
+        this.IMAGE_SIZE = .6 * Math.min(
+            this.ENTRY_BOX.width * .25,
+            this.ENTRY_BOX.height);
     }
 
 };

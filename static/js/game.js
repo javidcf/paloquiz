@@ -6,6 +6,10 @@ Paloquiz.orientationBlock;
 var CONTAINER_ID = 'gameContainer';
 
 window.onload = function() {
+
+    var MAX_WIDTH_RATIO = 9.0 / 16.0;
+    var MAX_HEIGHT_RATIO = 16.0 / 9.0;
+
     // Check Facebook status
     fbInit();
 
@@ -15,12 +19,10 @@ window.onload = function() {
     // Read browser size
     var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    var maxRatioW = 1.0;
-    var maxRatioH = 16.0 / 9.0;
-    if ((width / height) > maxRatioW) {
-        width = Math.round(height * maxRatioW);
-    } else if ((height / width) > maxRatioH) {
-        height = Math.round(width * maxRatioH);
+    if ((width / height) > MAX_WIDTH_RATIO) {
+        width = Math.round(height * MAX_WIDTH_RATIO);
+    } else if ((height / width) > MAX_HEIGHT_RATIO) {
+        height = Math.round(width * MAX_HEIGHT_RATIO);
     }
 
     var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
