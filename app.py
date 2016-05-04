@@ -113,7 +113,10 @@ def start():
 def question_header():
     question_id = get_current_question_id(session)
     try:
-        return jsonify(game.get_question_header(question_id))
+        question_header = game.get_question_header(question_id)
+        question_header['num_questions'] = len(session[QUESTION_LIST])
+        question_header['question_idx'] = session[CURRENT_QUESTION]
+        return jsonify(question_header)
     except Exception:
         raise InvalidUsage('Invalid question header parameters')
 
@@ -160,6 +163,7 @@ def question():
 @app.route('/answer/<int:answer_id>')
 def answer(answer_id):
     question_id = get_current_question_id(session)
+    answered_question_idx = session[CURRENT_QUESTION]
     session[CURRENT_ANSWERS] = session.get(CURRENT_ANSWERS, [])
     correct_answers = session[CURRENT_ANSWERS]
 
@@ -203,7 +207,7 @@ def answer(answer_id):
         'correct': correct,
         'timeout': timeout,
         'score': session[SCORE],
-        'question_idx': session[CURRENT_QUESTION],
+        'question_idx': answered_question_idx,
         'num_questions': len(session[QUESTION_LIST])
     })
 
