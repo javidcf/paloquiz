@@ -166,6 +166,7 @@ Paloquiz.states.Main.prototype = {
 
         this.enableInput(false);
         this.time.events.add(Phaser.Timer.SECOND * 2, function() {
+            this.questionText.setText('');
             this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
             this.questionText.fill = this.QUESTION_COLOR;
             this.enableInput(true);
