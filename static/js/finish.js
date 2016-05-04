@@ -21,8 +21,6 @@ Paloquiz.states.Finish.prototype = {
                 this.createScoreText();
                 this.createUI();
                 fbLogIn(function() {
-                    this.hiscoresButton.visible = true;
-                    this.hiscoresLabel.visible = true;
                     fbGetUserScore(function(currentScore) {
                         if (this.score > currentScore) {
                             fbPublishScore(currentScore);
@@ -67,14 +65,15 @@ Paloquiz.states.Finish.prototype = {
         this.hiscoresButton =
             this.add.button(this.world.centerX, this.world.height * .55,
                 'finishButton',
-                function() {
-                    this.state.start('Highscores');
+                 function() {
+                    fbLogIn(function() {
+                        this.state.start('Highscores');
+                    }, this);
                 }, this, 2, 1, 0);
         this.hiscoresButton.smoothed = false;
         this.hiscoresButton.width = this.world.width * .6;
         this.hiscoresButton.height = this.hiscoresButton.width * .3;
         this.hiscoresButton.anchor.setTo(.5, 0);
-        this.hiscoresButton.visible = false;
 
         // Exit
         this.exitButton =
@@ -105,7 +104,6 @@ Paloquiz.states.Finish.prototype = {
             this.hiscoresButton.y + this.hiscoresButton.height / 2,
             'Clasificación', labelStyle);
         this.hiscoresLabel.anchor.setTo(.5, .5);
-        this.hiscoresLabel.visible = false;
 
         this.exitLabel = this.add.text(
             this.world.centerX,
