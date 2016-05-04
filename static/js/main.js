@@ -290,6 +290,7 @@ Paloquiz.states.Main.prototype = {
             this.time.events.add(Phaser.Timer.SECOND * 2, function() {
                 this.enableInput(true);
                 this.barProgress = this.TIMEBAR_BOX.width;
+                this.questionText.setText('');
                 this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
                 this.questionText.fill = this.QUESTION_COLOR;
 
