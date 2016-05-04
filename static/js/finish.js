@@ -25,7 +25,7 @@ Paloquiz.states.Finish.prototype = {
                     this.fbButton.visible = false;
                     fbGetUserScore(function(currentScore) {
                         if (this.score > currentScore) {
-                            fbPublishScore(currentScore);
+                            fbPublishScore(this.score);
                         }
                     }, this);
                 }, this);
