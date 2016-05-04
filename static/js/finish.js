@@ -22,6 +22,7 @@ Paloquiz.states.Finish.prototype = {
                 this.createScoreText();
                 this.createUI();
                 fbInit(function() {
+                    this.fbButton.visible = false;
                     fbGetUserScore(function(currentScore) {
                         if (this.score > currentScore) {
                             fbPublishScore(currentScore);
