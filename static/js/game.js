@@ -4,7 +4,7 @@ Paloquiz.orientated = false;
 Paloquiz.orientationBlock;
 Paloquiz.booted = false;
 
-Paloquiz.MAX_WIDTH_RATIO = 12.0 / 16.0;
+Paloquiz.MAX_WIDTH_RATIO = 11.0 / 16.0;
 Paloquiz.MAX_HEIGHT_RATIO = 16.0 / 9.0;
 
 var CONTAINER_ID = 'gameContainer';
