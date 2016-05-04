@@ -45,13 +45,35 @@ Paloquiz.states.Highscores.prototype = {
 
         // Go on only if logged in
         fbInit(function() {
-                fbGetFriendsScores(function(friendsScores, userPos) {
-                    this.friendsScores = friendsScores;
-                    this.userPos = userPos;
-                    this.maxPage = Math.floor(this.friendsScores.length / this.PAGE_SIZE);
-                    this.loadScoresPage();
+                getJSON('/status', function(gameStatus) {
+                    fbGetFriendsScores(function(friendsScores, userPos) {
+                        this.friendsScores = friendsScores;
+                        this.userPos = userPos;
+                        this.maxPage = Math.floor(this.friendsScores.length / this.PAGE_SIZE);
+                        // First page at start of game, user page otherwise
+                        if (gameStatus['status'] === 'start' || isNaN(userPos)) {
+                            this.currentPage = 0;
+                        } else {
+                            this.currentPage = Math.floor(userPos / this.PAGE_SIZE);
+                        }
+                        // Finish game if necessary
+                        if (gameStatus['status'] === 'finish') {
+                            getJSON('/finish');  // No callback - no biggie if it doesn't complete
+                        }
+                        // Publish score if necessary and load page
+                        var currentScore = gameStatus['score'];
+                        if (this.friendsScores[userPos] &&
+                            (currentScore > this.friendsScores[userPos].score)) {
+                            // Score has improved
+                            this.friendsScores[userPos].score = currentScore;
+                            fbPublishScore(currentScore, this.loadScoresPage, this.loadScoresPage, this);
+                        } else {
+                            this.loadScoresPage();
+                        }
+                    }, this);
                 }, this);
             },
+
             function() {
                 // Exit if not logged in
                 this.state.start('Router');

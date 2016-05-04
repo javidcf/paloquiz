@@ -18,8 +18,8 @@ Paloquiz.states.Start.prototype = {
         // Compute box sizes
         this.START_BUTTON.x = this.world.centerX;
         this.START_BUTTON.y = this.world.centerY;
-        this.START_BUTTON.width = 200;
-        this.START_BUTTON.height = 80;
+        this.START_BUTTON.width = this.world.width * .5;
+        this.START_BUTTON.height = this.START_BUTTON.width * .3;
         this.START_BUTTON.label = "Jugar";
     },
 

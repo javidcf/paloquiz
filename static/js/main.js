@@ -140,7 +140,7 @@ Paloquiz.states.Main.prototype = {
 
             this.optLabels[i] = this.add.text(
                 this.OPTION_BOX.x + this.OPTION_BOX.width / 2 + xOffset,
-                this.OPTION_BOX.y + this.OPTION_BOX.height / 1.8 + yOffset,  // 1.8 works better (?)
+                this.OPTION_BOX.y + this.OPTION_BOX.height / 1.8 + yOffset, // 1.8 works better (?)
                 '', labelStyle);
             this.optLabels[i].anchor.setTo(0.5, 0.5)
 
@@ -174,11 +174,6 @@ Paloquiz.states.Main.prototype = {
             this.barProgress = this.optionsPane.width;
             this.updateStatus();
         }, this);
-    },
-
-    finishGame: function() {
-        this.questionText.setText('Score = ' + this.scoreText.text);
-        // this.enableInput(false);
     },
 
     enableInput: function(enable) {
@@ -327,14 +322,12 @@ Paloquiz.states.Main.prototype = {
     updateStatus: function() {
         getJSON('/status', function(gameStatus) {
             this.scoreText.setText(gameStatus['score']);
-            if (gameStatus['status'] == 'start') {
-                this.state.start('Start');
-            } else if (gameStatus['status'] == 'question') {
+            if (gameStatus['status'] == 'question') {
                 this.loadQuestion(true);
             } else if (gameStatus['status'] == 'answer') {
                 this.loadQuestion(false);
-            } else if (gameStatus['status'] == 'finish') {
-                this.finishGame();
+            } else {
+                this.state.start('Router');
             }
         }, this);
 

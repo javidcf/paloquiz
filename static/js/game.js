@@ -44,6 +44,7 @@ window.onload = function() {
     Paloquiz.game.state.add('Start', Paloquiz.states.Start);
     Paloquiz.game.state.add('Main', Paloquiz.states.Main);
     Paloquiz.game.state.add('Highscores', Paloquiz.states.Highscores);
+    Paloquiz.game.state.add('Finish', Paloquiz.states.Finish);
 
     Paloquiz.game.state.start('Boot');
 }

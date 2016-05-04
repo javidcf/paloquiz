@@ -36,7 +36,7 @@ function fbPublishScore(score, callback, errorCallback, thisArg) {
             } else {
                 console.error('Could not publish score to Facebook');
                 if (errorCallback) {
-                    errorCallback();
+                    errorCallback(score);
                 }
             }
         });

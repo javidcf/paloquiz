@@ -1,10 +1,8 @@
-
-Paloquiz.states.Router = function(game) {
-}
+Paloquiz.states.Router = function(game) {}
 
 Paloquiz.states.Router.prototype = {
 
-    nextStatus: function (gameStatus) {
+    nextStatus: function(gameStatus) {
         if (gameStatus['status'] == 'start') {
             this.state.start('Start');
         } else if (gameStatus['status'] == 'question') {
@@ -12,7 +10,7 @@ Paloquiz.states.Router.prototype = {
         } else if (gameStatus['status'] == 'answer') {
             this.state.start('Main');
         } else if (gameStatus['status'] == 'finish') {
-            this.state.start('Main');
+            this.state.start('Finish');
         }
     },
 
