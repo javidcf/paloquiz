@@ -35,9 +35,10 @@ Paloquiz.states.Start.prototype = {
         this.startButton.width = this.START_BUTTON.width;
         this.startButton.anchor.setTo(0.5, 0.5);
 
+        var startFontSize = Math.round(this.START_BUTTON.height / 2.5);
         var startButtonLabel = this.add.text(this.START_BUTTON.x, this.START_BUTTON.y, this.START_BUTTON.label, {
             font: 'Pixel Art',
-            fontSize: '20px',
+            fontSize: startFontSize + 'px',
             align: 'center',
             fill: 'white'
          });
