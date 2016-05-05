@@ -4,10 +4,10 @@
         "img" : "test_q1.png",
         "question" : "Test question 1",
         "answers" : [
+            {"answer": "Correct", "correct": true},
             {"answer": "Wrong 1", "correct": false},
             {"answer": "Wrong 2", "correct": false},
-            {"answer": "Correct", "correct": false},
-            {"answer": "Wrong 3", "correct": true}
+            {"answer": "Wrong 3", "correct": false}
         ]
     },
     {
