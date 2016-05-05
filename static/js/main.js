@@ -42,13 +42,13 @@ Paloquiz.states.Main.prototype = {
         this.QCOUNT_TEXT_SIZE = Math.round(.04 * smallerDim) + 'px';
 
         this.createLayoutBoxes();
+
+        Paloquiz.enableFbButtons(false);
     },
 
     preload: function() {},
 
     create: function() {
-        Paloquiz.enableFbButtons(false);
-
         var exitButtonSize = .1 * Math.min(this.world.width, this.world.height);
         var exitButton = this.add.button(.2 * exitButtonSize, .2 * exitButtonSize,
             'exitButton', function() {
