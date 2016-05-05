@@ -9,7 +9,7 @@ Paloquiz.MAX_HEIGHT_RATIO = 16.0 / 9.0;
 
 var CONTAINER_ID = 'game-container';
 var ORIENTATION_BLOCK_ID = 'orientation';
-var FB_BUTTONS_ID = 'game-container';
+var FB_BUTTONS_ID = 'fb-buttons';
 
 window.onload = function() {
 
