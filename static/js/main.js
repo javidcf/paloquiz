@@ -32,6 +32,13 @@ Paloquiz.states.Main.prototype = {
     QCOUNT_COLOR: '#ff8000',
     NUM_ANSWERS: 4,
 
+    QUESTION_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
+
     init: function() {
         // Font sizes
         var smallerDim = Math.min(this.world.width, this.world.height);
@@ -110,15 +117,21 @@ Paloquiz.states.Main.prototype = {
         this.qCountText.anchor.setTo(1, 1);
 
         // Question text
-        this.questionText = this.add.text(
-            this.DIALOG_PANE_BOX.x + this.DIALOG_PANE_BOX.width / 2,
-            this.DIALOG_PANE_BOX.y + this.DIALOG_PANE_BOX.height / 2, 'Question', {
+        this.questionText = this.add.text(0, 0, '', {
                 font: 'Pixel Art',
                 fontSize: this.QUESTION_TEXT_SIZE,
                 align: 'center',
-                fill: this.QUESTION_COLOR
+                fill: this.QUESTION_COLOR,
+                boundsAlignH: 'center',
+                boundsAlignV: 'middle',
+                wordWrap: true,
+                wordWrapWidth: this.QUESTION_BOX.width
             });
-        this.questionText.anchor.setTo(0.5, 0.5);
+        this.questionText.setTextBounds(
+                this.QUESTION_BOX.x,
+                this.QUESTION_BOX.y,
+                this.QUESTION_BOX.width,
+                this.QUESTION_BOX.height);
 
         this.createOptionButtons();
         this.updateStatus();
@@ -427,6 +440,12 @@ Paloquiz.states.Main.prototype = {
         this.DIALOG_PANE_BOX.y = this.UI_BOX.y + this.UI_BOX.height * .38;
         this.DIALOG_PANE_BOX.width = this.UI_BOX.width;
         this.DIALOG_PANE_BOX.height = this.UI_BOX.height * .20;
+
+        var questionMargin = .15 * this.DIALOG_PANE_BOX.height;
+        this.QUESTION_BOX.x = this.DIALOG_PANE_BOX.x + questionMargin;
+        this.QUESTION_BOX.y = this.DIALOG_PANE_BOX.y + questionMargin;
+        this.QUESTION_BOX.width = this.DIALOG_PANE_BOX.width - 2 * questionMargin;
+        this.QUESTION_BOX.height = this.DIALOG_PANE_BOX.height - 2 * questionMargin;
 
         this.TIMEBAR_BOX.x = this.UI_BOX.x;
         this.TIMEBAR_BOX.y = this.UI_BOX.y + this.UI_BOX.height * .59;
