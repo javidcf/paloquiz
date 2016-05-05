@@ -7,7 +7,7 @@ Paloquiz.booted = false;
 Paloquiz.MAX_WIDTH_RATIO = 11.0 / 16.0;
 Paloquiz.MAX_HEIGHT_RATIO = 16.0 / 9.0;
 
-var CONTAINER_ID = 'game-container';
+var GAME_CONTAINER_ID = 'game-container';
 var ORIENTATION_BLOCK_ID = 'orientation';
 var FB_BUTTONS_ID = 'fb-buttons';
 
@@ -15,6 +15,9 @@ window.onload = function() {
 
     // Check Facebook status
     fbInit();
+
+    // Game container
+    Paloquiz.gameContainer = document.getElementById(GAME_CONTAINER_ID);
 
     // Element with orientation image
     Paloquiz.orientationBlock = document.getElementById(ORIENTATION_BLOCK_ID);
@@ -32,7 +35,7 @@ window.onload = function() {
     var width = 640;
     var height = 960;
     Paloquiz.game = new Phaser.Game(width, height,
-        renderer, CONTAINER_ID, {}, transparent, antialias);
+        renderer, GAME_CONTAINER_ID, {}, transparent, antialias);
 
     // Does this do something?
     PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
@@ -116,6 +119,7 @@ Paloquiz.setupScale = function() {
 Paloquiz.resize = function () {
     var gameScale = Paloquiz.getGameScale();
     Paloquiz.game.scale.setUserScale(gameScale.x, gameScale.y);
+    Paloquiz.positionFbButtons();
 }
 
 Paloquiz.getGameScale = function() {
@@ -153,6 +157,14 @@ Paloquiz.setupBackground = function() {
     Paloquiz.background.smoothed = false;
     Paloquiz.background.width = Paloquiz.game.width;
     Paloquiz.background.height = Paloquiz.game.height;
+}
+
+Paloquiz.positionFbButtons = function () {
+    var top = Paloquiz.gameContainer.offsetTop  || 0;
+    var left = Paloquiz.gameContainer.offsetLeft || 0;
+    var height = Paloquiz.gameContainer.clientHeight || 0;
+    Paloquiz.fbButtons.style.top = Math.round(top + height * .2) + 'px';
+    Paloquiz.fbButtons.style.left = Math.round(left) + 'px';
 }
 
 Paloquiz.enableFbButtons = function (show) {

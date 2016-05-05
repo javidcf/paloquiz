@@ -8,6 +8,11 @@ body {
     background-color: #1f467c;
 }
 
+#fb-buttons {
+    position: absolute;
+    display: none;
+}
+
 #orientation {
     margin: 0 auto;
     position: absolute;
