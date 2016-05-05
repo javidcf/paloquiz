@@ -1,7 +1,7 @@
 
 [
     {
-        "img" : "test_q1.jpg",
+        "img" : "test_q1.png",
         "question" : "Test question 1",
         "answers" : [
             {"answer": "Wrong 1", "correct": false},
@@ -11,7 +11,7 @@
         ]
     },
     {
-        "img" : "test_q2.jpg",
+        "img" : "test_q2.png",
         "question" : "Test question 2",
         "answers" : [
             {"answer": "Correct", "correct": true},
