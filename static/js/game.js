@@ -7,7 +7,9 @@ Paloquiz.booted = false;
 Paloquiz.MAX_WIDTH_RATIO = 11.0 / 16.0;
 Paloquiz.MAX_HEIGHT_RATIO = 16.0 / 9.0;
 
-var CONTAINER_ID = 'gameContainer';
+var CONTAINER_ID = 'game-container';
+var ORIENTATION_BLOCK_ID = 'orientation';
+var FB_BUTTONS_ID = 'game-container';
 
 window.onload = function() {
 
@@ -15,7 +17,10 @@ window.onload = function() {
     fbInit();
 
     // Element with orientation image
-    Paloquiz.orientationBlock = document.getElementById('orientation');
+    Paloquiz.orientationBlock = document.getElementById(ORIENTATION_BLOCK_ID);
+
+    // Facebook buttons
+    Paloquiz.fbButtons = document.getElementById(FB_BUTTONS_ID);
 
     // // Get game dimensions
     // var gameSize = Paloquiz.getGameScale();
@@ -24,8 +29,6 @@ window.onload = function() {
     var transparent = true;
     var antialias = true;
 
-    // Paloquiz.game = new Phaser.Game(gameSize.width, gameSize.height,
-    //     renderer, CONTAINER_ID, {}, transparent, antialias);
     var width = 640;
     var height = 960;
     Paloquiz.game = new Phaser.Game(width, height,
@@ -135,6 +138,7 @@ Paloquiz.stateChanged = function() {
 
     Paloquiz.resize();
     Paloquiz.setupBackground();
+    Paloquiz.enableFbButtons(true);
 }
 
 Paloquiz.setupBackground = function() {
@@ -149,4 +153,12 @@ Paloquiz.setupBackground = function() {
     Paloquiz.background.smoothed = false;
     Paloquiz.background.width = Paloquiz.game.width;
     Paloquiz.background.height = Paloquiz.game.height;
+}
+
+Paloquiz.enableFbButtons = function (show) {
+    if (show) {
+        Paloquiz.fbButtons.style.display = 'block';
+    } else {
+        Paloquiz.fbButtons.style.display = 'none';
+    }
 }

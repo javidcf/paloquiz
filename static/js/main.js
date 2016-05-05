@@ -47,6 +47,7 @@ Paloquiz.states.Main.prototype = {
     preload: function() {},
 
     create: function() {
+        Paloquiz.enableFbButtons(false);
 
         var exitButtonSize = .1 * Math.min(this.world.width, this.world.height);
         var exitButton = this.add.button(.2 * exitButtonSize, .2 * exitButtonSize,

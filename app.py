@@ -91,6 +91,7 @@ def root():
                            FB_APP_ID=FB_APP_ID,
                            CANONICAL_URL=CANONICAL_URL)
 
+
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
     return render_template('index.html',
