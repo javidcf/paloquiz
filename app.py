@@ -6,7 +6,8 @@ from beaker.middleware import SessionMiddleware
 from time import time
 
 import game
-from config import FB_APP_ID, SESSION_ENCRYPT_KEY, SESSION_VALIDATE_KEY
+from config import FB_APP_ID, CANONICAL_URL, \
+    SESSION_ENCRYPT_KEY, SESSION_VALIDATE_KEY
 
 
 app = Flask(__name__)
@@ -86,12 +87,15 @@ if __name__ != '__main__':
 
 @app.route('/', methods=['GET', 'POST'])
 def root():
-    return render_template('index.html', FB_APP_ID=FB_APP_ID)
-
+    return render_template('index.html',
+                           FB_APP_ID=FB_APP_ID,
+                           CANONICAL_URL=CANONICAL_URL)
 
 @app.route('/index.html', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', FB_APP_ID=FB_APP_ID)
+    return render_template('index.html',
+                           FB_APP_ID=FB_APP_ID,
+                           CANONICAL_URL=CANONICAL_URL)
 
 
 @app.route('/robots.txt')

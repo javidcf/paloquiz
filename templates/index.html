@@ -1,7 +1,10 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# game: http://ogp.me/ns/game#">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
         <title>Paloquiz</title>
 
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -21,6 +24,23 @@
         <script src="{{ url_for('static', filename='js/main.js' )}}"></script>
         <script src="{{ url_for('static', filename='js/highscores.js' )}}"></script>
         <script src="{{ url_for('static', filename='js/finish.js' )}}"></script>
+
+        <!-- General meta -->
+        <meta name="keywords" content="your,keywords,here,comma,separated,no,spaces">
+        <meta name="description" content="¡Demuestra cuánto sabes de Palo!">
+        <meta name="rating" content="General">
+
+        <!-- Open Graph metadata -->
+        <meta property="og:title" content="Paloquiz" />
+        <meta property="og:type" content="game" />
+        <meta property="og:url" content="{{ CANONICAL_URL }}" />
+        <meta property="og:image" content="{{ url_for('static', filename='paloquiz.png' )}}" />
+        <meta property="og:description" content="¡Demuestra cuánto sabes de Palo!" />
+        <meta property="og:locale" content="es_ES">
+        <meta property="og:site_name" content="Paloquiz">
+
+        <!-- Facebook -->
+        <meta property="fb:app_id" content="{{ FB_APP_ID }}" />
     </head>
     <body>
 
