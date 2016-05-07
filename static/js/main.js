@@ -34,6 +34,9 @@ Paloquiz.states.Main.prototype = {
     QCOUNT_TEXT_SIZE: '',
     QCOUNT_COLOR: '#ff8000',
     NUM_ANSWERS: 4,
+    CORRECT_PHRASES:["¡Toma ya!","¡Efectiviwonder!","Sabía que la sabrías"],
+    WRONG_PHRASES: ["¡¿En serio?!","¡Venga ya!","Esta era un básico"],
+    TIMEOUT_PHRASES:["Se acabó el tiempo...", "¡Date más prisa!", "Noo... ¡El tiempo!"],
 
     QUESTION_BOX: {
         x: 0,
@@ -46,9 +49,9 @@ Paloquiz.states.Main.prototype = {
         // Font sizes
         var smallerDim = Math.min(this.world.width, this.world.height);
         this.SCORE_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
-        this.ANSWER_TEXT_SIZE = Math.round(.08 * smallerDim) + 'px';
-        this.QUESTION_TEXT_SIZE = Math.round(.05 * smallerDim) + 'px';
-        this.OPTION_TEXT_SIZE = Math.round(.03 * smallerDim) + 'px';
+        this.ANSWER_TEXT_SIZE = Math.round(.07 * smallerDim) + 'px';
+        this.QUESTION_TEXT_SIZE = Math.round(.045 * smallerDim) + 'px';
+        this.OPTION_TEXT_SIZE = Math.round(.04 * smallerDim) + 'px';
         this.QCOUNT_TEXT_SIZE = Math.round(.04 * smallerDim) + 'px';
 
         this.createLayoutBoxes();
@@ -97,19 +100,6 @@ Paloquiz.states.Main.prototype = {
         this.timebarCrop = new Phaser.Rectangle(0, 0, this.timebar.width, this.timebar.height);
         this.timebar.crop(this.timebarCrop);
 
-        this.host = this.add.sprite(this.HOST_BOX.x, this.HOST_BOX.y, 'host', 2)
-        this.host.width = this.HOST_BOX.width;
-        this.host.height = this.HOST_BOX.height;
-        this.host.anchor.setTo(0, 0);
-
-        // Palo sprite animations (name, frames, frameRate, loop)
-        this.host.animations.add('blink', [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1], 10, true);
-        this.host.animations.add('yeah', [2], 10, true);
-        this.host.animations.add('wtf', [3,4,4,4,3,3,4,4,4,4], 7, true);
-        this.host.animations.add('worries', [5,6,7,8,7,7,8,8,7,7,8,8,7,7,8,7,6,5], 10, true);
-        this.host.animations.play('blink');
-
-
         //  You can listen for each of these events from Phaser.Loader
         this.load.onFileComplete.add(this.fileComplete, this);
 
@@ -150,6 +140,20 @@ Paloquiz.states.Main.prototype = {
             this.QUESTION_BOX.height);
 
         this.createOptionButtons();
+
+        // Palo sprite
+        this.host = this.add.sprite(this.HOST_BOX.x, this.HOST_BOX.y, 'host', 2)
+        this.host.width = this.HOST_BOX.width;
+        this.host.height = this.HOST_BOX.height;
+        this.host.anchor.setTo(0, 0);
+
+        // Palo sprite animations (name, frames, frameRate, loop)
+        this.host.animations.add('blink', [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1], 10, true);
+        this.host.animations.add('yeah', [2], 10, true);
+        this.host.animations.add('wtf', [3,4,4,4,3,3,4,4,4,4], 7, true);
+        this.host.animations.add('worries', [5,6,7,8,7,7,8,8,7,7,8,8,7,7,8,7,6,5], 10, true);
+        this.host.animations.play('blink');
+
         this.updateStatus();
     },
 
@@ -196,28 +200,42 @@ Paloquiz.states.Main.prototype = {
         this.enableInput(false);
 
         if (correct) {
+            phrase =  this.CORRECT_PHRASES[Math.floor(Math.random() * this.CORRECT_PHRASES.length)];
             this.optButtons[buttonId].setFrames(3, 3, 3);
-            this.questionText.setText('Correct! :)');
+            this.host.animations.play('yeah');
             this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
             this.questionText.fill = this.ANSWER_OK_COLOR;
+            this.questionText.setText(phrase);
         } else {
-            this.optButtons[buttonId].setFrames(4, 4, 4);
-            this.questionText.setText('Wrong! >:(');
+            phrase = this.WRONG_PHRASES[Math.floor(Math.random() * this.WRONG_PHRASES.length)];
+            this.optButtons[buttonId].setFrames(2, 2, 2);
+            this.host.animations.play('wtf');
             this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
             this.questionText.fill = this.ANSWER_FAIL_COLOR;
+            this.questionText.setText(phrase);
         }
 
         this.time.events.add(Phaser.Timer.SECOND * 2, function() {
-            this.questionText.setText('');
-            this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
-            this.questionText.fill = this.QUESTION_COLOR;
+            this.clearQuestion();
+            this.host.animations.play('blink');
             this.enableInput(true);
-            this.optButtons[buttonId].setFrames(2, 1, 0);
-            this.timebarProgress = this.TIMEBAR_BOX.width;
-            this.timebarCrop.width = this.timebarProgress;
-            this.timebar.updateCrop();
             this.updateStatus();
         }, this);
+    },
+
+    clearQuestion: function(){
+        this.questionText.setText('');
+        this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
+        this.questionText.fill = this.QUESTION_COLOR;
+
+        for(var i=0; i<this.optButtons.length; i++){
+            this.optButtons[i].setFrames(1, 0, 1);
+            this.optButtons[i].frame = 0;
+        }
+
+        this.timebarProgress = this.TIMEBAR_BOX.width;
+        this.timebarCrop.width = this.timebarProgress;
+        this.timebar.updateCrop();
     },
 
     enableInput: function(enable) {
@@ -329,20 +347,24 @@ Paloquiz.states.Main.prototype = {
         this.timebarTween.onUpdateCallback(function () {
             this.timebarCrop.width = this.timebarProgress;
             this.timebar.updateCrop();
+
+            if ((this.timebarCrop.width/this.TIMEBAR_BOX.width) < 0.5){
+                this.host.animations.play('worries');
+            }
+
         }, this);
         this.timebarTween.onComplete.add(function() {
             this.enableInput(false);
-            this.questionText.setText('Time Out! :S');
+            this.host.animations.play('wtf');
+            phrase = this.TIMEOUT_PHRASES[Math.floor(Math.random() * this.WRONG_PHRASES.length)];
             this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
             this.questionText.fill = this.ANSWER_FAIL_COLOR;
+            this.questionText.setText(phrase);
 
             this.time.events.add(Phaser.Timer.SECOND * 2, function() {
+                this.host.animations.play('blink');
+                this.clearQuestion();
                 this.enableInput(true);
-                this.timebarCrop.width = this.TIMEBAR_BOX.width;
-                this.timebar.updateCrop();
-                this.questionText.setText('');
-                this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
-                this.questionText.fill = this.QUESTION_COLOR;
 
                 // call answer with any id  and call updateStatus
                 getJSON('/answer/0', function() {
@@ -436,7 +458,7 @@ Paloquiz.states.Main.prototype = {
         this.DIALOG_PANE_BOX.width = this.world.width;
         this.DIALOG_PANE_BOX.height = this.world.height * .184;
 
-        var questionMargin = .12 * this.DIALOG_PANE_BOX.height;
+        var questionMargin = .15 * this.DIALOG_PANE_BOX.height;
         this.QUESTION_BOX.x = this.DIALOG_PANE_BOX.x + questionMargin;
         this.QUESTION_BOX.y = this.DIALOG_PANE_BOX.y + questionMargin;
         this.QUESTION_BOX.width = this.DIALOG_PANE_BOX.width - 2 * questionMargin;
