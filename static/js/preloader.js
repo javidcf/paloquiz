@@ -15,6 +15,8 @@ Paloquiz.states.Preloader.prototype = {
 
         // Main
         this.load.spritesheet('host', 'assets/graphics/palo-sm.png', 188, 375);
+        // this.load.spritesheet('host', 'assets/graphics/palo-md.png', 375, 750);
+        // this.load.spritesheet('host', 'assets/graphics/palo-xl.png', 750, 1500);
         this.load.image('imageFrame', 'assets/graphics/frame.png');
         this.load.image('imageMask', 'assets/graphics/question-image-mask.png');
         this.load.image('dialogPane', 'assets/graphics/question.png');
