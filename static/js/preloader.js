@@ -1,7 +1,7 @@
 Paloquiz.states.Preloader = function(game) {
+    this.preloadBase;
     this.preloadBar;
     this.preloadBarCrop;
-    this.preloadBarMaxWidth = 0;
 }
 
 Paloquiz.states.Preloader.prototype = {
@@ -65,15 +65,21 @@ Paloquiz.states.Preloader.prototype = {
     },
 
     loadStart: function() {
+        // Crop rectangle works with non-scaled coordinates >:(
+        this.preloadBarCrop = new Phaser.Rectangle(0, 0, 0, this.preloadBase.texture.height);
+        this.preloadBar.crop(this.preloadBarCrop);
+        this.preloadBar.visible = true;
     },
 
     fileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles) {
-        this.preloadBarCrop.width = this.preloadBarMaxWidth * (progress / 100.0);
+        this.preloadBarCrop.width = this.preloadBase.texture.width * (progress / 100.0);
         this.preloadBar.updateCrop();
     },
 
     loadComplete: function() {
         // Preloaded
+        this.preloadBarCrop.width = this.preloadBase.texture.width;
+        this.preloadBar.updateCrop();
         this.state.start('Router');
     },
 
@@ -88,23 +94,17 @@ Paloquiz.states.Preloader.prototype = {
             });
         loadingText.anchor.setTo(.5, 1);
 
-        var smallDim = Math.min(this.world.width, this.world.height);
-        var preloadBarHeight = .1 * smallDim;
-        this.preloadBarMaxWidth = .8 * smallDim;
+        this.preloadBase = this.add.image(0, 0, 'loadBar', 1);
+        this.preloadBase.width = .8 * this.world.width;
+        this.preloadBase.height = this.preloadBase.width / 12;
+        this.preloadBase.x = this.world.centerX - this.preloadBase.width / 2;
+        this.preloadBase.y = this.world.height * .5;
+        this.preloadBase.anchor.setTo(0, 0);
 
-        var preloadBase = this.add.image(0, 0, 'loadBar', 1);
-        preloadBase.width = this.preloadBarMaxWidth;
-        preloadBase.height = preloadBarHeight;
-        preloadBase.x = this.world.centerX - preloadBase.width / 2;
-        preloadBase.y = this.world.height * .52;
-        preloadBase.anchor.setTo(0, 0);
-
-        this.preloadBar = this.add.image(preloadBase.x, preloadBase.y, 'loadBar', 0);
-        this.preloadBar.width = preloadBase.width;
-        this.preloadBar.height = preloadBase.height;
+        this.preloadBar = this.add.image(this.preloadBase.x, this.preloadBase.y, 'loadBar', 0);
+        this.preloadBar.width = this.preloadBase.width;
+        this.preloadBar.height = this.preloadBase.height;
         this.preloadBar.anchor.setTo(0, 0);
-
-        this.preloadBarCrop = new Phaser.Rectangle(0, 0, 0, preloadBarHeight);
-        this.preloadBar.crop(this.preloadBarCrop);
+        this.preloadBar.visible = false;
     }
 }
