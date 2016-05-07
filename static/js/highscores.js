@@ -351,7 +351,7 @@ Paloquiz.states.Highscores.prototype = {
             }, this, 1, 0, 1);
         this.arrowLeft.width = arrowSize;
         this.arrowLeft.height = arrowSize;
-        this.arrowLeft.anchor.setTo(1, 1);
+        this.arrowLeft.anchor.setTo(0, 1);
         this.arrowLeft.x = this.arrowLeft.width * .2;
         this.arrowLeft.y = this.world.height - this.arrowLeft.height * .2;
         this.arrowLeft.visible = false;
