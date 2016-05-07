@@ -157,8 +157,9 @@ Paloquiz.positionFbButtons = function () {
     var left = Paloquiz.game.scale.bounds.x;
     var height = Paloquiz.game.scale.bounds.height;
     var width = Paloquiz.game.scale.bounds.width;
-    Paloquiz.fbButtons.style.top = Math.round(top + height * .03) + 'px';
-    Paloquiz.fbButtons.style.left = Math.round(left + width * .15) + 'px';
+    var margin = width * .05;
+    Paloquiz.fbButtons.style.top = Math.round(top + margin) + 'px';
+    Paloquiz.fbButtons.style.left = Math.round(left + margin) + 'px';
 }
 
 Paloquiz.enableFbButtons = function (show) {

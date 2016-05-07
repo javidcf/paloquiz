@@ -93,8 +93,8 @@ Paloquiz.states.Start.prototype = {
         this.fbButton.smoothed = false;
         this.fbButton.height = buttonSize;
         this.fbButton.width = buttonSize;
-        this.fbButton.anchor.setTo(0, 0);
-        this.fbButton.x = this.fbButton.width * .2;
+        this.fbButton.anchor.setTo(1, 0);
+        this.fbButton.x = this.world.width - this.fbButton.width * .2;
         this.fbButton.y = this.fbButton.height * .2;
         this.fbButton.visible = true;
 
@@ -104,8 +104,8 @@ Paloquiz.states.Start.prototype = {
         this.hiscoresButton.smoothed = false;
         this.hiscoresButton.height = buttonSize;
         this.hiscoresButton.width = buttonSize;
-        this.hiscoresButton.anchor.setTo(0, 0);
-        this.hiscoresButton.x = this.hiscoresButton.width * .2;
+        this.hiscoresButton.anchor.setTo(1, 0);
+        this.hiscoresButton.x = this.world.width - this.hiscoresButton.width * .2;
         this.hiscoresButton.y = this.hiscoresButton.height * .2;
         this.hiscoresButton.visible = false;
     }

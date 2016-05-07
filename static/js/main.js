@@ -403,7 +403,6 @@ Paloquiz.states.Main.prototype = {
 
         for(var i=0; i < missingNumbers ; i++){
             numberStr = "0" + numberStr;
-            console.info(numberStr)
         }
         
         return numberStr;

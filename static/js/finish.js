@@ -181,8 +181,8 @@ Paloquiz.states.Finish.prototype = {
         this.fbButton.smoothed = false;
         this.fbButton.height = buttonSize;
         this.fbButton.width = buttonSize;
-        this.fbButton.anchor.setTo(0, 0);
-        this.fbButton.x = this.fbButton.width * .2;
+        this.fbButton.anchor.setTo(1, 0);
+        this.fbButton.x = this.world.width - this.fbButton.width * .2;
         this.fbButton.y = this.fbButton.height * .2;
         this.fbButton.visible = true;
     }
