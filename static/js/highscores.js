@@ -387,7 +387,7 @@ Paloquiz.states.Highscores.prototype = {
     IMAGE_SIZE: 0,
 
     createLayoutBoxes: function() {
-        var margin = .05 * Math.min(this.world.width, this.world.height);
+        var margin = .1 * Math.min(this.world.width, this.world.height);
         this.ENTRIES_BOX.x = margin;
         this.ENTRIES_BOX.y = margin;
         this.ENTRIES_BOX.width = this.world.width - 2 * margin;
@@ -409,17 +409,17 @@ Paloquiz.states.Highscores.prototype = {
         this.POSITION_BOX.width = this.ENTRIES_BOX.width * .05;
         this.POSITION_BOX.height = this.ENTRY_BOX.height;
 
-        this.IMAGE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .15;
+        this.IMAGE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .10;
         this.IMAGE_BOX.y = this.ENTRY_BOX.y;
         this.IMAGE_BOX.width = this.ENTRIES_BOX.width * .25;
         this.IMAGE_BOX.height = this.ENTRY_BOX.height;
 
         this.NAME_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .35;
         this.NAME_BOX.y = this.ENTRY_BOX.y;
-        this.NAME_BOX.width = this.ENTRIES_BOX.width * .38;
+        this.NAME_BOX.width = this.ENTRIES_BOX.width * .37;
         this.NAME_BOX.height = this.ENTRY_BOX.height;
 
-        this.SCORE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .76;
+        this.SCORE_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .75;
         this.SCORE_BOX.y = this.ENTRY_BOX.y;
         this.SCORE_BOX.width = this.ENTRIES_BOX.width * .22;
         this.SCORE_BOX.height = this.ENTRY_BOX.height;
