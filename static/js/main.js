@@ -87,11 +87,18 @@ Paloquiz.states.Main.prototype = {
         this.timebar.context.fillRect(0, 0, this.TIMEBAR_BOX.width, this.TIMEBAR_BOX.height);
         this.barProgress = this.TIMEBAR_BOX.width;
 
-        this.host = this.add.image(this.HOST_BOX.x, this.HOST_BOX.y, 'host');
+        this.host = this.add.sprite(this.HOST_BOX.x, this.HOST_BOX.y, 'host', 2)
         this.host.width = this.HOST_BOX.width;
         this.host.height = this.HOST_BOX.height;
         this.host.anchor.setTo(0, 0);
         this.host.smoothed = false;
+
+        // Palo sprite animations (name, frames, frameRate, loop)
+        this.host.animations.add('blink', [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1], 10, true);
+        this.host.animations.add('yeah', [2], 10, true);
+        this.host.animations.add('wtf', [3,4,4,4,3,3,4,4,4,4], 7, true);
+        this.host.animations.add('worries', [5,6,7,8,7,7,8,8,7,7,8,8,7,7,8,7,6,5], 10, true);
+        this.host.animations.play('blink');
 
 
         //  You can listen for each of these events from Phaser.Loader
