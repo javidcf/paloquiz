@@ -11,6 +11,7 @@ Paloquiz.states.Preloader.prototype = {
         this.load.spritesheet('startButton', 'assets/graphics/question-button.png', 465, 75);
         this.load.spritesheet('fbButton', 'assets/graphics/fb-button.png', 64, 64);
         this.load.spritesheet('hiscoresButton', 'assets/graphics/highscores-button.png', 64, 64);
+        this.load.image('logo', 'assets/graphics/logo.png');
 
         // Main
         this.load.spritesheet('host', 'assets/graphics/palo-sm.png', 188, 375);
@@ -26,9 +27,10 @@ Paloquiz.states.Preloader.prototype = {
         this.load.image('noface', 'assets/noface.png');
         this.load.image('arrowLeft', 'assets/graphics/left-button.png');
         this.load.image('arrowRight', 'assets/graphics/right-button.png');
+        this.load.spritesheet('highscoreBackground', 'assets/graphics/question-button.png', 465, 75);
 
         // Percentage stars
-        this.load.spritesheet('star', 'assets/star_button.png', 16, 16);
+        this.load.spritesheet('star', 'assets/graphics/star.png', 195, 198);
 
         // Finish
         this.load.spritesheet('finishButton', 'assets/graphics/question-button.png', 465, 75);
