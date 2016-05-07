@@ -8,27 +8,27 @@ Paloquiz.states.Preloader.prototype = {
 
     preloadFiles: function() {
         // Start
-        this.load.spritesheet('startButton', 'assets/button_sprite_sheet.png', 189, 66);
-        this.load.spritesheet('fbButton', 'assets/fb.png', 32, 32);
-        this.load.spritesheet('hiscoresButton', 'assets/star_button.png', 16, 16);
+        this.load.spritesheet('startButton', 'assets/graphics/question-button.png', 463, 73);
+        this.load.spritesheet('fbButton', 'assets/graphics/fb-button.png', 64, 64);
+        this.load.spritesheet('hiscoresButton', 'assets/graphics/highscores-button.png', 64, 64);
 
         // Main
-        this.load.spritesheet('host', 'assets/palo.png', 30, 85);
-        this.load.image('dialogPane', 'assets/dialog_pane.png');
-        this.load.image('optionsPane', 'assets/options_pane.png');
-        this.load.spritesheet('optionButton', 'assets/button_sprite_sheet.png', 189, 66);
-        this.load.spritesheet('exitButton', 'assets/exit_button.png', 32, 32);
+        this.load.spritesheet('host', 'assets/graphics/palo-sm.png', 188, 375);
+        this.load.image('dialogPane', 'assets/graphics/question.png');
+        this.load.image('optionsPane', 'assets/graphics/answers.png');
+        this.load.spritesheet('optionButton', 'assets/graphics/question-button.png', 463, 73);
+        this.load.spritesheet('exitButton', 'assets/graphics/close-button.png', 64, 64);
 
         // Highscores
         this.load.image('noface', 'assets/noface.png');
-        this.load.image('arrow', 'assets/arrow.png');
-        this.load.image('back', 'assets/back.png');
+        this.load.image('arrowLeft', 'assets/graphics/left-button.png');
+        this.load.image('arrowRight', 'assets/graphics/right-button.png');
 
         // Percentage stars
         this.load.spritesheet('star', 'assets/star_button.png', 16, 16);
 
         // Finish
-        this.load.spritesheet('finishButton', 'assets/button_sprite_sheet.png', 189, 66);
+        this.load.spritesheet('finishButton', 'assets/graphics/question-button.png', 463, 73);
     },
 
     create: function() {
