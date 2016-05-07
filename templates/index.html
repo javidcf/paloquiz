@@ -7,11 +7,11 @@
 
         <title>Paloquiz</title>
 
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/game.css' )}}">
         <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/fonts/phatone/font.css' )}}"> -->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/fonts/nokia_cellphone/font.css' )}}">
         <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/fonts/pixel/font.css' )}}"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/fonts/sunday-regular/font.css' )}}"> -->
 
         <script src="{{ url_for('static', filename='js/lib/phaser.min.js' )}}"></script>
         <script src="{{ url_for('static', filename='js/util.js' )}}"></script>
@@ -25,8 +25,15 @@
         <script src="{{ url_for('static', filename='js/highscores.js' )}}"></script>
         <script src="{{ url_for('static', filename='js/finish.js' )}}"></script>
 
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <link rel="icon" href="{{ url_for('static', filename='favicon-16.png') }}" sizes="16x16" type="image/png">
+        <link rel="icon" href="{{ url_for('static', filename='favicon-32.png') }}" sizes="32x32" type="image/png">
+        <link rel="icon" href="{{ url_for('static', filename='favicon-48.png') }}" sizes="48x48" type="image/png">
+        <link rel="icon" href="{{ url_for('static', filename='favicon-64.png') }}" sizes="64x64" type="image/png">
+
         <!-- General meta -->
-        <meta name="keywords" content="your,keywords,here,comma,separated,no,spaces">
+        <meta name="keywords" content="Paloquiz,Palo,quiz,juego,trivia,trivial,preguntas">
         <meta name="description" content="¡Demuestra cuánto sabes de Palo!">
         <meta name="rating" content="General">
 
@@ -34,7 +41,7 @@
         <meta property="og:title" content="Paloquiz" />
         <meta property="og:type" content="game" />
         <meta property="og:url" content="{{ CANONICAL_URL }}" />
-        <meta property="og:image" content="{{ url_for('static', filename='paloquiz.png' )}}" />
+        <meta property="og:image" content="{{ url_for('static', filename='paloquiz.png', _external=True )}}" />
         <meta property="og:description" content="¡Demuestra cuánto sabes de Palo!" />
         <meta property="og:locale" content="es_ES">
         <meta property="og:site_name" content="Paloquiz">

@@ -1,23 +1,23 @@
 
 [
     {
-        "img" : "q1.jpg",
-        "question" : "What the heck?",
+        "img" : "test_q1.png",
+        "question" : "Test question 1",
         "answers" : [
-            {"answer": "The heck", "correct": false},
-            {"answer": "The actual heck", "correct": false},
-            {"answer": "The fricking heck", "correct": false},
-            {"answer": "bro.", "correct": true}
+            {"answer": "Correct", "correct": true},
+            {"answer": "Wrong 1", "correct": false},
+            {"answer": "Wrong 2", "correct": false},
+            {"answer": "Wrong 3", "correct": false}
         ]
     },
     {
-        "img" : "q2.jpg",
-        "question" : "What the hur?",
+        "img" : "test_q2.png",
+        "question" : "Test question 2",
         "answers" : [
-            {"answer": "bruh.", "correct": true},
-            {"answer": "The hur", "correct": false},
-            {"answer": "The actual hur", "correct": false},
-            {"answer": "The fricking hur", "correct": false}
+            {"answer": "Correct", "correct": true},
+            {"answer": "Wrong 1", "correct": false},
+            {"answer": "Wrong 2", "correct": false},
+            {"answer": "Wrong 3", "correct": false}
         ]
     }
 ]
