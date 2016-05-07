@@ -315,28 +315,26 @@ Paloquiz.states.Highscores.prototype = {
 
     createUI: function() {
         // Back button to go back to main state
-        this.backButton = this.add.button(0, 0, 'back',
+        this.backButton = this.add.button(0, 0, 'exitButton',
             function() {
                 this.state.start('Router');
-            }, this, 0, 0, 0);
-        this.backButton.smoothed = false;
+            }, this, 1, 0, 1);
         var backButtonSize = .1 * Math.min(this.world.width, this.world.height);
         this.backButton.width = backButtonSize;
         this.backButton.height = backButtonSize;
-        this.backButton.anchor.setTo(0, 0);
-        this.backButton.x = this.backButton.width * .2;
+        this.backButton.anchor.setTo(1, 0);
+        this.backButton.x = this.world.width - this.backButton.width * .2;
         this.backButton.y = this.backButton.height * .2;
 
         // Arrows to navigate through pages
         var arrowSize = .1 * Math.min(this.world.width, this.world.height);
-        this.arrowRight = this.add.button(0, 0, 'arrow',
+        this.arrowRight = this.add.button(0, 0, 'arrowRight',
             function() {
                 if (this.currentPage < this.maxPage) {
                     this.currentPage++;
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
-        this.arrowRight.smoothed = false;
         this.arrowRight.width = arrowSize;
         this.arrowRight.height = arrowSize;
         this.arrowRight.anchor.setTo(1, 1);
@@ -344,18 +342,17 @@ Paloquiz.states.Highscores.prototype = {
         this.arrowRight.y = this.world.height - this.arrowRight.height * .2;
         this.arrowRight.visible = false;
 
-        this.arrowLeft = this.add.button(0, 0, 'arrow',
+        this.arrowLeft = this.add.button(0, 0, 'arrowLeft',
             function() {
                 if (this.currentPage > 0) {
                     this.currentPage--;
                     this.loadScoresPage();
                 }
             }, this, 0, 0, 0);
-        this.arrowLeft.width = -arrowSize;
+        this.arrowLeft.width = arrowSize;
         this.arrowLeft.height = arrowSize;
-        this.arrowLeft.smoothed = false;
         this.arrowLeft.anchor.setTo(1, 1);
-        this.arrowLeft.x = -this.arrowLeft.width * .2;
+        this.arrowLeft.x = this.arrowLeft.width * .2;
         this.arrowLeft.y = this.world.height - this.arrowLeft.height * .2;
         this.arrowLeft.visible = false;
     },
