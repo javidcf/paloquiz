@@ -161,7 +161,7 @@ Paloquiz.states.Main.prototype = {
         this.host.animations.add('blink', [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1], 10, true);
         this.host.animations.add('yeah', [2], 10, true);
         this.host.animations.add('wtf', [3,4,4,4,3,3,4,4,4,4], 7, true);
-        this.host.animations.add('worries', [5,6,7,8,7,7,8,8,7,7,8,8,7,7,8,7,6,5], 10, true);
+        this.host.animations.add('worries', [5,6,7,8,7,7,8,8,7,7,8,8,7,7,8,7,6,5,5,5,5,5,5,5], 10, true);
         this.host.animations.play('blink');
 
         this.updateStatus();
