@@ -5,10 +5,18 @@ var FB_PERMISSIONS = 'public_profile,user_friends,publish_actions';
 var FB_UID = undefined;
 var FB_ACCESS_TOKEN = undefined;
 
+var FB_CAN_PUBLISH = false;
+
 
 function _fbSaveLogin(response) {
     FB_UID = response.authResponse.userID;
     FB_ACCESS_TOKEN = response.authResponse.accessToken;
+    FB_CAN_PUBLISH = false;
+    for (var i = 0; i < response.grantedScopes.length; i++) {
+        if (response.grantedScopes[i] === 'publish_actions') {
+            FB_CAN_PUBLISH = true;
+        }
+    }
 }
 
 function fbIsLoggedIn() {
@@ -155,7 +163,8 @@ function fbLogIn(callback, thisArg) {
                         callback();
                     }
                 }, {
-                    scope: FB_PERMISSIONS
+                    scope: FB_PERMISSIONS,
+                    return_scopes: true
                 });
             }
         });
