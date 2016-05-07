@@ -10,9 +10,6 @@ Paloquiz.states.Highscores = function(game) {
     this.nameTextStyle;
     this.scoreTextStyle;
     this.positionTextStyle;
-    this.nameUserTextStyle;
-    this.scoreUserTextStyle;
-    this.positionUserTextStyle;
     this.arrowRight;
     this.arrowLeft;
     this.backButton;
@@ -65,11 +62,7 @@ Paloquiz.states.Highscores.prototype = {
 
     loadComplete: function() {
         for (var i = 0; i < this.numFriendsInPage; i++) {
-            if (!this.profileImagesData[i].isSilhouette) {
-                this.scores[i].img.loadTexture(i);
-            } else {
-                this.scores[i].img.loadTexture('noface');
-            }
+            this.scores[i].img.loadTexture(i);
             this.scores[i].img.width = this.IMAGE_SIZE;
             this.scores[i].img.height = this.IMAGE_SIZE;
             this.scores[i].img.anchor.setTo(.5, .5);
@@ -113,6 +106,9 @@ Paloquiz.states.Highscores.prototype = {
     loadScoresPage: function() {
         // Hide all entries
         this.scores.forEach(function(s) {
+            s.back.frame = 0;
+            s.back.visible = false;
+            s.img.loadTexture('noface');
             s.img.visible = false;
             s.pos.setStyle(this.positionTextStyle);
             s.pos.visible = false;
@@ -162,12 +158,11 @@ Paloquiz.states.Highscores.prototype = {
                     this.scores[iScore].pos.setText((iFriend + 1) + '.');
                     this.scores[iScore].name.setText(friend.firstName || friend.name);
                     this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
-                    // Use special style for the user
+                    // Use special background for the user
                     if (iFriend == this.userPos) {
-                        this.scores[iScore].pos.setStyle(this.positionUserTextStyle);
-                        this.scores[iScore].name.setStyle(this.nameUserTextStyle);
-                        this.scores[iScore].score.setStyle(this.scoreUserTextStyle);
+                        this.scores[iScore].back.frame = 2;
                     }
+                    this.scores[iScore].back.visible = true;
                     this.scores[iScore].pos.visible = true;
                     this.scores[iScore].name.visible = true;
                     this.scores[iScore].score.visible = true;
@@ -186,7 +181,6 @@ Paloquiz.states.Highscores.prototype = {
         var nameTextSize = textSize;
         var scoreTextSize = textSize;
         var normalColor = 'white';
-        var userColor = 'red';
 
         // Normal
         this.positionTextStyle = {
@@ -215,39 +209,20 @@ Paloquiz.states.Highscores.prototype = {
             boundsAlignH: 'right',
             boundsAlignV: 'middle'
         };
-        // User
-        this.positionUserTextStyle = {
-            font: fontFace,
-            fontSize: positionTextSize,
-            fill: userColor,
-            align: 'right',
-            boundsAlignH: 'right',
-            boundsAlignV: 'middle'
-        };
-        this.nameUserTextStyle = {
-            font: fontFace,
-            fontSize: nameTextSize,
-            fill: userColor,
-            align: 'left',
-            boundsAlignH: 'left',
-            boundsAlignV: 'middle',
-            wordWrap: true,
-            wordWrapWidth: this.NAME_BOX.width
-        };
-        this.scoreUserTextStyle = {
-            font: fontFace,
-            fontSize: scoreTextSize,
-            fill: userColor,
-            align: 'right',
-            boundsAlignH: 'right',
-            boundsAlignV: 'middle'
-        };
     },
 
     createHighscoreEntries: function() {
         for (var i = 0; i < this.PAGE_SIZE; i++) {
             var xOffset = 0;
             var yOffset = i * this.ENTRY_BOX.height;
+
+            // Background
+            var back = this.add.image(this.BACKGROUND_BOX.x, this.BACKGROUND_BOX.y,
+                'highscoreBackground', 0);
+            back.width = this.BACKGROUND_BOX.width;
+            back.height = this.BACKGROUND_BOX.height;
+            back.anchor.setTo(0, 0);
+            back.visible = false;
 
             // Position
             var pos = this.add.text(0, 0, '', this.positionTextStyle);
@@ -284,6 +259,7 @@ Paloquiz.states.Highscores.prototype = {
             score.visible = false;
 
             this.scores.push({
+                back: back,
                 pos: pos,
                 img: img,
                 name: name,
@@ -377,6 +353,12 @@ Paloquiz.states.Highscores.prototype = {
         width: 0,
         height: 0
     },
+    BACKGROUND_BOX: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    },
     POSITION_BOX: {
         x: 0,
         y: 0,
@@ -414,6 +396,12 @@ Paloquiz.states.Highscores.prototype = {
         this.ENTRY_BOX.y = this.ENTRIES_BOX.y;
         this.ENTRY_BOX.width = this.ENTRIES_BOX.width;
         this.ENTRY_BOX.height = this.ENTRIES_BOX.height / this.PAGE_SIZE;
+
+        var backgroundMarginH = .1 * this.ENTRIES_BOX.height;
+        this.BACKGROUND_BOX.x = this.ENTRY_BOX.x;
+        this.BACKGROUND_BOX.y = this.ENTRY_BOX.y + backgroundMarginH;
+        this.BACKGROUND_BOX.width = this.ENTRY_BOX.width;
+        this.BACKGROUND_BOX.height = this.ENTRY_BOX.height - 2 * backgroundMarginH;
 
         this.POSITION_BOX.x = this.ENTRY_BOX.x + this.ENTRY_BOX.width * .0;
         this.POSITION_BOX.y = this.ENTRY_BOX.y;
