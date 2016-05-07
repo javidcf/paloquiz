@@ -32,7 +32,7 @@ Paloquiz.states.Main.prototype = {
     SCORE_TEXT_SIZE: '',
     SCORE_COLOR: '#ffffff',
     QCOUNT_TEXT_SIZE: '',
-    QCOUNT_COLOR: '#ff8000',
+    QCOUNT_COLOR: '#ffffff',
     NUM_ANSWERS: 4,
     CORRECT_PHRASES:["¡Toma ya!","¡Efectiviwonder!","Sabía que la sabrías"],
     WRONG_PHRASES: ["¡¿En serio?!","¡Venga ya!","Esta era un básico"],
@@ -105,16 +105,16 @@ Paloquiz.states.Main.prototype = {
 
         // Score text
         this.scoreText = this.add.text(
-            this.world.width * .236, this.world.height * .032, '0', {
+            this.world.width * .01, this.world.height * .032, '0', {
                 font: 'Pixel Art',
                 fontSize: this.SCORE_TEXT_SIZE,
                 fill: this.SCORE_COLOR,
                 align: 'center'
             });
-        this.scoreText.anchor.setTo(1, .5);
+        this.scoreText.anchor.setTo(0, .5);
 
         this.qCountText = this.add.text(
-            this.world.width * .14, this.world.height * .08, '', {
+            this.world.width * .11, this.world.height * .08, '', {
                 font: 'Pixel Art',
                 fontSize: this.QCOUNT_TEXT_SIZE,
                 fill: this.QCOUNT_COLOR,
@@ -308,7 +308,7 @@ Paloquiz.states.Main.prototype = {
                 this.questionText.setText(questionHeader['question']);
                 this.loadQuestionImage(questionHeader['img'], function() {
                     getJSON('/question', function(question) {
-                        var count = question["question_idx"] + 1 + "/" + question["num_questions"];
+                        var count = this.formatNumber(question["question_idx"]+1, 2) + "/" + question["num_questions"];
                         this.qCountText.setText(count);
                         this.questionText.setText(question['question']);
                         this.loadAnswers(question['answers']);
@@ -318,7 +318,7 @@ Paloquiz.states.Main.prototype = {
             }, this);
         } else {
             getJSON('/question', function(question) {
-                var count = question["question_idx"] + 1 + "/" + question["num_questions"];
+                var count = this.formatNumber(question["question_idx"]+1, 2) + "/" + question["num_questions"];
                 this.qCountText.setText(count);
                 this.questionText.setText(question['question']);
                 this.loadAnswers(question['answers']);
@@ -376,7 +376,7 @@ Paloquiz.states.Main.prototype = {
 
     updateStatus: function() {
         getJSON('/status', function(gameStatus) {
-            this.scoreText.setText(gameStatus['score']);
+            this.scoreText.setText(this.formatNumber(gameStatus['score'], 5));
             if (gameStatus['status'] == 'question') {
                 this.loadQuestion(true);
             } else if (gameStatus['status'] == 'answer') {
@@ -395,6 +395,18 @@ Paloquiz.states.Main.prototype = {
 
 
         this.enableInput(true);
+    },
+
+    formatNumber: function(number, numberOfdigits){
+        var numberStr = number + "";
+        var missingNumbers = numberOfdigits - numberStr.length
+
+        for(var i=0; i < missingNumbers ; i++){
+            numberStr = "0" + numberStr;
+            console.info(numberStr)
+        }
+        
+        return numberStr;
     },
 
     // Boxes
@@ -474,7 +486,7 @@ Paloquiz.states.Main.prototype = {
         this.OPTIONS_PANE_BOX.width = this.world.width;
         this.OPTIONS_PANE_BOX.height = this.world.height * .372;
 
-        this.HOST_BOX.x = this.world.width * .681;
+        this.HOST_BOX.x = this.world.width * .684;
         this.HOST_BOX.y = this.world.height * .61;
         this.HOST_BOX.width = this.world.width * .284;
         this.HOST_BOX.height = this.world.height * .378;
