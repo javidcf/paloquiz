@@ -197,8 +197,6 @@ Paloquiz.states.Main.prototype = {
     },
 
     showAnswerMessage: function(buttonId, correct) {
-        this.enableInput(false);
-
         if (correct) {
             phrase =  this.CORRECT_PHRASES[Math.floor(Math.random() * this.CORRECT_PHRASES.length)];
             this.optButtons[buttonId].setFrames(3, 3, 3);
@@ -245,6 +243,7 @@ Paloquiz.states.Main.prototype = {
 
     actionOnClick: function(button) {
         this.timebarTween.stop();
+        this.enableInput(false);
         getJSON('/answer/' + button.answerId, function(answerResponse) {
 
             if (answerResponse['correct']) {
