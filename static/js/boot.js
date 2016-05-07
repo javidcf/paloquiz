@@ -11,7 +11,7 @@ Paloquiz.states.Boot.prototype = {
     preload: function() {
         // Preloader assets
         this.load.image('background', 'assets/graphics/background.png');
-        this.load.spritesheet('loadBar', 'assets/load_bar.png', 128, 16);
+        this.load.spritesheet('loadBar', 'assets/graphics/load-bar.png', 609, 46);
     },
 
     update: function () {

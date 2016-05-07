@@ -78,9 +78,9 @@ Paloquiz.states.Preloader.prototype = {
     createPreloaderElements: function() {
 
         var loadingText = this.add.text(
-            this.world.centerX, this.world.centerY, 'Cargando...', {
+            this.world.centerX, this.world.height * .48, 'Cargando...', {
                 font: 'Pixel Art',
-                fontSize: '40px',
+                fontSize: '50px',
                 fill: 'white',
                 align: 'center',
             });
@@ -90,19 +90,17 @@ Paloquiz.states.Preloader.prototype = {
         var preloadBarHeight = .1 * smallDim;
         this.preloadBarMaxWidth = .8 * smallDim;
 
-        var preloadBase = this.add.image(0, 0, 'loadBar', 0);
-        preloadBase.anchor.setTo(0, 0);
-        preloadBase.height = preloadBarHeight;
+        var preloadBase = this.add.image(0, 0, 'loadBar', 1);
         preloadBase.width = this.preloadBarMaxWidth;
+        preloadBase.height = preloadBarHeight;
         preloadBase.x = this.world.centerX - preloadBase.width / 2;
-        preloadBase.y = this.world.centerY;
+        preloadBase.y = this.world.height * .52;
+        preloadBase.anchor.setTo(0, 0);
 
-        this.preloadBar = this.add.image(0, 0, 'loadBar', 1);
+        this.preloadBar = this.add.image(preloadBase.x, preloadBase.y, 'loadBar', 0);
+        this.preloadBar.width = preloadBase.width;
+        this.preloadBar.height = preloadBase.height;
         this.preloadBar.anchor.setTo(0, 0);
-        this.preloadBar.height = preloadBarHeight;
-        this.preloadBar.width = this.preloadBarMaxWidth;
-        this.preloadBar.x = this.world.centerX - this.preloadBar.width / 2;
-        this.preloadBar.y = this.world.centerY;
 
         this.preloadBarCrop = new Phaser.Rectangle(0, 0, 0, preloadBarHeight);
         this.preloadBar.crop(this.preloadBarCrop);
