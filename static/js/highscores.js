@@ -217,7 +217,8 @@ Paloquiz.states.Highscores.prototype = {
             var yOffset = i * this.ENTRY_BOX.height;
 
             // Background
-            var back = this.add.image(this.BACKGROUND_BOX.x, this.BACKGROUND_BOX.y,
+            var back = this.add.image(this.BACKGROUND_BOX.x,
+                this.BACKGROUND_BOX.y + yOffset,
                 'highscoreBackground', 0);
             back.width = this.BACKGROUND_BOX.width;
             back.height = this.BACKGROUND_BOX.height;
@@ -397,7 +398,7 @@ Paloquiz.states.Highscores.prototype = {
         this.ENTRY_BOX.width = this.ENTRIES_BOX.width;
         this.ENTRY_BOX.height = this.ENTRIES_BOX.height / this.PAGE_SIZE;
 
-        var backgroundMarginH = .1 * this.ENTRIES_BOX.height;
+        var backgroundMarginH = .1 * this.ENTRY_BOX.height;
         this.BACKGROUND_BOX.x = this.ENTRY_BOX.x;
         this.BACKGROUND_BOX.y = this.ENTRY_BOX.y + backgroundMarginH;
         this.BACKGROUND_BOX.width = this.ENTRY_BOX.width;
