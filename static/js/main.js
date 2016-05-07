@@ -1,14 +1,17 @@
 Paloquiz.states.Main = function(game) {
     this.optionsPane;
     this.dialogPane;
+    this.imageFrame;
+    this.imageMask;
     this.host;
     this.scoreText;
     this.qCountText;
     this.loadText;
     this.questionText;
     this.timebar;
+    this.timebarCrop;
     this.timebarTween;
-    this.barProgress;
+    this.timebarProgress;
     this.optGroup;
     this.optButtons;
     this.optLabels;
@@ -55,8 +58,10 @@ Paloquiz.states.Main.prototype = {
 
     create: function() {
         Paloquiz.enableFbButtons(false);
+
         var exitButtonSize = .1 * Math.min(this.world.width, this.world.height);
-        var exitButton = this.add.button(.2 * exitButtonSize, .2 * exitButtonSize,
+        var exitButton = this.add.button(
+            this.world.width - .2 * exitButtonSize, .2 * exitButtonSize,
             'exitButton', function() {
                 getJSON('/finish', function() {
                     this.state.start('Router');
@@ -64,34 +69,38 @@ Paloquiz.states.Main.prototype = {
             }, this, 1, 0, 1);
         exitButton.width = exitButtonSize;
         exitButton.height = exitButtonSize;
+        exitButton.anchor.setTo(1, 0);
 
         this.optionsPane = this.add.image(this.OPTIONS_PANE_BOX.x, this.OPTIONS_PANE_BOX.y, 'optionsPane');
         this.optionsPane.width = this.OPTIONS_PANE_BOX.width;
         this.optionsPane.height = this.OPTIONS_PANE_BOX.height;
         this.optionsPane.anchor.setTo(0, 0);
-        this.optionsPane.smoothed = false;
+
+        this.imageFrame = this.add.image(this.IMAGE_BOX.x, this.IMAGE_BOX.y, 'imageFrame');
+        this.imageFrame.width = this.IMAGE_BOX.width;
+        this.imageFrame.height = this.IMAGE_BOX.height;
+        this.imageFrame.anchor.setTo(0, 0);
 
         this.dialogPane = this.add.image(this.DIALOG_PANE_BOX.x, this.DIALOG_PANE_BOX.y, 'dialogPane');
         this.dialogPane.width = this.DIALOG_PANE_BOX.width;
         this.dialogPane.height = this.DIALOG_PANE_BOX.height;
         this.dialogPane.anchor.setTo(0, 0);
-        this.dialogPane.smoothed = false;
 
-        //  var bar = this.add.bitmapData(300, 200);
-        this.timebar = this.add.bitmapData(this.TIMEBAR_BOX.width, this.TIMEBAR_BOX.height);
-        var timebarImage = this.add.image(this.TIMEBAR_BOX.x, this.TIMEBAR_BOX.y, this.timebar);
-        timebarImage.width = this.TIMEBAR_BOX.width;
-        timebarImage.height = this.TIMEBAR_BOX.height;
-        timebarImage.anchor.setTo(0, 0);
-        this.timebar.context.fillStyle = this.TIMEBAR_OK_COLOR;
-        this.timebar.context.fillRect(0, 0, this.TIMEBAR_BOX.width, this.TIMEBAR_BOX.height);
-        this.barProgress = this.TIMEBAR_BOX.width;
+        var timebarBase = this.add.image(this.TIMEBAR_BOX.x, this.TIMEBAR_BOX.y, 'timebar', 0);
+        timebarBase.width = this.TIMEBAR_BOX.width;
+        timebarBase.height = this.TIMEBAR_BOX.height;
+        timebarBase.anchor.setTo(0, 0);
+        this.timebar = this.add.image(this.TIMEBAR_BOX.x, this.TIMEBAR_BOX.y, 'timebar', 1);
+        this.timebar.width = this.TIMEBAR_BOX.width;
+        this.timebar.height = this.TIMEBAR_BOX.height;
+        this.timebar.anchor.setTo(0, 0);
+        this.timebarCrop = new Phaser.Rectangle(0, 0, this.timebar.width, this.timebar.height);
+        this.timebar.crop(this.timebarCrop);
 
         this.host = this.add.sprite(this.HOST_BOX.x, this.HOST_BOX.y, 'host', 2)
         this.host.width = this.HOST_BOX.width;
         this.host.height = this.HOST_BOX.height;
         this.host.anchor.setTo(0, 0);
-        this.host.smoothed = false;
 
         // Palo sprite animations (name, frames, frameRate, loop)
         this.host.animations.add('blink', [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1], 10, true);
@@ -105,40 +114,40 @@ Paloquiz.states.Main.prototype = {
         this.load.onFileComplete.add(this.fileComplete, this);
 
         // Score text
-        var scoreMargin = .02 * Math.min(this.world.width, this.world.height);
-        this.scoreText = this.add.text(this.world.width - scoreMargin, scoreMargin, '0', {
-            font: 'Pixel Art',
-            fontSize: this.SCORE_TEXT_SIZE,
-            fill: this.SCORE_COLOR,
-            align: 'center'
-        });
-        this.scoreText.anchor.setTo(1, 0);
+        this.scoreText = this.add.text(
+            this.world.width * .236, this.world.height * .032, '0', {
+                font: 'Pixel Art',
+                fontSize: this.SCORE_TEXT_SIZE,
+                fill: this.SCORE_COLOR,
+                align: 'center'
+            });
+        this.scoreText.anchor.setTo(1, .5);
 
-        this.qCountText = this.add.text(this.UI_BOX.x + this.UI_BOX.width , 
-                                        this.IMAGE_BOX.y + this.IMAGE_BOX.height, '', {
-            font: 'Pixel Art',
-            fontSize: this.QCOUNT_TEXT_SIZE,
-            fill: this.QCOUNT_COLOR,
-            align: 'center'
-        });
-        this.qCountText.anchor.setTo(1, 1);
+        this.qCountText = this.add.text(
+            this.world.width * .14, this.world.height * .08, '', {
+                font: 'Pixel Art',
+                fontSize: this.QCOUNT_TEXT_SIZE,
+                fill: this.QCOUNT_COLOR,
+                align: 'center'
+            });
+        this.qCountText.anchor.setTo(1, .5);
 
         // Question text
         this.questionText = this.add.text(0, 0, '', {
-                font: 'Pixel Art',
-                fontSize: this.QUESTION_TEXT_SIZE,
-                align: 'center',
-                fill: this.QUESTION_COLOR,
-                boundsAlignH: 'center',
-                boundsAlignV: 'middle',
-                wordWrap: true,
-                wordWrapWidth: this.QUESTION_BOX.width
-            });
+            font: 'Pixel Art',
+            fontSize: this.QUESTION_TEXT_SIZE,
+            align: 'center',
+            fill: this.QUESTION_COLOR,
+            boundsAlignH: 'center',
+            boundsAlignV: 'middle',
+            wordWrap: true,
+            wordWrapWidth: this.QUESTION_BOX.width
+        });
         this.questionText.setTextBounds(
-                this.QUESTION_BOX.x,
-                this.QUESTION_BOX.y,
-                this.QUESTION_BOX.width,
-                this.QUESTION_BOX.height);
+            this.QUESTION_BOX.x,
+            this.QUESTION_BOX.y,
+            this.QUESTION_BOX.width,
+            this.QUESTION_BOX.height);
 
         this.createOptionButtons();
         this.updateStatus();
@@ -161,12 +170,11 @@ Paloquiz.states.Main.prototype = {
 
         for (var i = 0; i < 4; i++) {
             var xOffset = 0;
-            var yOffset = i * this.ANSWERS_BOX.height / this.NUM_ANSWERS;
+            var yOffset = i * this.ANSWERS_BOX.height;
 
             this.optButtons[i] = this.add.button(
                 this.OPTION_BOX.x + xOffset, this.OPTION_BOX.y + yOffset,
-                'optionButton', this.actionOnClick, this, 2, 1, 0);
-            this.optButtons[i].smoothed = false;
+                'optionButton', this.actionOnClick, this, 1, 0, 1);
             this.optButtons[i].width = this.OPTION_BOX.width;
             this.optButtons[i].height = this.OPTION_BOX.height;
             this.optButtons[i].anchor.setTo(0, 0)
@@ -205,7 +213,9 @@ Paloquiz.states.Main.prototype = {
             this.questionText.fill = this.QUESTION_COLOR;
             this.enableInput(true);
             this.optButtons[buttonId].setFrames(2, 1, 0);
-            this.barProgress = this.optionsPane.width;
+            this.timebarProgress = this.TIMEBAR_BOX.width;
+            this.timebarCrop.width = this.timebarProgress;
+            this.timebar.updateCrop();
             this.updateStatus();
         }, this);
     },
@@ -248,20 +258,20 @@ Paloquiz.states.Main.prototype = {
     replaceQuestionImage: function(cacheKey) {
         this.clearQuestionImage();
 
-        var newImage = this.add.image(
-            this.IMAGE_BOX.x + this.IMAGE_BOX.width / 2,
-            this.IMAGE_BOX.y + this.IMAGE_BOX.height / 2,
-            cacheKey);
+        // var newImage = this.add.image(
+        //     this.IMAGE_BOX.x + this.IMAGE_BOX.width / 2,
+        //     this.IMAGE_BOX.y + this.IMAGE_BOX.height / 2,
+        //     cacheKey);
 
-        newImage.anchor.setTo(0.5, 0.5);
+        // newImage.anchor.setTo(0.5, 0.5);
 
-        var resScaleW = this.IMAGE_BOX.width / newImage.width;
-        var resScaleH = this.IMAGE_BOX.height / newImage.height;
-        var resScale = Math.min(resScaleW, resScaleH);
-        newImage.width = newImage.width * resScale;
-        newImage.height = newImage.height * resScale;
+        // var resScaleW = this.IMAGE_BOX.width / newImage.width;
+        // var resScaleH = this.IMAGE_BOX.height / newImage.height;
+        // var resScale = Math.min(resScaleW, resScaleH);
+        // newImage.width = newImage.width * resScale;
+        // newImage.height = newImage.height * resScale;
 
-        this.questionImage = newImage;
+        // this.questionImage = newImage;
     },
 
     clearQuestionImage: function() {
@@ -307,23 +317,29 @@ Paloquiz.states.Main.prototype = {
     },
 
     initTimeBar: function(time, maxTime) {
-        this.barProgress = time * this.optionsPane.width / maxTime;
+        this.timebarProgress = this.TIMEBAR_BOX.width * (time / maxTime);
+        this.timebarCrop.width = this.timebarProgress;
+        this.timebar.updateCrop();
 
         this.timebarTween = this.add.tween(this);
         this.timebarTween.to({
-            barProgress: 0
+            timebarProgress: 0
         }, time, null, true, 0, 0);
 
-        this.timebarTween.onUpdateCallback(this.updateTimebar, this);
+        this.timebarTween.onUpdateCallback(function () {
+            this.timebarCrop.width = this.timebarProgress;
+            this.timebar.updateCrop();
+        }, this);
         this.timebarTween.onComplete.add(function() {
             this.enableInput(false);
             this.questionText.setText('Time Out! :S');
             this.questionText.fontSize = this.ANSWER_TEXT_SIZE;
             this.questionText.fill = this.ANSWER_FAIL_COLOR;
-            
+
             this.time.events.add(Phaser.Timer.SECOND * 2, function() {
                 this.enableInput(true);
-                this.barProgress = this.TIMEBAR_BOX.width;
+                this.timebarCrop.width = this.TIMEBAR_BOX.width;
+                this.timebar.updateCrop();
                 this.questionText.setText('');
                 this.questionText.fontSize = this.QUESTION_TEXT_SIZE;
                 this.questionText.fill = this.QUESTION_COLOR;
@@ -334,28 +350,6 @@ Paloquiz.states.Main.prototype = {
                 }, this);
             }, this);
         }, this);
-    },
-
-    updateTimebar: function() {
-        // ensure you clear the context each time you update it or the bar will draw on top of itself
-        this.timebar.context.clearRect(0, 0, this.timebar.width, this.timebar.height);
-
-        // 25%  = warning
-        if (this.barProgress < this.timebar.width * 0.25) {
-            this.timebar.context.fillStyle = this.TIMEBAR_CRIT_COLOR;
-        }
-        // 50%  = warning
-        else if (this.barProgress < this.timebar.width * 0.5) {
-            this.timebar.context.fillStyle = this.TIMEBAR_WARN_COLOR;
-        } else {
-            this.timebar.context.fillStyle = this.TIMEBAR_OK_COLOR;
-        }
-
-        // draw the bar
-        this.timebar.context.fillRect(0, 0, this.barProgress, this.timebar.height);
-
-        // important - without this line, the context will never be updated on the GPU when using webGL
-        this.timebar.dirty = true;
     },
 
     updateStatus: function() {
@@ -432,57 +426,46 @@ Paloquiz.states.Main.prototype = {
     },
 
     createLayoutBoxes: function() {
-        var margin = 0.03 * Math.min(this.world.width, this.world.height);
-        this.UI_BOX.x = margin;
-        this.UI_BOX.y = margin;
-        this.UI_BOX.width = this.world.width - 2 * margin;
-        this.UI_BOX.height = this.world.height - 2 * margin;
+        this.IMAGE_BOX.x = 0;
+        this.IMAGE_BOX.y = this.world.height * .0125;
+        this.IMAGE_BOX.width = this.world.width;
+        this.IMAGE_BOX.height = this.world.height * .376;
 
-        this.IMAGE_BOX.x = this.UI_BOX.x + this.UI_BOX.width * .18;
-        this.IMAGE_BOX.y = this.UI_BOX.y;
-        this.IMAGE_BOX.width = this.UI_BOX.width * .62;
-        this.IMAGE_BOX.height = this.UI_BOX.height * .37;
+        this.DIALOG_PANE_BOX.x = 0;
+        this.DIALOG_PANE_BOX.y = this.IMAGE_BOX.y + this.IMAGE_BOX.height * .97;
+        this.DIALOG_PANE_BOX.width = this.world.width;
+        this.DIALOG_PANE_BOX.height = this.world.height * .184;
 
-        this.DIALOG_PANE_BOX.x = this.UI_BOX.x;
-        this.DIALOG_PANE_BOX.y = this.UI_BOX.y + this.UI_BOX.height * .38;
-        this.DIALOG_PANE_BOX.width = this.UI_BOX.width;
-        this.DIALOG_PANE_BOX.height = this.UI_BOX.height * .20;
-
-        var questionMargin = .15 * this.DIALOG_PANE_BOX.height;
+        var questionMargin = .12 * this.DIALOG_PANE_BOX.height;
         this.QUESTION_BOX.x = this.DIALOG_PANE_BOX.x + questionMargin;
         this.QUESTION_BOX.y = this.DIALOG_PANE_BOX.y + questionMargin;
         this.QUESTION_BOX.width = this.DIALOG_PANE_BOX.width - 2 * questionMargin;
         this.QUESTION_BOX.height = this.DIALOG_PANE_BOX.height - 2 * questionMargin;
 
-        this.TIMEBAR_BOX.x = this.UI_BOX.x;
-        this.TIMEBAR_BOX.y = this.UI_BOX.y + this.UI_BOX.height * .59;
-        this.TIMEBAR_BOX.width = this.UI_BOX.width;
-        this.TIMEBAR_BOX.height = this.UI_BOX.height * .02;
+        this.TIMEBAR_BOX.x = this.world.width * .027;
+        this.TIMEBAR_BOX.y = this.world.height * .566;
+        this.TIMEBAR_BOX.width = this.world.width * .952;
+        this.TIMEBAR_BOX.height = this.world.height * .048;
 
-        this.OPTIONS_PANE_BOX.x = this.UI_BOX.x;
-        this.OPTIONS_PANE_BOX.y = this.UI_BOX.y + this.UI_BOX.height * .62;
-        this.OPTIONS_PANE_BOX.width = this.UI_BOX.width;
-        this.OPTIONS_PANE_BOX.height = this.UI_BOX.height * .38;
+        this.OPTIONS_PANE_BOX.x = 0;
+        this.OPTIONS_PANE_BOX.y = this.world.height * .617;
+        this.OPTIONS_PANE_BOX.width = this.world.width;
+        this.OPTIONS_PANE_BOX.height = this.world.height * .372;
 
-        var optionsSplit = .75;
+        this.HOST_BOX.x = this.world.width * .681;
+        this.HOST_BOX.y = this.world.height * .61;
+        this.HOST_BOX.width = this.world.width * .284;
+        this.HOST_BOX.height = this.world.height * .378;
 
-        var hostMargin = .1 * this.OPTIONS_PANE_BOX.height;
-        this.HOST_BOX.x = this.OPTIONS_PANE_BOX.x + this.OPTIONS_PANE_BOX.width * optionsSplit;
-        this.HOST_BOX.y = this.OPTIONS_PANE_BOX.y + hostMargin;
-        this.HOST_BOX.width = this.OPTIONS_PANE_BOX.width * (1 - optionsSplit) - hostMargin;
-        this.HOST_BOX.height = this.OPTIONS_PANE_BOX.height - 2 * hostMargin;
+        this.ANSWERS_BOX.x = this.world.width * 0.0125;
+        this.ANSWERS_BOX.y = this.world.height * .642;
+        this.ANSWERS_BOX.width = this.world.width * .71;
+        this.ANSWERS_BOX.height = this.world.height * .08125;
 
-        var answersMargin = .05 * Math.min(this.OPTIONS_PANE_BOX.width, this.OPTIONS_PANE_BOX.height);
-        this.ANSWERS_BOX.x = this.OPTIONS_PANE_BOX.x + answersMargin;
-        this.ANSWERS_BOX.y = this.OPTIONS_PANE_BOX.y + answersMargin;
-        this.ANSWERS_BOX.width = this.OPTIONS_PANE_BOX.width * optionsSplit - 2 * answersMargin;
-        this.ANSWERS_BOX.height = this.OPTIONS_PANE_BOX.height - 2 * answersMargin;
-
-        var optionMargin = .02 * Math.min(this.ANSWERS_BOX.width, this.ANSWERS_BOX.height);
-        this.OPTION_BOX.x = this.ANSWERS_BOX.x + optionMargin;
-        this.OPTION_BOX.y = this.ANSWERS_BOX.y + optionMargin;
-        this.OPTION_BOX.width = this.ANSWERS_BOX.width - optionMargin;
-        this.OPTION_BOX.height = this.ANSWERS_BOX.height / this.NUM_ANSWERS - 2 * optionMargin;
+        this.OPTION_BOX.x = this.ANSWERS_BOX.x;
+        this.OPTION_BOX.y = this.ANSWERS_BOX.y;
+        this.OPTION_BOX.width = this.ANSWERS_BOX.width;
+        this.OPTION_BOX.height = this.world.height * .067;
     }
 
 };

@@ -8,16 +8,19 @@ Paloquiz.states.Preloader.prototype = {
 
     preloadFiles: function() {
         // Start
-        this.load.spritesheet('startButton', 'assets/graphics/question-button.png', 463, 73);
+        this.load.spritesheet('startButton', 'assets/graphics/question-button.png', 465, 75);
         this.load.spritesheet('fbButton', 'assets/graphics/fb-button.png', 64, 64);
         this.load.spritesheet('hiscoresButton', 'assets/graphics/highscores-button.png', 64, 64);
 
         // Main
         this.load.spritesheet('host', 'assets/graphics/palo-sm.png', 188, 375);
+        this.load.image('imageFrame', 'assets/graphics/frame.png');
+        this.load.image('imageMask', 'assets/graphics/question-image-mask.png');
         this.load.image('dialogPane', 'assets/graphics/question.png');
         this.load.image('optionsPane', 'assets/graphics/answers.png');
-        this.load.spritesheet('optionButton', 'assets/graphics/question-button.png', 463, 73);
+        this.load.spritesheet('optionButton', 'assets/graphics/question-button.png', 465, 75);
         this.load.spritesheet('exitButton', 'assets/graphics/close-button.png', 64, 64);
+        this.load.spritesheet('timebar', 'assets/graphics/timebar.png', 609, 46);
 
         // Highscores
         this.load.image('noface', 'assets/noface.png');
@@ -28,7 +31,7 @@ Paloquiz.states.Preloader.prototype = {
         this.load.spritesheet('star', 'assets/star_button.png', 16, 16);
 
         // Finish
-        this.load.spritesheet('finishButton', 'assets/graphics/question-button.png', 463, 73);
+        this.load.spritesheet('finishButton', 'assets/graphics/question-button.png', 465, 75);
     },
 
     create: function() {

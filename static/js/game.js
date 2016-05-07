@@ -37,13 +37,6 @@ window.onload = function() {
     Paloquiz.game = new Phaser.Game(width, height,
         renderer, GAME_CONTAINER_ID, {}, transparent, antialias);
 
-    // Does this do something?
-    PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
-    if (Paloquiz.game.renderType == Phaser.CANVAS) {
-        Phaser.Canvas.setImageRenderingCrisp(game.canvas);
-        Phaser.Canvas.setSmoothingEnabled(game.context, false);
-    }
-
     Paloquiz.game.state.add('Boot', Paloquiz.states.Boot);
     Paloquiz.game.state.add('Preloader', Paloquiz.states.Preloader);
     Paloquiz.game.state.add('Router', Paloquiz.states.Router);
