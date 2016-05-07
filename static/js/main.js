@@ -34,6 +34,7 @@ Paloquiz.states.Main.prototype = {
     QCOUNT_TEXT_SIZE: '',
     QCOUNT_COLOR: '#ffffff',
     NUM_ANSWERS: 4,
+    TIMEBAR_CROP_MAX_WIDTH: 0,
     CORRECT_PHRASES:["¡Toma ya!","¡Efectiviwonder!","Sabía que la sabrías"],
     WRONG_PHRASES: ["¡¿En serio?!","¡Venga ya!","Esta era un básico"],
     TIMEOUT_PHRASES:["Se acabó el tiempo...", "¡Date más prisa!", "Noo... ¡El tiempo!"],
@@ -74,6 +75,14 @@ Paloquiz.states.Main.prototype = {
         exitButton.height = exitButtonSize;
         exitButton.anchor.setTo(1, 0);
 
+        this.imageMask = new Phaser.Image(this.game, 0, 0,'imageMask');
+
+        this.questionImage = this.add.image(this.IMAGE_BOX.x,this.IMAGE_BOX.y, this.imageMask.texture);
+        this.questionImage.anchor.set(0, 0);
+        this.questionImage.visible = false;
+        this.questionImage.width = this.IMAGE_BOX.width;
+        this.questionImage.height = this.IMAGE_BOX.height;
+
         this.optionsPane = this.add.image(this.OPTIONS_PANE_BOX.x, this.OPTIONS_PANE_BOX.y, 'optionsPane');
         this.optionsPane.width = this.OPTIONS_PANE_BOX.width;
         this.optionsPane.height = this.OPTIONS_PANE_BOX.height;
@@ -93,11 +102,12 @@ Paloquiz.states.Main.prototype = {
         timebarBase.width = this.TIMEBAR_BOX.width;
         timebarBase.height = this.TIMEBAR_BOX.height;
         timebarBase.anchor.setTo(0, 0);
+        this.TIMEBAR_CROP_MAX_WIDTH = timebarBase.texture.width;
         this.timebar = this.add.image(this.TIMEBAR_BOX.x, this.TIMEBAR_BOX.y, 'timebar', 1);
         this.timebar.width = this.TIMEBAR_BOX.width;
         this.timebar.height = this.TIMEBAR_BOX.height;
         this.timebar.anchor.setTo(0, 0);
-        this.timebarCrop = new Phaser.Rectangle(0, 0, this.timebar.width, this.timebar.height);
+        this.timebarCrop = new Phaser.Rectangle(0, 0, this.timebar.setTexture.width, this.timebar.texture.height);
         this.timebar.crop(this.timebarCrop);
 
         //  You can listen for each of these events from Phaser.Loader
@@ -275,27 +285,21 @@ Paloquiz.states.Main.prototype = {
     replaceQuestionImage: function(cacheKey) {
         this.clearQuestionImage();
 
-        // var newImage = this.add.image(
-        //     this.IMAGE_BOX.x + this.IMAGE_BOX.width / 2,
-        //     this.IMAGE_BOX.y + this.IMAGE_BOX.height / 2,
-        //     cacheKey);
+        //  Create a new bitmap data the same size as our picture
+        var bmd = this.make.bitmapData(640, 375);
 
-        // newImage.anchor.setTo(0.5, 0.5);
+        //  And create an alpha mask image by combining pic and mask from the cache
+        bmd.alphaMask(cacheKey, this.imageMask);
 
-        // var resScaleW = this.IMAGE_BOX.width / newImage.width;
-        // var resScaleH = this.IMAGE_BOX.height / newImage.height;
-        // var resScale = Math.min(resScaleW, resScaleH);
-        // newImage.width = newImage.width * resScale;
-        // newImage.height = newImage.height * resScale;
+        //  A BitmapData is just a texture. You need to apply it to a sprite or image
+        //  to actually display it:
 
-        // this.questionImage = newImage;
+        this.questionImage.loadTexture(bmd);
+        this.questionImage.visible = true;
     },
 
     clearQuestionImage: function() {
-        if (this.questionImage) {
-            this.questionImage.destroy();
-            this.questionImage = undefined;
-        }
+        this.questionImage.visible = false;
     },
 
     loadQuestion: function(useHeader) {
@@ -334,7 +338,7 @@ Paloquiz.states.Main.prototype = {
     },
 
     initTimeBar: function(time, maxTime) {
-        this.timebarProgress = this.TIMEBAR_BOX.width * (time / maxTime);
+        this.timebarProgress = this.TIMEBAR_CROP_MAX_WIDTH * (time / maxTime);
         this.timebarCrop.width = this.timebarProgress;
         this.timebar.updateCrop();
 
@@ -347,7 +351,7 @@ Paloquiz.states.Main.prototype = {
             this.timebarCrop.width = this.timebarProgress;
             this.timebar.updateCrop();
 
-            if ((this.timebarCrop.width/this.TIMEBAR_BOX.width) < 0.5){
+            if ((this.timebarCrop.width/this.TIMEBAR_CROP_MAX_WIDTH) < 0.5){
                 this.host.animations.play('worries');
             }
 
