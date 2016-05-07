@@ -334,7 +334,7 @@ Paloquiz.states.Highscores.prototype = {
                     this.currentPage++;
                     this.loadScoresPage();
                 }
-            }, this, 0, 0, 0);
+            }, this, 1, 0, 1);
         this.arrowRight.width = arrowSize;
         this.arrowRight.height = arrowSize;
         this.arrowRight.anchor.setTo(1, 1);
@@ -348,7 +348,7 @@ Paloquiz.states.Highscores.prototype = {
                     this.currentPage--;
                     this.loadScoresPage();
                 }
-            }, this, 0, 0, 0);
+            }, this, 1, 0, 1);
         this.arrowLeft.width = arrowSize;
         this.arrowLeft.height = arrowSize;
         this.arrowLeft.anchor.setTo(1, 1);

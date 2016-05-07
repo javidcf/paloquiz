@@ -25,8 +25,8 @@ Paloquiz.states.Preloader.prototype = {
 
         // Highscores
         this.load.image('noface', 'assets/noface.png');
-        this.load.image('arrowLeft', 'assets/graphics/left-button.png');
-        this.load.image('arrowRight', 'assets/graphics/right-button.png');
+        this.load.spritesheet('arrowLeft', 'assets/graphics/left-button.png', 64, 64);
+        this.load.spritesheet('arrowRight', 'assets/graphics/right-button.png', 64, 64);
         this.load.spritesheet('highscoreBackground', 'assets/graphics/question-button.png', 465, 75);
 
         // Percentage stars
