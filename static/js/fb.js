@@ -2,7 +2,7 @@
 
 var FB_BASIC_PERMISSIONS = 'public_profile,user_friends';
 var FB_PUBLISH_PERMISSIONS = 'publish_actions';
-var FB_ALL_PERMISSIONS = FB_BASIC_PERMISSIONS + FB_PUBLISH_PERMISSIONS;
+var FB_ALL_PERMISSIONS = FB_BASIC_PERMISSIONS + ',' + FB_PUBLISH_PERMISSIONS;
 
 var FB_UID = undefined;
 var FB_ACCESS_TOKEN = undefined;
