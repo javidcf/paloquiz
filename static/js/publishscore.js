@@ -9,7 +9,7 @@ Paloquiz.states.PublishScore.prototype = {
     create: function() {
         getJSON('/status', function(gameStatus) {
             if (gameStatus['status'] !== 'finish') {
-                this.status.start('Router');
+                this.state.start('Router');
                 return;
             }
             this.score = gameStatus['score'];
@@ -19,14 +19,14 @@ Paloquiz.states.PublishScore.prototype = {
                         if (this.score > currentScore) {
                             fbPublishScore(this.score,
                                 function() {
-                                    this.status.start('Finish');
+                                    this.state.start('Finish');
                                 },
                                 function() {
-                                    this.status.start('Finish');
+                                    this.state.start('Finish');
                                 },
                                 this);
                         } else {
-                            this.status.start('Finish');
+                            this.state.start('Finish');
                         }
                     }, this);
                 } else {
@@ -77,14 +77,14 @@ Paloquiz.states.PublishScore.prototype = {
                         if (this.score > currentScore) {
                             fbPublishScore(this.score,
                                 function() {
-                                    this.status.start('Finish');
+                                    this.state.start('Finish');
                                 },
                                 function() {
-                                    this.status.start('Finish');
+                                    this.state.start('Finish');
                                 },
                                 this);
                         } else {
-                            this.status.start('Finish');
+                            this.state.start('Finish');
                         }
                     }, this);
                 } else {
@@ -93,11 +93,11 @@ Paloquiz.states.PublishScore.prototype = {
                             if (this.score > currentScore) {
                                 fbPublishScore(this.score,
                                     function() {
-                                        this.status.start('Finish');
+                                        this.state.start('Finish');
                                     },
                                     this);
                             } else {
-                                this.status.start('Finish');
+                                this.state.start('Finish');
                             }
                         }, this);
                     }, this);
