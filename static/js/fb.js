@@ -152,6 +152,9 @@ function fbLogIn(callback, thisArg) {
         }
     } else {
         FB.login(function(response) {
+            if (!response) {
+                return;
+            }
             _fbSaveLogin(response);
             FB_CAN_PUBLISH = false;
             var granted = response.authResponse.grantedScopes.split(',');
@@ -194,6 +197,9 @@ function fbLogInPublish(callback, thisArg) {
             };
         }
         FB.login(function(response) {
+            if (!response) {
+                return;
+            }
             _fbSaveLogin(response);
             FB_CAN_PUBLISH = false;
             var granted = response.authResponse.grantedScopes.split(',');
