@@ -43,12 +43,13 @@ Paloquiz.states.Start.prototype = {
         logo.height = this.LOGO_BOX.height;
         logo.anchor.setTo(0, 0);
 
-        this.startButton = this.add.button(this.START_BUTTON_BOX.x, this.START_BUTTON_BOX.y, 'startButton', function() {
-            getJSON('/start', function() {
-                this.state.start('Main');
-            }, this);
-        }, this, 1, 0, 2);
-        this.startButton.smoothed = false;
+        this.startButton = this.add.button(
+            this.START_BUTTON_BOX.x, this.START_BUTTON_BOX.y, 'genericButton',
+            function() {
+                getJSON('/start', function() {
+                    this.state.start('Main');
+                }, this);
+            }, this, 1, 0, 2);
         this.startButton.height = this.START_BUTTON_BOX.height;
         this.startButton.width = this.START_BUTTON_BOX.width;
         this.startButton.anchor.setTo(0, 0);
@@ -67,17 +68,13 @@ Paloquiz.states.Start.prototype = {
 
         // Facebook stuff
         this.createFbUI();
-        fbInit(function() {
-                // Is logged in
-                this.fbButton.visible = false;
-                this.hiscoresButton.visible = true;
-            },
-            function() {
-                // Is not logged in
-                this.fbButton.visible = true;
-                this.hiscoresButton.visible = false;
-            },
-            this);
+        if (fbIsLoggedIn()) {
+            this.fbButton.visible = false;
+            this.hiscoresButton.visible = true;
+        } else {
+            this.fbButton.visible = true;
+            this.hiscoresButton.visible = false;
+        }
 
     },
 
@@ -86,11 +83,9 @@ Paloquiz.states.Start.prototype = {
 
         this.fbButton = this.add.button(0, 0, 'fbButton', function() {
             fbLogIn(function() {
-                this.fbButton.visible = false;
-                this.hiscoresButton.visible = true;
+                this.state.start('Highscores');
             }, this);
         }, this, 1, 0, 1);
-        this.fbButton.smoothed = false;
         this.fbButton.height = buttonSize;
         this.fbButton.width = buttonSize;
         this.fbButton.anchor.setTo(1, 0);
@@ -101,7 +96,6 @@ Paloquiz.states.Start.prototype = {
         this.hiscoresButton = this.add.button(0, 0, 'hiscoresButton', function() {
             this.state.start('Highscores');
         }, this, 1, 0, 1);
-        this.hiscoresButton.smoothed = false;
         this.hiscoresButton.height = buttonSize;
         this.hiscoresButton.width = buttonSize;
         this.hiscoresButton.anchor.setTo(1, 0);

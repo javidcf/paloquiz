@@ -10,7 +10,7 @@ Paloquiz.states.Router.prototype = {
         } else if (gameStatus['status'] == 'answer') {
             this.state.start('Main');
         } else if (gameStatus['status'] == 'finish') {
-            this.state.start('Finish');
+            this.state.start('PublishScore');
         }
     },
 

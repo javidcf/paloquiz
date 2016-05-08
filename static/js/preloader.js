@@ -8,7 +8,7 @@ Paloquiz.states.Preloader.prototype = {
 
     preloadFiles: function() {
         // Start
-        this.load.spritesheet('startButton', 'assets/graphics/question-button.png', 465, 75);
+        this.load.spritesheet('genericButton', 'assets/graphics/question-button.png', 465, 75);
         this.load.spritesheet('fbButton', 'assets/graphics/fb-button.png', 64, 64);
         this.load.spritesheet('hiscoresButton', 'assets/graphics/highscores-button.png', 64, 64);
         this.load.image('logo', 'assets/graphics/logo.png');
@@ -33,9 +33,6 @@ Paloquiz.states.Preloader.prototype = {
 
         // Percentage stars
         this.load.spritesheet('star', 'assets/graphics/star.png', 195, 198);
-
-        // Finish
-        this.load.spritesheet('finishButton', 'assets/graphics/question-button.png', 465, 75);
     },
 
     create: function() {

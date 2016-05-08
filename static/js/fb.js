@@ -1,6 +1,8 @@
 // Some functions to interact with Facebook
 
-var FB_PERMISSIONS = 'public_profile,user_friends,publish_actions';
+var FB_BASIC_PERMISSIONS = 'public_profile,user_friends';
+var FB_PUBLISH_PERMISSIONS = 'publish_actions';
+var FB_ALL_PERMISSIONS = FB_BASIC_PERMISSIONS + ',' + FB_PUBLISH_PERMISSIONS;
 
 var FB_UID = undefined;
 var FB_ACCESS_TOKEN = undefined;
@@ -8,19 +10,21 @@ var FB_ACCESS_TOKEN = undefined;
 var FB_CAN_PUBLISH = false;
 
 
+function _fbLoaded() {
+    return (typeof FB !== 'undefined') && !!FB;
+}
+
 function _fbSaveLogin(response) {
     FB_UID = response.authResponse.userID;
     FB_ACCESS_TOKEN = response.authResponse.accessToken;
-    FB_CAN_PUBLISH = false;
-    for (var i = 0; i < response.grantedScopes.length; i++) {
-        if (response.grantedScopes[i] === 'publish_actions') {
-            FB_CAN_PUBLISH = true;
-        }
-    }
 }
 
 function fbIsLoggedIn() {
     return Boolean(FB_UID && FB_ACCESS_TOKEN);
+}
+
+function fbCanPublish() {
+    return fbIsLoggedIn() && (FB_CAN_PUBLISH === true);
 }
 
 function fbPublishScore(score, callback, errorCallback, thisArg) {
@@ -34,8 +38,16 @@ function fbPublishScore(score, callback, errorCallback, thisArg) {
     if (errorCallback) {
         errorCallback = errorCallback.bind(thisArg);
     }
+    if (!_fbLoaded()) {
+        if (errorCallback) {
+            errorCallback();
+        }
+        return;
+    }
 
-    fbUseApi('/' + FB_UID + '/scores', 'post', {score: score},
+    fbUseApi('/' + FB_UID + '/scores', 'post', {
+            score: score
+        },
         function(response) {
             if (response.success) {
                 if (callback) {
@@ -53,6 +65,9 @@ function fbPublishScore(score, callback, errorCallback, thisArg) {
 function fbGetUserScore(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
+    }
+    if (!_fbLoaded()) {
+        return;
     }
     fbUseApi('/' + FB_UID + '/scores', 'get', {},
         function(response) {
@@ -84,6 +99,9 @@ function fbGetFriendsScores(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
+    if (!_fbLoaded()) {
+        return;
+    }
     fbUseApi('/' + FB_APP_ID + '/scores', 'get', {},
         function(response) {
             data = response.data;
@@ -106,8 +124,11 @@ function fbGetProfileDetails(uid, callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
+    if (!_fbLoaded()) {
+        return;
+    }
     fbUseApi('/' + uid + '/?fields=name,first_name', 'get', {},
-        function (response1) {
+        function(response1) {
             fbUseApi('/' + uid + '/picture', 'get', {},
                 function(response2) {
                     if (callback) {
@@ -132,16 +153,22 @@ function fbUseApi(url, method, params, callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
+    if (!_fbLoaded()) {
+        return;
+    }
     params = params || ({});
-    fbInit(function() {
+    if (fbIsLoggedIn()) {
         params.access_token = FB_ACCESS_TOKEN;
         FB.api(url, method, params, callback);
-    }, this);
+    }
 }
 
 function fbLogIn(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
+    }
+    if (!_fbLoaded()) {
+        return;
     }
     if (fbIsLoggedIn()) {
         // Already logged in
@@ -149,25 +176,70 @@ function fbLogIn(callback, thisArg) {
             callback();
         }
     } else {
-        FB.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-                _fbSaveLogin(response);
-                if (callback) {
-                    callback();
-                }
-            } else {
-                // Show login dialog first
-                FB.login(function(response) {
-                    _fbSaveLogin(response);
-                    if (callback) {
-                        callback();
-                    }
-                }, {
-                    scope: FB_PERMISSIONS,
-                    return_scopes: true
-                });
+        FB.login(function(response) {
+            if ((!response) || (!response.authResponse)) {
+                return;
             }
+            _fbSaveLogin(response);
+            FB_CAN_PUBLISH = false;
+            var granted = response.authResponse.grantedScopes.split(',');
+            for (var i = 0; i < granted.length; i++) {
+                if (granted[i] === FB_PUBLISH_PERMISSIONS) {
+                    FB_CAN_PUBLISH = true;
+                }
+            }
+            if (callback) {
+                callback();
+            }
+        }, {
+            scope: FB_BASIC_PERMISSIONS,
+            return_scopes: true
         });
+    }
+}
+
+function fbLogInPublish(callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
+    if (!_fbLoaded()) {
+        return;
+    }
+    if (fbCanPublish()) {
+        // Already can publish
+        if (callback) {
+            callback();
+        }
+    } else {
+        var loginParams;
+        if (fbIsLoggedIn()) {
+            loginParams = {
+                scope: FB_PUBLISH_PERMISSIONS,
+                return_scopes: true,
+                auth_type: 'rerequest'
+            };
+        } else {
+            loginParams = {
+                scope: FB_ALL_PERMISSIONS,
+                return_scopes: true
+            };
+        }
+        FB.login(function(response) {
+            if ((!response) || (!response.authResponse)) {
+                return;
+            }
+            _fbSaveLogin(response);
+            FB_CAN_PUBLISH = false;
+            var granted = response.authResponse.grantedScopes.split(',');
+            for (var i = 0; i < granted.length; i++) {
+                if (granted[i] === FB_PUBLISH_PERMISSIONS) {
+                    FB_CAN_PUBLISH = true;
+                }
+            }
+            if (fbCanPublish() && callback) {
+                callback();
+            }
+        }, loginParams);
     }
 }
 
@@ -182,6 +254,13 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn, thisArg) {
     if (callbackNotLoggedIn) {
         callbackNotLoggedIn = callbackNotLoggedIn.bind(thisArg);
     }
+    if (!_fbLoaded()) {
+        if (callbackNotLoggedIn)
+        {
+            callbackNotLoggedIn();
+        }
+        return;
+    }
     if (fbIsLoggedIn()) {
         // Already logged in
         if (callbackLoggedIn) {
@@ -191,15 +270,18 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn, thisArg) {
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 _fbSaveLogin(response);
-                if (callbackLoggedIn) {
-                    callbackLoggedIn();
-                }
+                fbCheckPermissions(function (permissions) {
+                    FB_CAN_PUBLISH = permissions[FB_PUBLISH_PERMISSIONS] === true;
+                    if (callbackLoggedIn) {
+                        callbackLoggedIn();
+                    }
+                });
             } else {
                 if (callbackNotLoggedIn) {
                     callbackNotLoggedIn();
                 }
             }
-        });
+        }, true);
     }
 }
 
@@ -207,10 +289,14 @@ function fbLogOut(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
+    if (!_fbLoaded()) {
+        return;
+    }
     if (fbIsLoggedIn()) {
         FB.logout(function() {
             FB_UID = undefined;
             FB_ACCESS_TOKEN = undefined;
+            FB_CAN_PUBLISH = false;
             if (callback) {
                 callback();
             }
@@ -220,4 +306,25 @@ function fbLogOut(callback, thisArg) {
             callback();
         }
     }
+}
+
+function fbCheckPermissions(callback, thisArg) {
+    if (callback) {
+        callback = callback.bind(thisArg);
+    }
+    if (!_fbLoaded()) {
+        return;
+    }
+    fbUseApi('/me/permissions', 'get', {},
+        function(response) {
+            var permissions = {};
+            for (var i = 0; i < response.data.length; i++) {
+                var granted = response.data[i].status === 'granted';
+                permissions[response.data[i].permission] = granted;
+            }
+
+            if (callback) {
+                callback(permissions);
+            }
+        });
 }
