@@ -152,8 +152,9 @@ function fbLogIn(callback, thisArg) {
         FB.login(function(response) {
             _fbSaveLogin(response);
             FB_CAN_PUBLISH = false;
-            for (var i = 0; i < response.grantedScopes.length; i++) {
-                if (response.grantedScopes[i] === 'publish_actions') {
+            var granted = response.authResponse.grantedScopes;
+            for (var i = 0; i < granted.length; i++) {
+                if (granted[i] === 'publish_actions') {
                     FB_CAN_PUBLISH = true;
                 }
             }
@@ -187,8 +188,9 @@ function fbLogInPublish(callback, thisArg) {
         FB.login(function(response) {
             _fbSaveLogin(response);
             FB_CAN_PUBLISH = false;
-            for (var i = 0; i < response.grantedScopes.length; i++) {
-                if (response.grantedScopes[i] === 'publish_actions') {
+            var granted = response.authResponse.grantedScopes;
+            for (var i = 0; i < granted.length; i++) {
+                if (granted[i] === 'publish_actions') {
                     FB_CAN_PUBLISH = true;
                 }
             }
