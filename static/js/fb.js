@@ -178,12 +178,18 @@ function fbLogInPublish(callback, thisArg) {
             callback();
         }
     } else {
-        var loginParams = {
-            scope: FB_PERMISSIONS,
-            return_scopes: true
-        };
+        var loginParams;
         if (fbIsLoggedIn()) {
-            loginParams['auth_type'] = 'rerequest';
+            loginParams = {
+                scope: 'publish_actions',
+                return_scopes: true,
+                auth_type: 'rerequest'
+            };
+        } else {
+            loginParams = {
+                scope: FB_PERMISSIONS,
+                return_scopes: true
+            };
         }
         FB.login(function(response) {
             _fbSaveLogin(response);
