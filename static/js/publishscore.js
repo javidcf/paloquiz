@@ -22,9 +22,11 @@ Paloquiz.states.PublishScore.prototype = {
                                     this.status.start('Finish');
                                 },
                                 function() {
-                                    this.createUI();
+                                    this.status.start('Finish');
                                 },
                                 this);
+                        } else {
+                            this.status.start('Finish');
                         }
                     }, this);
                 } else {
@@ -81,6 +83,8 @@ Paloquiz.states.PublishScore.prototype = {
                                     this.status.start('Finish');
                                 },
                                 this);
+                        } else {
+                            this.status.start('Finish');
                         }
                     }, this);
                 } else {
@@ -92,6 +96,8 @@ Paloquiz.states.PublishScore.prototype = {
                                         this.status.start('Finish');
                                     },
                                     this);
+                            } else {
+                                this.status.start('Finish');
                             }
                         }, this);
                     }, this);
