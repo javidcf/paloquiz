@@ -152,7 +152,7 @@ function fbLogIn(callback, thisArg) {
         }
     } else {
         FB.login(function(response) {
-            if (!response) {
+            if ((!response) || (!response.authResponse)) {
                 return;
             }
             _fbSaveLogin(response);
@@ -197,7 +197,7 @@ function fbLogInPublish(callback, thisArg) {
             };
         }
         FB.login(function(response) {
-            if (!response) {
+            if ((!response) || (!response.authResponse)) {
                 return;
             }
             _fbSaveLogin(response);
