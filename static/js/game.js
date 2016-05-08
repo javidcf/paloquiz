@@ -13,9 +13,6 @@ var FB_BUTTONS_ID = 'fb-buttons';
 
 window.onload = function() {
 
-    // Check Facebook status
-    fbInit();
-
     // Game container
     Paloquiz.gameContainer = document.getElementById(GAME_CONTAINER_ID);
 
@@ -52,6 +49,9 @@ window.onload = function() {
 // Common game functions
 
 Paloquiz.init = function() {
+    // Check Facebook status
+    fbInit();
+
     Paloquiz.setupLoader();
 
     // Avoid multiple pointer input

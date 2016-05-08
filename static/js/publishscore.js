@@ -70,7 +70,6 @@ Paloquiz.states.PublishScore.prototype = {
         var yesButton = this.add.button(
             this.world.width * .02, buttonsY, 'genericButton',
             function() {
-                var rerequest = fbIsLoggedIn();
                 if (fbCanPublish()) {
                     fbGetUserScore(function(currentScore) {
                         if (this.score > currentScore) {
