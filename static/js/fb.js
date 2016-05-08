@@ -72,12 +72,9 @@ function fbGetUserScore(callback, thisArg) {
     fbUseApi('/' + FB_UID + '/scores', 'get', {},
         function(response) {
             data = response.data;
-            if (data.length < 1) {
-                console.error('Could not retrieve the user score');
-                return;
-            }
+            var score = 0;
             // Check if there are several scores in the response
-            var iScore = 0;
+            var iScore = -1;
             if (data.length > 1) {
                 // Find the app score
                 for (var i = 0; i < data.length; i++) {
@@ -87,8 +84,10 @@ function fbGetUserScore(callback, thisArg) {
                     }
                 }
             }
-            // Get the score
-            var score = data[iScore].score;
+            if (iScore >= 0) {
+                // Get the score
+                score = data[iScore].score;
+            }
             if (callback) {
                 callback(score);
             }
