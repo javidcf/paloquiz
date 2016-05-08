@@ -107,7 +107,7 @@ Paloquiz.states.Finish.prototype = {
                     fbLogIn(function() {
                         this.state.start('Highscores');
                     }, this);
-                }, this, 2, 0, 2);
+                }, this, 1, 0, 1);
         this.hiscoresButton.width = this.world.width * .6;
         this.hiscoresButton.height = this.hiscoresButton.width * 0.3;
         this.hiscoresButton.anchor.setTo(.5, 0);
@@ -121,7 +121,7 @@ Paloquiz.states.Finish.prototype = {
                     getJSON('/finish', function() {
                         this.state.start('Router');
                     }, this);
-                }, this, 2, 0, 2);
+                }, this, 1, 0, 1);
         this.exitButton.width = this.hiscoresButton.width;
         this.exitButton.height = this.hiscoresButton.height;
         this.exitButton.anchor.setTo(.5, 0);
