@@ -49,7 +49,7 @@ Paloquiz.states.Start.prototype = {
                 getJSON('/start', function() {
                     this.state.start('Main');
                 }, this);
-            }, this, 1, 0, 2);
+            }, this, 1, 0, 1);
         this.startButton.height = this.START_BUTTON_BOX.height;
         this.startButton.width = this.START_BUTTON_BOX.width;
         this.startButton.anchor.setTo(0, 0);

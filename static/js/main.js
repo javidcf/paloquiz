@@ -35,9 +35,27 @@ Paloquiz.states.Main.prototype = {
     QCOUNT_COLOR: '#ffffff',
     NUM_ANSWERS: 4,
     TIMEBAR_CROP_MAX_WIDTH: 0,
-    CORRECT_PHRASES:["¡Toma ya!","¡Efectiviwonder!","Sabía que la sabrías"],
-    WRONG_PHRASES: ["¡¿En serio?!","¡Venga ya!","Esta era un básico"],
-    TIMEOUT_PHRASES:["Se acabó el tiempo...", "¡Date más prisa!", "Noo... ¡El tiempo!"],
+    CORRECT_PHRASES:[
+        "¡Ahí estamos!",
+        "¡Efectiviwonder!",
+        "Sabía que acertarías",
+        "Tú sí que me conoces",
+        "¡Cooorrecto!"
+    ],
+    WRONG_PHRASES: [
+        "¡¿En serio?!",
+        "¡Venga ya!",
+        "Esta era básica",
+        "Ya veo cómo me conoces...",
+        "¡¿No sabías eso?!"
+    ],
+    TIMEOUT_PHRASES: [
+        "Se acabó el tiempo...",
+        "¡Date más prisa!",
+        "Noo... ¡El tiempo!",
+        "¡Meca, el tiempo!",
+        "¡Tienes que ir más rápido!"
+    ],
 
     QUESTION_BOX: {
         x: 0,

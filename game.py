@@ -11,7 +11,7 @@ with open(_questions_path, 'r') as f:
     _questions = json.load(f)
 
 # TODO how long?
-MAX_TIME = 12000
+MAX_TIME = 10000
 MAX_SCORE = 1000
 
 

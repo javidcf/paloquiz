@@ -1,23 +1,662 @@
-
 [
     {
-        "img" : "test_q1.png",
-        "question" : "Test question 1",
-        "answers" : [
-            {"answer": "Correct", "correct": true},
-            {"answer": "Wrong 1", "correct": false},
-            {"answer": "Wrong 2", "correct": false},
-            {"answer": "Wrong 3", "correct": false}
+        "question": "¿Qué rama de la traumatología prefiero?",
+        "img": "q1.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Raquis"
+            },
+            {
+                "correct": false,
+                "answer": "Artroscopia"
+            },
+            {
+                "correct": false,
+                "answer": "Ortopedia"
+            },
+            {
+                "correct": false,
+                "answer": "Pie"
+            }
         ]
     },
     {
-        "img" : "test_q2.png",
-        "question" : "Test question 2",
-        "answers" : [
-            {"answer": "Correct", "correct": true},
-            {"answer": "Wrong 1", "correct": false},
-            {"answer": "Wrong 2", "correct": false},
-            {"answer": "Wrong 3", "correct": false}
+        "question": "¿Qué capa prefería cuando tenía siete años?",
+        "img": "q2.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Superman"
+            },
+            {
+                "correct": false,
+                "answer": "Princesa"
+            },
+            {
+                "correct": false,
+                "answer": "Vampiresa"
+            },
+            {
+                "correct": false,
+                "answer": "Hada"
+            }
+        ]
+    },
+    {
+        "question": "¿Qué negocio tuve a los 16 años que me produjo pingües beneficios?",
+        "img": "q3.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Hacer pendientes"
+            },
+            {
+                "correct": false,
+                "answer": "Muñecos de trapo"
+            },
+            {
+                "correct": false,
+                "answer": "Tartas"
+            },
+            {
+                "correct": false,
+                "answer": "Collares"
+            }
+        ]
+    },
+    {
+        "question": "Cuando pido una copa, pido...",
+        "img": "q4.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Gin tonic"
+            },
+            {
+                "correct": false,
+                "answer": "Ruso blanco"
+            },
+            {
+                "correct": false,
+                "answer": "Cosmopolitan"
+            },
+            {
+                "correct": false,
+                "answer": "Vodka Red Bull"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál es mi reptil preferido?",
+        "img": "q5.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Boa"
+            },
+            {
+                "correct": false,
+                "answer": "Cocodrilo"
+            },
+            {
+                "correct": false,
+                "answer": "Iguana"
+            },
+            {
+                "correct": false,
+                "answer": "Camaleón"
+            }
+        ]
+    },
+    {
+        "question": "¿Quién ha sido mi amiga desde mi más tierna infancia?",
+        "img": "q6.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Elena"
+            },
+            {
+                "correct": false,
+                "answer": "Laura"
+            },
+            {
+                "correct": false,
+                "answer": "Kela"
+            },
+            {
+                "correct": false,
+                "answer": "Menchu"
+            }
+        ]
+    },
+    {
+        "question": "¿Quién es mi motero favorito?",
+        "img": "q7.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Jackson Teller"
+            },
+            {
+                "correct": false,
+                "answer": "Valentino Rossi"
+            },
+            {
+                "correct": false,
+                "answer": "El motorista fantasma"
+            },
+            {
+                "correct": false,
+                "answer": "James Dean"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál de estas ciudades no he conocido todavía?",
+        "img": "q8.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Moscú"
+            },
+            {
+                "correct": false,
+                "answer": "Hanoi"
+            },
+            {
+                "correct": false,
+                "answer": "Estambul"
+            },
+            {
+                "correct": false,
+                "answer": "Las Vegas"
+            }
+        ]
+    },
+    {
+        "question": "¿Qué continente me queda por conocer?",
+        "img": "q9.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Oceanía"
+            },
+            {
+                "correct": false,
+                "answer": "África"
+            },
+            {
+                "correct": false,
+                "answer": "América"
+            },
+            {
+                "correct": false,
+                "answer": "Asia"
+            }
+        ]
+    },
+    {
+        "question": "¿De quién tengo más discos?",
+        "img": "q10.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Nirvana"
+            },
+            {
+                "correct": false,
+                "answer": "Spinal Tab"
+            },
+            {
+                "correct": false,
+                "answer": "Beyoncé"
+            },
+            {
+                "correct": false,
+                "answer": "Bustamante"
+            }
+        ]
+    },
+    {
+        "question": "¿Cómo me gusta la Coca-Cola?",
+        "img": "q11.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Light"
+            },
+            {
+                "correct": false,
+                "answer": "Normal"
+            },
+            {
+                "correct": false,
+                "answer": "Zero"
+            },
+            {
+                "correct": false,
+                "answer": "Sin cafeína"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál es mi barrio favorito de Barcelona para tomar una caña?",
+        "img": "q12.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Barceloneta"
+            },
+            {
+                "correct": false,
+                "answer": "Gracia"
+            },
+            {
+                "correct": false,
+                "answer": "El Born"
+            },
+            {
+                "correct": false,
+                "answer": "El Gótico"
+            }
+        ]
+    },
+    {
+        "question": "¿En que zona de Manhattan viví durante dos meses?",
+        "img": "q13.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Soho"
+            },
+            {
+                "correct": false,
+                "answer": "Upper East Side"
+            },
+            {
+                "correct": false,
+                "answer": "Tribeca"
+            },
+            {
+                "correct": false,
+                "answer": "West Village"
+            }
+        ]
+    },
+    {
+        "question": "¿Por qué digo que me parezco a Shakira?",
+        "img": "q14.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "No me baño los domingos"
+            },
+            {
+                "correct": false,
+                "answer": "Por cómo bailo"
+            },
+            {
+                "correct": false,
+                "answer": "Por cómo canto"
+            },
+            {
+                "correct": false,
+                "answer": "Porque soy del Barça"
+            }
+        ]
+    },
+    {
+        "question": "¿Cómo se llama mi ahijada?",
+        "img": "q15.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Carmen"
+            },
+            {
+                "correct": false,
+                "answer": "Belén"
+            },
+            {
+                "correct": false,
+                "answer": "Ángela"
+            },
+            {
+                "correct": false,
+                "answer": "Lola"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál de estas series nunca terminé de ver?",
+        "img": "q16.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "The Wire"
+            },
+            {
+                "correct": false,
+                "answer": "Los soprano"
+            },
+            {
+                "correct": false,
+                "answer": "Sons of Anarchy"
+            },
+            {
+                "correct": false,
+                "answer": "Lost"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál de estos perros no ha vivido en mi casa?",
+        "img": "q17.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Gastón"
+            },
+            {
+                "correct": false,
+                "answer": "Xana"
+            },
+            {
+                "correct": false,
+                "answer": "Runa"
+            },
+            {
+                "correct": false,
+                "answer": "Roma"
+            }
+        ]
+    },
+    {
+        "question": "¿Con quién hice la primera comunión?",
+        "img": "q18.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Con mi prima"
+            },
+            {
+                "correct": false,
+                "answer": "Con mi mejor amiga"
+            },
+            {
+                "correct": false,
+                "answer": "Con una compañera de clase"
+            },
+            {
+                "correct": false,
+                "answer": "Sola"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál de estas cosas no me comería jamás?",
+        "img": "q19.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Hígado"
+            },
+            {
+                "correct": false,
+                "answer": "Lentejas frías"
+            },
+            {
+                "correct": false,
+                "answer": "Líquido de espárragos"
+            },
+            {
+                "correct": false,
+                "answer": "Chile habanero"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál es la especialidad de mi padre?",
+        "img": "q20.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Psiquiatría"
+            },
+            {
+                "correct": false,
+                "answer": "Traumatología"
+            },
+            {
+                "correct": false,
+                "answer": "Neurología"
+            },
+            {
+                "correct": false,
+                "answer": "Pediatría"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál es mi marca de tabaco?",
+        "img": "q21.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Pall Mall"
+            },
+            {
+                "correct": false,
+                "answer": "Winston"
+            },
+            {
+                "correct": false,
+                "answer": "LM"
+            },
+            {
+                "correct": false,
+                "answer": "Camel"
+            }
+        ]
+    },
+    {
+        "question": "¿Qué me regalo mi padre para ayudarme en la carrera?",
+        "img": "q22.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Una calavera"
+            },
+            {
+                "correct": false,
+                "answer": "Un bisturí"
+            },
+            {
+                "correct": false,
+                "answer": "Un fonendoscopio"
+            },
+            {
+                "correct": false,
+                "answer": "Una pluma"
+            }
+        ]
+    },
+    {
+        "question": "¿Como nos llamaban a mi compañera de residencia y a mí en el hospital?",
+        "img": "q23.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Zipi y Zape"
+            },
+            {
+                "correct": false,
+                "answer": "Pili y Mili"
+            },
+            {
+                "correct": false,
+                "answer": "Hansel y Gretel"
+            },
+            {
+                "correct": false,
+                "answer": "Las virtudes"
+            }
+        ]
+    },
+    {
+        "question": "¿A qué academia de baile iba (a mi pesar) de pequeña?",
+        "img": "q24.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Belín Cabrillo"
+            },
+            {
+                "correct": false,
+                "answer": "École Française de Danze"
+            },
+            {
+                "correct": false,
+                "answer": "Spaziodanza"
+            },
+            {
+                "correct": false,
+                "answer": "El cisne negro"
+            }
+        ]
+    },
+    {
+        "question": "¿En qué ciudad estuve estudiando medicina durante un año?",
+        "img": "q25.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Salamanca"
+            },
+            {
+                "correct": false,
+                "answer": "Mánchester"
+            },
+            {
+                "correct": false,
+                "answer": "Barcelona"
+            },
+            {
+                "correct": false,
+                "answer": "Milán"
+            }
+        ]
+    },
+    {
+        "question": "¿Qué beca recibí para estudiar fuera?",
+        "img": "q26.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Séneca"
+            },
+            {
+                "correct": false,
+                "answer": "Erasmus"
+            },
+            {
+                "correct": false,
+                "answer": "Leonardo"
+            },
+            {
+                "correct": false,
+                "answer": "Ramón y Cajal"
+            }
+        ]
+    },
+    {
+        "question": "¿Qué hice para que me escayolaran el brazo de pequeña?",
+        "img": "q27.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Montar en patinete"
+            },
+            {
+                "correct": false,
+                "answer": "Montar en bici"
+            },
+            {
+                "correct": false,
+                "answer": "Andar en patines"
+            },
+            {
+                "correct": false,
+                "answer": "Trepar un árbol"
+            }
+        ]
+    },
+    {
+        "question": "¿Cuál de estos animales no he tenido nunca como mascota?",
+        "img": "q28.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Cobaya"
+            },
+            {
+                "correct": false,
+                "answer": "Pato"
+            },
+            {
+                "correct": false,
+                "answer": "Conejo"
+            },
+            {
+                "correct": false,
+                "answer": "Iguana"
+            }
+        ]
+    },
+    {
+        "question": "¿Qué trabajo tuve durante la carrera para costearme las juergas?",
+        "img": "q29.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Camarera"
+            },
+            {
+                "correct": false,
+                "answer": "Profesora particular"
+            },
+            {
+                "correct": false,
+                "answer": "Dependienta"
+            },
+            {
+                "correct": false,
+                "answer": "Niñera"
+            }
+        ]
+    },
+    {
+        "question": "¿En qué ciudad estaba cuando me quedé encerrada en un hostal vacío?",
+        "img": "q30.jpg",
+        "answers": [
+            {
+                "correct": true,
+                "answer": "Brujas"
+            },
+            {
+                "correct": false,
+                "answer": "Róterdam"
+            },
+            {
+                "correct": false,
+                "answer": "Berlín"
+            },
+            {
+                "correct": false,
+                "answer": "Sevilla"
+            }
         ]
     }
 ]
