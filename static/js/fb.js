@@ -1,6 +1,8 @@
 // Some functions to interact with Facebook
 
-var FB_PERMISSIONS = 'public_profile,user_friends,publish_actions';
+var FB_BASIC_PERMISSIONS = 'public_profile,user_friends';
+var FB_PUBLISH_PERMISSIONS = 'publish_actions';
+var FB_ALL_PERMISSIONS = FB_BASIC_PERMISSIONS + FB_PUBLISH_PERMISSIONS;
 
 var FB_UID = undefined;
 var FB_ACCESS_TOKEN = undefined;
@@ -154,7 +156,7 @@ function fbLogIn(callback, thisArg) {
             FB_CAN_PUBLISH = false;
             var granted = response.authResponse.grantedScopes.split(',');
             for (var i = 0; i < granted.length; i++) {
-                if (granted[i] === 'publish_actions') {
+                if (granted[i] === FB_PUBLISH_PERMISSIONS) {
                     FB_CAN_PUBLISH = true;
                 }
             }
@@ -162,7 +164,7 @@ function fbLogIn(callback, thisArg) {
                 callback();
             }
         }, {
-            scope: FB_PERMISSIONS,
+            scope: FB_BASIC_PERMISSIONS,
             return_scopes: true
         });
     }
@@ -181,13 +183,13 @@ function fbLogInPublish(callback, thisArg) {
         var loginParams;
         if (fbIsLoggedIn()) {
             loginParams = {
-                scope: 'publish_actions',
+                scope: FB_PUBLISH_PERMISSIONS,
                 return_scopes: true,
                 auth_type: 'rerequest'
             };
         } else {
             loginParams = {
-                scope: FB_PERMISSIONS,
+                scope: FB_ALL_PERMISSIONS,
                 return_scopes: true
             };
         }
@@ -196,7 +198,7 @@ function fbLogInPublish(callback, thisArg) {
             FB_CAN_PUBLISH = false;
             var granted = response.authResponse.grantedScopes.split(',');
             for (var i = 0; i < granted.length; i++) {
-                if (granted[i] === 'publish_actions') {
+                if (granted[i] === FB_PUBLISH_PERMISSIONS) {
                     FB_CAN_PUBLISH = true;
                 }
             }
@@ -228,7 +230,7 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn, thisArg) {
             if (response.status === 'connected') {
                 _fbSaveLogin(response);
                 fbCheckPermissions(function (permissions) {
-                    FB_CAN_PUBLISH = permissions['publish_actions'] === true;
+                    FB_CAN_PUBLISH = permissions[FB_PUBLISH_PERMISSIONS] === true;
                     if (callbackLoggedIn) {
                         callbackLoggedIn();
                     }

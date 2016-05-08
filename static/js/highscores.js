@@ -74,7 +74,7 @@ Paloquiz.states.Highscores.prototype = {
         getJSON('/status', function(gameStatus) {
             // Check if score is up to date
             fbGetUserScore(function(score) {
-                if ((gameStatus['score'] > score) && tryUpdate) {
+                if ((gameStatus['score'] > score) && tryUpdate && fbCanPublish()) {
                     // Score has improved, try to update
                     fbPublishScore(gameStatus['score'], function() {
                         this.checkStatus(false);
