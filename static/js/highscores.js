@@ -401,7 +401,7 @@ Paloquiz.states.Highscores.prototype = {
         this.ENTRY_BOX.width = this.ENTRIES_BOX.width;
         this.ENTRY_BOX.height = this.ENTRIES_BOX.height / this.PAGE_SIZE;
 
-        var backgroundMarginH = .05 * this.ENTRY_BOX.height;
+        var backgroundMarginH = .02 * this.ENTRY_BOX.height;
         this.BACKGROUND_BOX.x = this.ENTRY_BOX.x;
         this.BACKGROUND_BOX.y = this.ENTRY_BOX.y + backgroundMarginH;
         this.BACKGROUND_BOX.width = this.ENTRY_BOX.width;
