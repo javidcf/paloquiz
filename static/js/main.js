@@ -472,7 +472,7 @@ Paloquiz.states.Main.prototype = {
         this.DIALOG_PANE_BOX.width = this.world.width;
         this.DIALOG_PANE_BOX.height = this.world.height * .184;
 
-        var questionMargin = .15 * this.DIALOG_PANE_BOX.height;
+        var questionMargin = .18 * this.DIALOG_PANE_BOX.height;
         this.QUESTION_BOX.x = this.DIALOG_PANE_BOX.x + questionMargin;
         this.QUESTION_BOX.y = this.DIALOG_PANE_BOX.y + questionMargin;
         this.QUESTION_BOX.width = this.DIALOG_PANE_BOX.width - 2 * questionMargin;
