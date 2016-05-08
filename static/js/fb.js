@@ -255,7 +255,10 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn, thisArg) {
         callbackNotLoggedIn = callbackNotLoggedIn.bind(thisArg);
     }
     if (!_fbLoaded()) {
-        callbackNotLoggedIn();
+        if (callbackNotLoggedIn)
+        {
+            callbackNotLoggedIn();
+        }
         return;
     }
     if (fbIsLoggedIn()) {
