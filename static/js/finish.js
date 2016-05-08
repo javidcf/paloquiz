@@ -22,7 +22,7 @@ Paloquiz.states.Finish.prototype = {
     create: function() {
         getJSON('/status', function(gameStatus) {
             if (gameStatus['status'] !== 'finish') {
-                this.status.start('Router');
+                this.state.start('Router');
                 return;
             }
             getJSON('/summary', function(summary) {

@@ -97,7 +97,7 @@ Paloquiz.states.Highscores.prototype = {
                     } else {
                         this.currentPage = Math.floor(this.userPos / this.PAGE_SIZE);
                     }
-                    if (gameStatus['status'] === 'finish' || isNaN(this.userPos)) {
+                    if (gameStatus['status'] === 'finish') {
                         this.backState = 'Finish';
                     }
                     this.loadScoresPage();
