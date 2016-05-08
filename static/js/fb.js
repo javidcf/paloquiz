@@ -10,7 +10,7 @@ var FB_ACCESS_TOKEN = undefined;
 var FB_CAN_PUBLISH = false;
 
 
-var fbLoaded() {
+function _fbLoaded() {
     return (typeof FB !== 'undefined') && !!FB;
 }
 
@@ -38,7 +38,7 @@ function fbPublishScore(score, callback, errorCallback, thisArg) {
     if (errorCallback) {
         errorCallback = errorCallback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         if (errorCallback) {
             errorCallback();
         }
@@ -66,7 +66,7 @@ function fbGetUserScore(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     fbUseApi('/' + FB_UID + '/scores', 'get', {},
@@ -99,7 +99,7 @@ function fbGetFriendsScores(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     fbUseApi('/' + FB_APP_ID + '/scores', 'get', {},
@@ -124,7 +124,7 @@ function fbGetProfileDetails(uid, callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     fbUseApi('/' + uid + '/?fields=name,first_name', 'get', {},
@@ -153,7 +153,7 @@ function fbUseApi(url, method, params, callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     params = params || ({});
@@ -167,7 +167,7 @@ function fbLogIn(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     if (fbIsLoggedIn()) {
@@ -202,7 +202,7 @@ function fbLogInPublish(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     if (fbCanPublish()) {
@@ -254,7 +254,7 @@ function fbInit(callbackLoggedIn, callbackNotLoggedIn, thisArg) {
     if (callbackNotLoggedIn) {
         callbackNotLoggedIn = callbackNotLoggedIn.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         callbackNotLoggedIn();
         return;
     }
@@ -286,7 +286,7 @@ function fbLogOut(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     if (fbIsLoggedIn()) {
@@ -309,7 +309,7 @@ function fbCheckPermissions(callback, thisArg) {
     if (callback) {
         callback = callback.bind(thisArg);
     }
-    if (!fbLoaded()) {
+    if (!_fbLoaded()) {
         return;
     }
     fbUseApi('/me/permissions', 'get', {},
