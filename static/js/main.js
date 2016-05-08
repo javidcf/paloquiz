@@ -15,6 +15,7 @@ Paloquiz.states.Main = function(game) {
     this.optGroup;
     this.optButtons;
     this.optLabels;
+    this.currentStartDialog;
 };
 
 Paloquiz.states.Main.prototype = {
@@ -36,25 +37,29 @@ Paloquiz.states.Main.prototype = {
     NUM_ANSWERS: 4,
     TIMEBAR_CROP_MAX_WIDTH: 0,
     CORRECT_PHRASES:[
-        "¡Ahí estamos!",
-        "¡Efectiviwonder!",
-        "Sabía que acertarías",
-        "Tú sí que me conoces",
-        "¡Cooorrecto!"
+        '¡Ahí estamos!',
+        '¡Efectiviwonder!',
+        'Sabía que acertarías',
+        'Tú sí que me conoces',
+        '¡Cooorrecto!'
     ],
     WRONG_PHRASES: [
-        "¡¿En serio?!",
-        "¡Venga ya!",
-        "Esta era básica",
-        "Ya veo cómo me conoces...",
-        "¡¿No sabías eso?!"
+        '¡¿En serio?!',
+        '¡Venga ya!',
+        'Esta era básica',
+        'Ya veo cómo me conoces...',
+        '¡¿No sabías eso?!'
     ],
     TIMEOUT_PHRASES: [
-        "Se acabó el tiempo...",
-        "¡Date más prisa!",
-        "Noo... ¡El tiempo!",
-        "¡Meca, el tiempo!",
-        "¡Tienes que ir más rápido!"
+        'Se acabó el tiempo...',
+        '¡Date más prisa!',
+        'Noo... ¡El tiempo!',
+        '¡Meca, el tiempo!',
+        '¡Tienes que ir más rápido!'
+    ],
+    START_DIALOG: [
+        '¡Hola! Soy Palo, y te doy la bienvenida a Paloquiz, o como yo lo llamo, Yoquiz, jeje...',
+        'Voy a hacerte algunas preguntas sobre mí... ¡Espero que aciertes todas!\n¡Empezamos!'
     ],
 
     QUESTION_BOX: {
@@ -331,8 +336,8 @@ Paloquiz.states.Main.prototype = {
                 this.questionText.setText(questionHeader['question']);
                 this.loadQuestionImage(questionHeader['img'], function() {
                     getJSON('/question', function(question) {
-                        var count = this.formatNumber(question["question_idx"]+1, 2) +
-                            "/" + this.formatNumber(question["num_questions"], 2);
+                        var count = this.formatNumber(question['question_idx']+1, 2) +
+                            '/' + this.formatNumber(question['num_questions'], 2);
                         this.qCountText.setText(count);
                         this.questionText.setText(question['question']);
                         this.loadAnswers(question['answers']);
@@ -342,8 +347,8 @@ Paloquiz.states.Main.prototype = {
             }, this);
         } else {
             getJSON('/question', function(question) {
-                var count = this.formatNumber(question["question_idx"]+1, 2) +
-                    "/" + this.formatNumber(question["num_questions"], 2);
+                var count = this.formatNumber(question['question_idx']+1, 2) +
+                    '/' + this.formatNumber(question['num_questions'], 2);
                 this.qCountText.setText(count);
                 this.questionText.setText(question['question']);
                 this.loadAnswers(question['answers']);
@@ -403,9 +408,11 @@ Paloquiz.states.Main.prototype = {
     updateStatus: function() {
         getJSON('/status', function(gameStatus) {
             this.scoreText.setText(this.formatNumber(gameStatus['score'], 5));
-            if (gameStatus['status'] == 'question') {
+            if (gameStatus['status'] === 'start') {
+                this.startDialog();
+            } else if (gameStatus['status'] === 'question') {
                 this.loadQuestion(true);
-            } else if (gameStatus['status'] == 'answer') {
+            } else if (gameStatus['status'] === 'answer') {
                 this.loadQuestion(false);
             } else {
                 this.state.start('Router');
@@ -424,14 +431,39 @@ Paloquiz.states.Main.prototype = {
     },
 
     formatNumber: function(number, numberOfdigits){
-        var numberStr = number + "";
+        var numberStr = number + '';
         var missingNumbers = numberOfdigits - numberStr.length
 
         for(var i=0; i < missingNumbers ; i++){
-            numberStr = "0" + numberStr;
+            numberStr = '0' + numberStr;
         }
         
         return numberStr;
+    },
+
+    startDialog: function() {
+        this.enableInput(false);
+        this.currentStartDialog = 0;
+        this.updateStartDialog();
+    },
+
+    updateStartDialog: function() {
+        var start = true;
+        if (!isNaN(this.currentStartDialog) &&
+            (this.currentStartDialog < this.START_DIALOG.length)) {
+            // Show current start dialog
+            this.questionText.setText(this.START_DIALOG[this.currentStartDialog]);
+            // Next dialog text
+            this.currentStartDialog++;
+            if (this.currentStartDialog <= this.START_DIALOG.length) {
+                start = false;
+                this.time.events.add(Phaser.Timer.SECOND * 4, this.updateStartDialog, this);
+            }
+        }
+        if (start) {
+            this.enableInput(true);
+            getJSON('/start', this.updateStatus, this);
+        }
     },
 
     // Boxes
