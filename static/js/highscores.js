@@ -41,15 +41,12 @@ Paloquiz.states.Highscores.prototype = {
         this.load.onLoadComplete.add(this.loadComplete, this);
 
         // Go on only if logged in
-        fbInit(function() {
-                this.checkStatus(true);
-            },
-
-            function() {
-                // Exit if not logged in
-                this.state.start('Router');
-            },
-            this);
+        if (fbIsLoggedIn()) {
+            this.checkStatus(true);
+        } else {
+            // Exit if not logged in
+            this.state.start('Router');
+        }
     },
 
     shutdown: function() {
@@ -75,7 +72,7 @@ Paloquiz.states.Highscores.prototype = {
             // Check if score is up to date
             fbGetUserScore(function(score) {
                 if ((gameStatus['score'] > score) && tryUpdate) {
-                    // Score has improved
+                    // Score has improved, try to update
                     fbPublishScore(gameStatus['score'], function() {
                         this.checkStatus(false);
                     }, function() {

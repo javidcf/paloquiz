@@ -43,11 +43,13 @@ Paloquiz.states.Start.prototype = {
         logo.height = this.LOGO_BOX.height;
         logo.anchor.setTo(0, 0);
 
-        this.startButton = this.add.button(this.START_BUTTON_BOX.x, this.START_BUTTON_BOX.y, 'startButton', function() {
-            getJSON('/start', function() {
-                this.state.start('Main');
-            }, this);
-        }, this, 1, 0, 2);
+        this.startButton = this.add.button(
+            this.START_BUTTON_BOX.x, this.START_BUTTON_BOX.y, 'genericButton',
+            function() {
+                getJSON('/start', function() {
+                    this.state.start('Main');
+                }, this);
+            }, this, 1, 0, 2);
         this.startButton.smoothed = false;
         this.startButton.height = this.START_BUTTON_BOX.height;
         this.startButton.width = this.START_BUTTON_BOX.width;
@@ -67,17 +69,13 @@ Paloquiz.states.Start.prototype = {
 
         // Facebook stuff
         this.createFbUI();
-        fbInit(function() {
-                // Is logged in
-                this.fbButton.visible = false;
-                this.hiscoresButton.visible = true;
-            },
-            function() {
-                // Is not logged in
-                this.fbButton.visible = true;
-                this.hiscoresButton.visible = false;
-            },
-            this);
+        if (fbIsLoggedIn()) {
+            this.fbButton.visible = false;
+            this.hiscoresButton.visible = true;
+        } else {
+            this.fbButton.visible = true;
+            this.hiscoresButton.visible = false;
+        }
 
     },
 

@@ -43,6 +43,7 @@ window.onload = function() {
     Paloquiz.game.state.add('Start', Paloquiz.states.Start);
     Paloquiz.game.state.add('Main', Paloquiz.states.Main);
     Paloquiz.game.state.add('Highscores', Paloquiz.states.Highscores);
+    Paloquiz.game.state.add('PublishScore', Paloquiz.states.PublishScore);
     Paloquiz.game.state.add('Finish', Paloquiz.states.Finish);
 
     Paloquiz.game.state.start('Boot');
@@ -130,9 +131,6 @@ Paloquiz.getGameScale = function() {
 }
 
 Paloquiz.stateChanged = function() {
-    // Overchecking doesn't hurt
-    fbInit();
-
     Paloquiz.resize();
     Paloquiz.setupBackground();
     Paloquiz.enableFbButtons(true);

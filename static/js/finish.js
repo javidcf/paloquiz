@@ -32,14 +32,14 @@ Paloquiz.states.Finish.prototype = {
                 this.createScoreText();
                 this.createUI();
                 this.createStars();
-                fbInit(function() {
+                if (fbIsLoggedIn()) {
                     this.fbButton.visible = false;
                     fbGetUserScore(function(currentScore) {
                         if (this.score > currentScore) {
                             fbPublishScore(this.score);
                         }
                     }, this);
-                }, this);
+                }
             }, this);
         }, this);
     },
@@ -111,7 +111,7 @@ Paloquiz.states.Finish.prototype = {
         // Hiscores
         this.hiscoresButton =
             this.add.button(this.world.centerX, this.world.height * 0.60,
-                'finishButton',
+                'genericButton',
                  function() {
                     fbLogIn(function() {
                         this.state.start('Highscores');
@@ -126,7 +126,7 @@ Paloquiz.states.Finish.prototype = {
         this.exitButton =
             this.add.button(this.hiscoresButton.x,
                 this.hiscoresButton.y + this.hiscoresButton.height * 1.1,
-                'finishButton',
+                'genericButton',
                 function() {
                     getJSON('/finish', function() {
                         this.state.start('Router');
@@ -155,7 +155,7 @@ Paloquiz.states.Finish.prototype = {
         this.exitLabel = this.add.text(
             this.world.centerX,
             this.exitButton.y + this.exitButton.height / 2,
-            'Salir', labelStyle);
+            'Reiniciar', labelStyle);
         this.exitLabel.anchor.setTo(.5, .5);
 
         this.createFbUI();
