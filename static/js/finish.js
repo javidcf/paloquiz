@@ -32,14 +32,6 @@ Paloquiz.states.Finish.prototype = {
                 this.createScoreText();
                 this.createUI();
                 this.createStars();
-                if (fbIsLoggedIn()) {
-                    this.fbButton.visible = false;
-                    fbGetUserScore(function(currentScore) {
-                        if (this.score > currentScore) {
-                            fbPublishScore(this.score);
-                        }
-                    }, this);
-                }
             }, this);
         }, this);
     },
@@ -165,7 +157,7 @@ Paloquiz.states.Finish.prototype = {
         var buttonSize = .1 * Math.min(this.world.width, this.world.height);
 
         this.fbButton = this.add.button(0, 0, 'fbButton', function() {
-            fbLogIn(function() {
+            fbLogInPublish(function() {
                 getJSON('/status', function(gameStatus) {
                     this.score = gameStatus['score'];
                     fbGetUserScore(function(currentScore) {
