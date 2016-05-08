@@ -43,7 +43,9 @@ def get_answer_score(t):
 
 
 def get_question_id_list():
-    return list(range(num_questions()))
+    question_list = list(range(num_questions()))
+    random.shuffle(question_list)
+    return question_list
 
 
 def num_questions():
