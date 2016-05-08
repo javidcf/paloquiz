@@ -83,8 +83,7 @@ Paloquiz.states.Start.prototype = {
 
         this.fbButton = this.add.button(0, 0, 'fbButton', function() {
             fbLogIn(function() {
-                this.fbButton.visible = false;
-                this.hiscoresButton.visible = true;
+                this.state.start('Highscores');
             }, this);
         }, this, 1, 0, 1);
         this.fbButton.height = buttonSize;
