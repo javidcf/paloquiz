@@ -22,28 +22,33 @@ window.onload = function() {
     // Facebook buttons
     Paloquiz.fbButtons = document.getElementById(FB_BUTTONS_ID);
 
-    // // Get game dimensions
-    // var gameSize = Paloquiz.getGameScale();
+    // Make sure web fonts are loaded before starting
+    WebFont.load({
+        custom: {
+            families: ['Pixel Art']
+        },
+        active: function() {
+            var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
+            var transparent = true;
+            var antialias = true;
 
-    var renderer = Phaser.AUTO; // Phaser.CANVAS / Phaser.WEBGL / Phaser.AUTO
-    var transparent = true;
-    var antialias = true;
+            var width = 640;
+            var height = 960;
+            Paloquiz.game = new Phaser.Game(width, height,
+                renderer, GAME_CONTAINER_ID, {}, transparent, antialias);
 
-    var width = 640;
-    var height = 960;
-    Paloquiz.game = new Phaser.Game(width, height,
-        renderer, GAME_CONTAINER_ID, {}, transparent, antialias);
+            Paloquiz.game.state.add('Boot', Paloquiz.states.Boot);
+            Paloquiz.game.state.add('Preloader', Paloquiz.states.Preloader);
+            Paloquiz.game.state.add('Router', Paloquiz.states.Router);
+            Paloquiz.game.state.add('Start', Paloquiz.states.Start);
+            Paloquiz.game.state.add('Main', Paloquiz.states.Main);
+            Paloquiz.game.state.add('Highscores', Paloquiz.states.Highscores);
+            Paloquiz.game.state.add('PublishScore', Paloquiz.states.PublishScore);
+            Paloquiz.game.state.add('Finish', Paloquiz.states.Finish);
 
-    Paloquiz.game.state.add('Boot', Paloquiz.states.Boot);
-    Paloquiz.game.state.add('Preloader', Paloquiz.states.Preloader);
-    Paloquiz.game.state.add('Router', Paloquiz.states.Router);
-    Paloquiz.game.state.add('Start', Paloquiz.states.Start);
-    Paloquiz.game.state.add('Main', Paloquiz.states.Main);
-    Paloquiz.game.state.add('Highscores', Paloquiz.states.Highscores);
-    Paloquiz.game.state.add('PublishScore', Paloquiz.states.PublishScore);
-    Paloquiz.game.state.add('Finish', Paloquiz.states.Finish);
-
-    Paloquiz.game.state.start('Boot');
+            Paloquiz.game.state.start('Boot');
+        }
+    });
 }
 
 // Common game functions
@@ -110,7 +115,7 @@ Paloquiz.setupScale = function() {
     game.scale.setResizeCallback(Paloquiz.resize, this);
 }
 
-Paloquiz.resize = function () {
+Paloquiz.resize = function() {
     var gameScale = Paloquiz.getGameScale();
     Paloquiz.game.scale.setUserScale(gameScale.x, gameScale.y);
     Paloquiz.positionFbButtons();
@@ -149,7 +154,7 @@ Paloquiz.setupBackground = function() {
     Paloquiz.background.height = Paloquiz.game.height;
 }
 
-Paloquiz.positionFbButtons = function () {
+Paloquiz.positionFbButtons = function() {
     var top = Paloquiz.game.scale.bounds.y;
     var left = Paloquiz.game.scale.bounds.x;
     var height = Paloquiz.game.scale.bounds.height;
@@ -159,7 +164,7 @@ Paloquiz.positionFbButtons = function () {
     Paloquiz.fbButtons.style.left = Math.round(left + margin) + 'px';
 }
 
-Paloquiz.enableFbButtons = function (show) {
+Paloquiz.enableFbButtons = function(show) {
     if (show) {
         Paloquiz.fbButtons.style.display = 'block';
     } else {
