@@ -311,7 +311,8 @@ Paloquiz.states.Main.prototype = {
                 this.questionText.setText(questionHeader['question']);
                 this.loadQuestionImage(questionHeader['img'], function() {
                     getJSON('/question', function(question) {
-                        var count = this.formatNumber(question["question_idx"]+1, 2) + "/" + question["num_questions"];
+                        var count = this.formatNumber(question["question_idx"]+1, 2) +
+                            "/" + this.formatNumber(question["num_questions"], 2);
                         this.qCountText.setText(count);
                         this.questionText.setText(question['question']);
                         this.loadAnswers(question['answers']);
@@ -321,7 +322,8 @@ Paloquiz.states.Main.prototype = {
             }, this);
         } else {
             getJSON('/question', function(question) {
-                var count = this.formatNumber(question["question_idx"]+1, 2) + "/" + question["num_questions"];
+                var count = this.formatNumber(question["question_idx"]+1, 2) +
+                    "/" + this.formatNumber(question["num_questions"], 2);
                 this.qCountText.setText(count);
                 this.questionText.setText(question['question']);
                 this.loadAnswers(question['answers']);
