@@ -239,6 +239,7 @@ Paloquiz.states.Main.prototype = {
         for(var i=0; i<this.optButtons.length; i++){
             this.optButtons[i].setFrames(1, 0, 1);
             this.optButtons[i].frame = 0;
+            this.optLabels[i].setText('');
         }
 
         this.timebarProgress = this.TIMEBAR_BOX.width;
@@ -256,6 +257,7 @@ Paloquiz.states.Main.prototype = {
         this.enableInput(false);
         getJSON('/answer/' + button.answerId, function(answerResponse) {
 
+            this.scoreText.setText(this.formatNumber(answerResponse['score'], 5));
             if (answerResponse['correct']) {
                 this.showAnswerMessage(button.answerId, true);
             } else {
@@ -372,7 +374,8 @@ Paloquiz.states.Main.prototype = {
                 this.enableInput(true);
 
                 // call answer with any id  and call updateStatus
-                getJSON('/answer/0', function() {
+                getJSON('/answer/0', function(gameStatus) {
+                    this.scoreText.setText(this.formatNumber(gameStatus['score'], 5));
                     this.updateStatus();
                 }, this);
             }, this);

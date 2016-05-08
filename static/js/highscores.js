@@ -390,7 +390,7 @@ Paloquiz.states.Highscores.prototype = {
     IMAGE_SIZE: 0,
 
     createLayoutBoxes: function() {
-        var margin = .12 * Math.min(this.world.width, this.world.height);
+        var margin = .14 * Math.min(this.world.width, this.world.height);
         this.ENTRIES_BOX.x = margin;
         this.ENTRIES_BOX.y = margin;
         this.ENTRIES_BOX.width = this.world.width - 2 * margin;
@@ -401,7 +401,7 @@ Paloquiz.states.Highscores.prototype = {
         this.ENTRY_BOX.width = this.ENTRIES_BOX.width;
         this.ENTRY_BOX.height = this.ENTRIES_BOX.height / this.PAGE_SIZE;
 
-        var backgroundMarginH = .02 * this.ENTRY_BOX.height;
+        var backgroundMarginH = 0;
         this.BACKGROUND_BOX.x = this.ENTRY_BOX.x;
         this.BACKGROUND_BOX.y = this.ENTRY_BOX.y + backgroundMarginH;
         this.BACKGROUND_BOX.width = this.ENTRY_BOX.width;
