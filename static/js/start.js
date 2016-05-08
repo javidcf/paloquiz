@@ -30,7 +30,7 @@ Paloquiz.states.Start.prototype = {
         this.LOGO_BOX.height = this.LOGO_BOX.width;
 
         this.START_BUTTON_BOX.x = this.world.width * .25;
-        this.START_BUTTON_BOX.y = this.world.height * .7;
+        this.START_BUTTON_BOX.y = this.world.height * .68;
         this.START_BUTTON_BOX.width = this.world.width * .5;
         this.START_BUTTON_BOX.height = this.START_BUTTON_BOX.width * .3;
         this.START_BUTTON_BOX.label = "Jugar";
@@ -73,6 +73,25 @@ Paloquiz.states.Start.prototype = {
             this.fbButton.visible = true;
             this.hiscoresButton.visible = false;
         }
+
+        // Credits button
+        var creditsSize = Math.round(this.world.height / 40);
+        var credits = this.add.text(
+            this.world.centerX,
+            this.world.height * .97,
+            'Créditos', {
+                font: 'Pixel Art',
+                fontSize: creditsSize + 'px',
+                align: 'center',
+                // fontWeight: 'bold',
+                fill: 'white'
+            });
+        credits.anchor.setTo(.5, 1);
+        credits.inputEnabled = true;
+        credits.input.useHandCursor = true;
+        credits.events.onInputDown.add(function() {
+            this.state.start('Credits');
+        }, this);
 
     },
 

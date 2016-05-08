@@ -148,6 +148,25 @@ Paloquiz.states.Finish.prototype = {
         this.exitLabel.anchor.setTo(.5, .5);
 
         this.createFbUI();
+
+        // Credits button
+        var creditsSize = Math.round(this.world.height / 40);
+        var credits = this.add.text(
+            this.world.centerX,
+            this.world.height * .97,
+            'Créditos', {
+                font: 'Pixel Art',
+                fontSize: creditsSize + 'px',
+                align: 'center',
+                // fontWeight: 'bold',
+                fill: 'white'
+            });
+        credits.anchor.setTo(.5, 1);
+        credits.inputEnabled = true;
+        credits.input.useHandCursor = true;
+        credits.events.onInputDown.add(function() {
+            this.state.start('Credits');
+        }, this);
     },
 
     createFbUI: function() {
