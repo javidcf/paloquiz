@@ -13,6 +13,7 @@ Paloquiz.states.Highscores = function(game) {
     this.arrowRight;
     this.arrowLeft;
     this.backButton;
+    this.backState;
 };
 
 Paloquiz.states.Highscores.prototype = {
@@ -24,6 +25,8 @@ Paloquiz.states.Highscores.prototype = {
 
         // Font styles
         this.createFontStyles();
+
+        this.backState = 'Router';
     },
 
     preload: function() {
@@ -83,12 +86,19 @@ Paloquiz.states.Highscores.prototype = {
                 fbGetFriendsScores(function(friendsScores, userPos) {
                     this.friendsScores = friendsScores;
                     this.userPos = userPos;
+                    if (!fbCanPublish() && !isNaN(this.userPos)) {
+                        this.friendsScores.splice(this.userPos, 1);
+                        this.userPos = undefined;
+                    }
                     this.maxPage = Math.floor(this.friendsScores.length / this.PAGE_SIZE);
                     // First page at start of game, user page otherwise
-                    if (gameStatus['status'] === 'start' || isNaN(userPos)) {
+                    if (gameStatus['status'] === 'start' || isNaN(this.userPos)) {
                         this.currentPage = 0;
                     } else {
-                        this.currentPage = Math.floor(userPos / this.PAGE_SIZE);
+                        this.currentPage = Math.floor(this.userPos / this.PAGE_SIZE);
+                    }
+                    if (gameStatus['status'] === 'finish' || isNaN(this.userPos)) {
+                        this.backState = 'Finish';
                     }
                     this.loadScoresPage();
                 }, this);
@@ -152,7 +162,7 @@ Paloquiz.states.Highscores.prototype = {
                     this.scores[iScore].name.setText(friend.firstName || friend.name);
                     this.scores[iScore].score.setText(this.friendsScores[iFriend].score);
                     // Use special background for the user
-                    if (iFriend == this.userPos) {
+                    if (iFriend === this.userPos) {
                         this.scores[iScore].back.frame = 2;
                     }
                     this.scores[iScore].back.visible = true;
@@ -287,7 +297,7 @@ Paloquiz.states.Highscores.prototype = {
         // Back button to go back to main state
         this.backButton = this.add.button(0, 0, 'exitButton',
             function() {
-                this.state.start('Router');
+                this.state.start(this.backState);
             }, this, 1, 0, 1);
         var backButtonSize = .1 * Math.min(this.world.width, this.world.height);
         this.backButton.width = backButtonSize;
