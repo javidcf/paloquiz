@@ -58,7 +58,7 @@ Paloquiz.states.Main.prototype = {
         '¡Tienes que ir más rápido!'
     ],
     START_DIALOG: [
-        '¡Hola! Soy Palo, y te doy la bienvenida a Paloquiz, o como yo lo llamo, Yoquiz, jeje...',
+        '¡Hola! Soy Palo, y te doy la bienvenida a Paloquiz, o, como yo lo llamo, Yoquiz, jeje...',
         'Voy a hacerte algunas preguntas sobre mí... ¡Espero que aciertes todas!\n¡Empezamos!'
     ],
 
