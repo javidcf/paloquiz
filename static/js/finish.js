@@ -171,6 +171,6 @@ Paloquiz.states.Finish.prototype = {
         this.fbButton.anchor.setTo(1, 0);
         this.fbButton.x = this.world.width - this.fbButton.width * .2;
         this.fbButton.y = this.fbButton.height * .2;
-        this.fbButton.visible = fbCanPublish();
+        this.fbButton.visible = !fbCanPublish();
     }
 }
