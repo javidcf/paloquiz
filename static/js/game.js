@@ -145,7 +145,6 @@ Paloquiz.setupBackground = function() {
         Paloquiz.background.anchor.setTo(0, 0);
         Paloquiz.game.stage.addChildAt(Paloquiz.background, 0);
     }
-    Paloquiz.background.smoothed = false;
     Paloquiz.background.width = Paloquiz.game.width;
     Paloquiz.background.height = Paloquiz.game.height;
 }

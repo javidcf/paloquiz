@@ -62,7 +62,6 @@ Paloquiz.states.Finish.prototype = {
                 this.stars[i] = this.add.image(0, 0, 'star', 0)
             }
 
-            this.stars[i].smoothed = false;
             this.stars[i].height = this.STAR_SIZE;
             this.stars[i].width = this.STAR_SIZE;
             this.stars[i].anchor.setTo(0, 0);
@@ -109,7 +108,6 @@ Paloquiz.states.Finish.prototype = {
                         this.state.start('Highscores');
                     }, this);
                 }, this, 2, 0, 2);
-        this.hiscoresButton.smoothed = false;
         this.hiscoresButton.width = this.world.width * .6;
         this.hiscoresButton.height = this.hiscoresButton.width * 0.3;
         this.hiscoresButton.anchor.setTo(.5, 0);
@@ -124,7 +122,6 @@ Paloquiz.states.Finish.prototype = {
                         this.state.start('Router');
                     }, this);
                 }, this, 2, 0, 2);
-        this.exitButton.smoothed = false;
         this.exitButton.width = this.hiscoresButton.width;
         this.exitButton.height = this.hiscoresButton.height;
         this.exitButton.anchor.setTo(.5, 0);
@@ -161,21 +158,19 @@ Paloquiz.states.Finish.prototype = {
                 getJSON('/status', function(gameStatus) {
                     this.score = gameStatus['score'];
                     fbGetUserScore(function(currentScore) {
+                        this.fbButton.visible = false;
                         if (this.score > currentScore) {
-                            fbPublishScore(currentScore, function() {
-                                    this.fbButton.visible = false;
-                                }, this);
+                            fbPublishScore(currentScore);
                         }
                     }, this);
                 }, this);
             }, this);
         }, this, 1, 0, 1);
-        this.fbButton.smoothed = false;
         this.fbButton.height = buttonSize;
         this.fbButton.width = buttonSize;
         this.fbButton.anchor.setTo(1, 0);
         this.fbButton.x = this.world.width - this.fbButton.width * .2;
         this.fbButton.y = this.fbButton.height * .2;
-        this.fbButton.visible = true;
+        this.fbButton.visible = fbCanPublish();
     }
 }
