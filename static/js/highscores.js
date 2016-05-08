@@ -90,10 +90,6 @@ Paloquiz.states.Highscores.prototype = {
                     } else {
                         this.currentPage = Math.floor(userPos / this.PAGE_SIZE);
                     }
-                    // Finish game if necessary
-                    if (gameStatus['status'] === 'finish') {
-                        getJSON('/finish'); // No callback - no biggie if it doesn't complete
-                    }
                     this.loadScoresPage();
                 }, this);
             }, this);
