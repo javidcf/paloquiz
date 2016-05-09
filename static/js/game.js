@@ -85,6 +85,7 @@ Paloquiz.setupScale = function() {
 
     // Stretch
     game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.USER_SCALE;
 
     // Center
     game.scale.pageAlignHorizontally = true;
@@ -119,7 +120,7 @@ Paloquiz.setupScale = function() {
 Paloquiz.setupFullscreen = function() {
     console.log(Paloquiz.game.device);
     if (!Paloquiz.game.device.desktop && !Paloquiz.game.scale.isFullScreen) {
-        //Paloquiz.game.scale.startFullScreen(true);
+        Paloquiz.game.scale.startFullScreen(true);
     }
 }
 
@@ -130,8 +131,16 @@ Paloquiz.resize = function() {
 }
 
 Paloquiz.getGameScale = function() {
-    var width = Math.max(document.documentElement.clientWidth, 0);
-    var height = Math.max(document.documentElement.clientHeight, 0);
+    var width;
+    var height;
+    if (false && Paloquiz.game.scale.isFullScreen) {
+        width = Math.max(window.screen.availWidth, 0);
+        height = Math.max(window.screen.availHeight, 0);
+    } else {
+        width = Math.max(document.documentElement.clientWidth, 0);
+        height = Math.max(document.documentElement.clientHeight, 0);
+    }
+    console.log('width', width, 'height', height);
     if ((width / height) > Paloquiz.MAX_WIDTH_RATIO) {
         width = Math.round(height * Paloquiz.MAX_WIDTH_RATIO);
     } else if ((height / width) > Paloquiz.MAX_HEIGHT_RATIO) {
