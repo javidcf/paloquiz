@@ -119,7 +119,7 @@ Paloquiz.setupScale = function() {
 Paloquiz.setupFullscreen = function() {
     console.log(Paloquiz.game.device);
     if (!Paloquiz.game.device.desktop && !Paloquiz.game.scale.isFullScreen) {
-        Paloquiz.game.scale.startFullScreen(true);
+        //Paloquiz.game.scale.startFullScreen(true);
     }
 }
 
