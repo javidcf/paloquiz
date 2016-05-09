@@ -123,8 +123,8 @@ Paloquiz.resize = function() {
 }
 
 Paloquiz.getGameScale = function() {
-    var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var width = Math.max(document.documentElement.clientWidth, 0);
+    var height = Math.max(document.documentElement.clientHeight, 0);
     if ((width / height) > Paloquiz.MAX_WIDTH_RATIO) {
         width = Math.round(height * Paloquiz.MAX_WIDTH_RATIO);
     } else if ((height / width) > Paloquiz.MAX_HEIGHT_RATIO) {
