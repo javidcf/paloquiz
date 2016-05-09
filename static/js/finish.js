@@ -173,17 +173,7 @@ Paloquiz.states.Finish.prototype = {
         var buttonSize = .1 * Math.min(this.world.width, this.world.height);
 
         this.fbButton = this.add.button(0, 0, 'fbButton', function() {
-            fbLogInPublish(function() {
-                getJSON('/status', function(gameStatus) {
-                    this.score = gameStatus['score'];
-                    fbGetUserScore(function(currentScore) {
-                        this.fbButton.visible = false;
-                        if (this.score > currentScore) {
-                            fbPublishScore(currentScore);
-                        }
-                    }, this);
-                }, this);
-            }, this);
+            this.state.start('PublishScore');
         }, this, 1, 0, 1);
         this.fbButton.height = buttonSize;
         this.fbButton.width = buttonSize;
