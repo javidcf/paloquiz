@@ -138,7 +138,6 @@ Paloquiz.getGameScale = function() {
     //     width = Math.max(window.screen.availWidth, 0);
     //     height = Math.max(window.screen.availHeight, 0);
     // }
-    console.log('width', width, 'height', height);
     if ((width / height) > Paloquiz.MAX_WIDTH_RATIO) {
         width = Math.round(height * Paloquiz.MAX_WIDTH_RATIO);
     } else if ((height / width) > Paloquiz.MAX_HEIGHT_RATIO) {
