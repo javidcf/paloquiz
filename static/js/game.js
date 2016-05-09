@@ -131,15 +131,13 @@ Paloquiz.resize = function() {
 }
 
 Paloquiz.getGameScale = function() {
-    var width;
-    var height;
-    if (false && Paloquiz.game.scale.isFullScreen) {
-        width = Math.max(window.screen.availWidth, 0);
-        height = Math.max(window.screen.availHeight, 0);
-    } else {
-        width = Math.max(document.documentElement.clientWidth, 0);
-        height = Math.max(document.documentElement.clientHeight, 0);
-    }
+    var width = Math.max(document.documentElement.clientWidth, 0);
+    var height = Math.max(document.documentElement.clientHeight, 0;
+    // Apparently not necessary
+    // if (Paloquiz.game.scale.isFullScreen) {
+    //     width = Math.max(window.screen.availWidth, 0);
+    //     height = Math.max(window.screen.availHeight, 0);
+    // }
     console.log('width', width, 'height', height);
     if ((width / height) > Paloquiz.MAX_WIDTH_RATIO) {
         width = Math.round(height * Paloquiz.MAX_WIDTH_RATIO);
