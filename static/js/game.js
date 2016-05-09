@@ -132,7 +132,7 @@ Paloquiz.resize = function() {
 
 Paloquiz.getGameScale = function() {
     var width = Math.max(document.documentElement.clientWidth, 0);
-    var height = Math.max(document.documentElement.clientHeight, 0;
+    var height = Math.max(document.documentElement.clientHeight, 0);
     // Apparently not necessary
     // if (Paloquiz.game.scale.isFullScreen) {
     //     width = Math.max(window.screen.availWidth, 0);
